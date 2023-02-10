@@ -1,0 +1,9 @@
+# Local directories
+.venv
+
+# Do not include pycache files
+*.pyc
+
+# Local files
+.coverage
+*.gdb
