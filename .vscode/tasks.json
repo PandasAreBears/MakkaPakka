@@ -1,0 +1,12 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Open file in browser",
+            "type": "shell",
+            "command": "powershell.exe /C start 'chrome.exe \\\\wsl.localhost\\Ubuntu-22.04\\home\\alex\\Projects\\MakkaPakka\\docs\\build\\html/index.html'",
+        }
+    ]
+}
