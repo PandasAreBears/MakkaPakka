@@ -2,7 +2,7 @@ from typing import List
 from typing import Union
 
 
-class Code:
+class MKPKFunction:
     """A data strcture to encapsulate code functions used in makka pakka."""
 
     def __init__(self, name: str, arguments: List[str], content: List[str]):
@@ -20,15 +20,15 @@ class Code:
         self.content = content
 
 
-class DataType:
+class MKPKDataType:
     TYPE_STR = 0
     TYPE_INT = 1
 
 
-class Data:
+class MKPKData:
     """A data structure to encapsulate constant data used in makka pakka"""
 
-    def __init__(self, name: str, value: Union[int, str], type: int):
+    def __init__(self, name: str, value: Union[int, str], type: MKPKDataType):
         """
         Data structure constructor.
         :name: A unique label assigned to the constant data.
@@ -40,7 +40,7 @@ class Data:
         self.type = type
 
 
-class Gadget:
+class MKPKGadget:
     """A data structure to encapsulate ROP gadgets used in makka pakka."""
 
     def __init__(self, memory_location: str, content: List[str]) -> None:
@@ -53,3 +53,22 @@ class Gadget:
         """
         self.memory_location = memory_location
         self.content = content
+
+
+class MKPKIR:
+    """An intermediate representation of the makka pakka programming language
+    to be populated during the parsing phase."""
+
+    def __init__(self):
+        self.data = List[MKPKData]
+        self.functions = List[MKPKFunction]
+        self.gadgets = List[MKPKGadget]
+
+    def add_data(self, data: MKPKData):
+        self.data.append(data)
+
+    def add_function(self, function: MKPKFunction):
+        self.functions.append(function)
+
+    def add_gadget(self, gadget: MKPKGadget):
+        self.gadgets.append(gadget)
