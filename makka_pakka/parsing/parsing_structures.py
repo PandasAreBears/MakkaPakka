@@ -14,10 +14,17 @@ class MKPKFunction:
         :content: A list of lines of makka pakka code.
         """
         self.name = name
-        self.is_name = name == "main"
+        self.is_main = name == "main"
         self.num_arguments = len(arguments)
-        self.arguments: arguments
+        self.arguments = arguments
         self.content = content
+
+    def add_line_to_content(self, line: str):
+        """
+        Adds a line to the content of the function
+        :line: A string line to add to the content.
+        """
+        self.content.append(line)
 
 
 class MKPKDataType:

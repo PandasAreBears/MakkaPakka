@@ -1,0 +1,9 @@
+[[data]]
+
+[[code]]
+[main]
+mov rax, 1
+func2 2
+
+[func2] val
+mov rax, ${val}

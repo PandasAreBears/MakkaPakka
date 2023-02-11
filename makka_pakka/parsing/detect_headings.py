@@ -132,7 +132,7 @@ def _assert_valid_heading_name(name: str, line: str) -> None:
         raise ParsingError(
             "Heading name is invalid.",
             f"The name assigned to the heading on the following line is\
-                invalid:\n {line}\n\nValid heading names only use characters\
+                invalid:\n> {line}\n\nValid heading names only use characters\
                 in the range [a-z][A-Z][0-9][_]",
             ErrorType.FATAL,
         )
