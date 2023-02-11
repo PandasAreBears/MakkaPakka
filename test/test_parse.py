@@ -6,6 +6,7 @@ from makka_pakka.exceptions.exceptions import InvalidParameter
 from makka_pakka.parsing.detect_headings import HeadingType
 from makka_pakka.parsing.parse import _convert_heading_name_to_type
 from makka_pakka.parsing.parse import _split_into_headings
+from makka_pakka.parsing.parsing_structures import MKPKLines
 
 RESOURCES_ROOT: str = Path("test/resources/mkpk_files")
 EMPTY_FILE: str = str(RESOURCES_ROOT / "empty_file.mkpk")
@@ -59,74 +60,78 @@ class TestSplitIntoHeadings:
             pass
 
     def test_comments(self):
-        expected_result = (
-            ["[[data]]"],
-            ["[[code]]", "[main]"],
-            ["[[gadgets]]"],
+        expected_result = MKPKLines(
+            data=["[[data]]"],
+            code=["[[code]]", "[main]"],
+            gadgets=["[[gadgets]]"],
         )
 
-        result = _split_into_headings(COMMENTS)
+        result: MKPKLines = _split_into_headings(COMMENTS)
 
         assert result == expected_result
 
     def test_empty_file(self):
-        expected_result = ([], [], [])
+        expected_result = MKPKLines()
 
-        result = _split_into_headings(EMPTY_FILE)
+        result: MKPKLines = _split_into_headings(EMPTY_FILE)
 
         assert result == expected_result
 
     def test_empty_headings(self):
-        expected_result = (
-            ["[[data]]"],
-            ["[[code]]", "[main]"],
-            ["[[gadgets]]"],
+        expected_result = MKPKLines(
+            data=["[[data]]"],
+            code=["[[code]]", "[main]"],
+            gadgets=["[[gadgets]]"],
         )
 
-        result = _split_into_headings(EMPTY_HEADINGS)
+        result: MKPKLines = _split_into_headings(EMPTY_HEADINGS)
 
         assert result == expected_result
 
     def test_misplaced_code(self):
-        expected_result = (
-            ["[[data]]"],
-            ["[[code]]", "[main]"],
-            [],
-        )
+        expected_result = MKPKLines(data=["[[data]]"], code=["[[code]]", "[main]"])
 
-        result = _split_into_headings(MISPLACED_CODE)
+        result: MKPKLines = _split_into_headings(MISPLACED_CODE)
 
         assert result == expected_result
 
     def test_simple_code(self):
-        expected_result = (
-            ["[[data]]"],
-            ["[[code]]", "[main]", "mov rax, 1"],
-            [],
+        expected_result = MKPKLines(
+            data=["[[data]]"], code=["[[code]]", "[main]", "mov rax, 1"]
         )
 
-        result = _split_into_headings(SIMPLE_CODE)
+        result: MKPKLines = _split_into_headings(SIMPLE_CODE)
 
         assert result == expected_result
 
     def test_simple_data(self):
-        expected_result = (
-            ["[[data]]", 'value_1: "hello"', "value_2: 15", "value_3: 0x5678"],
-            ["[[code]]", "[main]"],
-            [],
+        expected_result = MKPKLines(
+            data=[
+                "[[data]]",
+                'value_1: "hello"',
+                "value_2: 15",
+                "value_3: 0x5678",
+            ],
+            code=["[[code]]", "[main]"],
         )
 
-        result = _split_into_headings(SIMPLE_DATA)
+        result: MKPKLines = _split_into_headings(SIMPLE_DATA)
 
         assert result == expected_result
 
     def test_simple_gadget(self):
-        expected_result = (
-            ["[[data]]", 'value: "hi"'],
-            ["[[code]]", "[main]", "xor eax, eax", "mov rsi, 0xfeed", "pop"],
-            ["[[gadgets]]", "[0xcafefade]", "mov rsi, 0xfeed", "pop"],
+        expected_result = MKPKLines(
+            data=["[[data]]", 'value: "hi"'],
+            code=[
+                "[[code]]",
+                "[main]",
+                "xor eax, eax",
+                "mov rsi, 0xfeed",
+                "pop",
+            ],
+            gadgets=["[[gadgets]]", "[0xcafefade]", "mov rsi, 0xfeed", "pop"],
         )
 
-        result = _split_into_headings(SIMPLE_GADGET)
+        result: MKPKLines = _split_into_headings(SIMPLE_GADGET)
 
         assert result == expected_result

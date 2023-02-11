@@ -72,3 +72,37 @@ class MKPKIR:
 
     def add_gadget(self, gadget: MKPKGadget):
         self.gadgets.append(gadget)
+
+
+class MKPKLines:
+    """A data structure to hold the raw text lines from a .mkpk in their
+    respective heading sections."""
+
+    def __init__(
+        self,
+        data: List[str] = [],
+        code: List[str] = [],
+        gadgets: List[str] = [],
+    ):
+        self.data: List[str] = data
+        self.code: List[str] = code
+        self.gadgets: List[str] = gadgets
+
+    def add_data(self, line: str):
+        """Adds a line to the data heading"""
+        self.data.append(line)
+
+    def add_code(self, line: str):
+        """Adds a line to the code heading"""
+        self.code.append(line)
+
+    def add_gadget(self, line: str):
+        """Add a line to the gadget heading"""
+        self.gadgets.append(line)
+
+    def __eq__(self, other: object) -> bool:
+        return (
+            self.data == other.data
+            and self.code == other.code
+            and self.gadgets == other.gadgets
+        )

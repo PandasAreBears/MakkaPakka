@@ -88,7 +88,6 @@ def detect_heading_in_line(line: str) -> Tuple[HeadingStyle, str]:
 
     heading_name = line[backward_pass_index + 1 : forward_pass_index]
     _assert_valid_heading_name(heading_name, line)
-    print(heading_name)
 
     # Check if it is a double heading.
     if 0 <= backward_pass_index - 1 and forward_pass_index + 1 < len(line):

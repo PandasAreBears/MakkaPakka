@@ -1,12 +1,11 @@
 from pathlib import Path
-from typing import List
-from typing import Tuple
 
 from makka_pakka.exceptions.exceptions import InvalidParameter
 from makka_pakka.parsing.detect_headings import detect_heading_in_line
 from makka_pakka.parsing.detect_headings import HeadingStyle
 from makka_pakka.parsing.detect_headings import HeadingType
 from makka_pakka.parsing.parsing_structures import MKPKIR
+from makka_pakka.parsing.parsing_structures import MKPKLines
 
 
 def parse_makka_pakka(mkpk_filepath: str) -> MKPKIR:
@@ -22,29 +21,26 @@ def parse_makka_pakka(mkpk_filepath: str) -> MKPKIR:
 
 def _split_into_headings(
     mkpk_filepath: str,
-) -> Tuple[List[str], List[str], List[str]]:
+) -> MKPKLines:
     """
     Splits a makka pakka code file into its headings - code, data, gadgets.
     :mkpk_filepath: The filepath to the .mkpk file to be split into headings.
-    :returns: A tuple containing the headings, in the order (data, code,
-        gadgets).
+    :returns: A MKPKLines object contain the raw lines from the .mkpk files.
     """
     if not isinstance(mkpk_filepath, str) or not Path(mkpk_filepath).exists():
         raise InvalidParameter("mkpk_filepath", "_split_into_headings", mkpk_filepath)
 
-    data_section: List[str] = []
-    code_section: List[str] = []
-    gadget_section: List[str] = []
+    code_lines: MKPKLines = MKPKLines(code=[], data=[], gadgets=[])
 
     def _add_to_section(line: str, type: HeadingType):
         """Adds a line to the specified section's code store"""
         match type:
             case HeadingType.DATA:
-                data_section.append(line)
+                code_lines.add_data(line)
             case HeadingType.CODE:
-                code_section.append(line)
+                code_lines.add_code(line)
             case HeadingType.GADGETS:
-                gadget_section.append(line)
+                code_lines.add_gadget(line)
 
     curr_heading_type: HeadingType = HeadingType.NONE
     with open(mkpk_filepath, "r") as mkpk_file:
@@ -79,7 +75,7 @@ def _split_into_headings(
             else:
                 _add_to_section(line, curr_heading_type)
 
-    return data_section, code_section, gadget_section
+    return code_lines
 
 
 def _convert_heading_name_to_type(name: str) -> HeadingType:
