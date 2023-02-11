@@ -3,7 +3,26 @@ from typing import Tuple
 from makka_pakka.exceptions.exceptions import ErrorType
 from makka_pakka.exceptions.exceptions import InvalidParameter
 from makka_pakka.exceptions.exceptions import ParsingError
-from makka_pakka.parsing.headings import HeadingStyle
+
+
+class HeadingStyle:
+    """Enum of heading style e.g [heading_name] is SINGLE_HEADING, [[name]] is
+    a DOUBLE_HEADING."""
+
+    NO_HEADING = 0
+    SINGLE_HEADING = 1
+    DOUBLE_HEADING = 2
+
+
+class HeadingType:
+    """Enum  of heading type, which defines the type of code expected below,
+    and therefore how to parse this data, e.g [[data]] is DATA, [[code]] is
+    CODE, [[gadget]] is gadget."""
+
+    NONE = 0
+    DATA = 1
+    CODE = 2
+    GADGET = 3
 
 
 def _detect_heading_in_line(line: str) -> Tuple[int, str]:
