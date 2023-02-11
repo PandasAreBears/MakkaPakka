@@ -1,0 +1,9 @@
+[[data]]
+# Data goes here.
+
+[[code]]
+# This is the main section.
+[main]
+
+[[gadgets]]
+# Optionally, ROP gadgets go here.

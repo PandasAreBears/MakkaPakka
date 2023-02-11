@@ -22,10 +22,10 @@ class HeadingType:
     NONE = 0
     DATA = 1
     CODE = 2
-    GADGET = 3
+    GADGETS = 3
 
 
-def _detect_heading_in_line(line: str) -> Tuple[int, str]:
+def detect_heading_in_line(line: str) -> Tuple[HeadingStyle, str]:
     """Determines if a line contains a heading, i.e [{name}] or [[{name}]]
     :line: The line of makka pakka code to detect a heading in.
     :returns: A tuple of (HeadingStyle, {heading_name}), where heading_name is
@@ -93,6 +93,8 @@ def _detect_heading_in_line(line: str) -> Tuple[int, str]:
     # Check if it is a double heading.
     if 0 <= backward_pass_index - 1 and forward_pass_index + 1 < len(line):
         if line[backward_pass_index - 1] == "[" and line[forward_pass_index + 1] == "]":
+            # TODO: Check that the [[]] heading is in the valid set of heading
+            # names.
             return (
                 HeadingStyle.DOUBLE_HEADING,
                 heading_name,
@@ -106,11 +108,23 @@ def _detect_heading_in_line(line: str) -> Tuple[int, str]:
 
 
 def _assert_valid_heading_name(name: str, line: str) -> None:
+    """Asserts that the name in a [[heading]] is valid.
+    :name: The name to be validated.
+    :line: The line that the heading is defined in, for debugging.
+    :raises:
+        ParsingError - When the heading name is invalid.
+    """
+    if not isinstance(name, str):
+        raise InvalidParameter("name", "_assert_valid_heading_name", name)
+
+    if not isinstance(line, str):
+        raise InvalidParameter("line", "_assert_valid_heading_name", line)
+
     # Check if the name is valid, i.e in the one of the ranges [a-z][A-Z][0-9]
     # [_].
     # Define the valid chars using ascii value ranges
     valid_chars = (
-        list(range(0x30, 0x40))
+        list(range(0x30, 0x3A))
         + list(range(0x41, 0x5B))
         + list(range(0x61, 0x7B))
         + [0x5F]

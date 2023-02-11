@@ -1,0 +1,7 @@
+[[data]]
+value_1: "hello"
+value_2: 15
+value_3: 0x5678
+
+[[code]]
+[main]

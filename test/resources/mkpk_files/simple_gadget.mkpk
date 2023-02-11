@@ -1,0 +1,13 @@
+[[data]]
+value: "hi"
+
+[[code]]
+[main]
+xor eax, eax
+mov rsi, 0xfeed
+pop
+
+[[gadgets]]
+[0xcafefade]
+mov rsi, 0xfeed
+pop

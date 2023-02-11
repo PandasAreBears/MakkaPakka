@@ -1,0 +1,6 @@
+mov rax, 1
+
+[[data]]
+
+[[code]]
+[main]
