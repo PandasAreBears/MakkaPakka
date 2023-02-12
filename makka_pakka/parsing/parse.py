@@ -1,8 +1,6 @@
 from pathlib import Path
 
-from makka_pakka.exceptions.exceptions import ErrorType
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import ParsingError
 from makka_pakka.parsing.detect_headings import detect_heading_in_line
 from makka_pakka.parsing.detect_headings import HeadingStyle
 from makka_pakka.parsing.detect_headings import HeadingType
@@ -76,14 +74,6 @@ def _split_into_headings(
             # The line is not a heading so add to the previous heading.
             else:
                 _add_to_section(line, curr_heading_type)
-
-    # Assert that there is a code section defined in the .mkpk file.
-    if len(code_lines.code) == 0:
-        raise ParsingError(
-            "No code heading defined.",
-            "The .mkpk file doesn't have a [[code]] section defined.",
-            ErrorType.FATAL,
-        )
 
     return code_lines
 

@@ -3,7 +3,6 @@ from pathlib import Path
 import pytest
 
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import ParsingError
 from makka_pakka.parsing.detect_headings import HeadingType
 from makka_pakka.parsing.parse import _convert_heading_name_to_type
 from makka_pakka.parsing.parse import _split_into_headings
@@ -70,16 +69,6 @@ class TestSplitIntoHeadings:
         result: MKPKLines = _split_into_headings(COMMENTS)
 
         assert result == expected_result
-
-    def test_empty_file_raises_error(self):
-        try:
-            _split_into_headings(EMPTY_FILE)
-            pytest.fail(
-                "_split_int_headings should have failed with ParsingError\
-                due to no code heading, but did not."
-            )
-        except ParsingError:
-            pass
 
     def test_empty_headings(self):
         expected_result = MKPKLines(

@@ -25,9 +25,13 @@ def parse_functions(lines: List[str]) -> List[MKPKFunction]:
     ):
         raise InvalidParameter("lines", "parse_functions", lines)
 
-    # Early breakout when no lines are supplied
+    # Assert that there is a code section defined in the .mkpk file.
     if len(lines) == 0:
-        return []
+        raise ParsingError(
+            "No code heading defined.",
+            "The .mkpk file doesn't have a [[code]] section defined.",
+            ErrorType.FATAL,
+        )
 
     functions: List[MKPKFunction] = []
 

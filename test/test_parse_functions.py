@@ -11,6 +11,7 @@ from makka_pakka.parsing.parsing_structures import MKPKFunction
 from makka_pakka.parsing.parsing_structures import MKPKLines
 
 RESOURCES_ROOT: str = Path("test/resources/mkpk_files/parsing")
+EMPTY_FILE: str = str(RESOURCES_ROOT / "empty_file.mkpk")
 EMPTY_HEADINGS: str = str(RESOURCES_ROOT / "empty_headings.mkpk")
 SIMPLE_CODE: str = str(RESOURCES_ROOT / "simple_code.mkpk")
 TWO_FUNCS_SINGLE_ARG: str = str(RESOURCES_ROOT / "single_argument.mkpk")
@@ -20,7 +21,12 @@ INVALID_ARG: str = str(RESOURCES_ROOT / "invalid_argument.mkpk")
 
 
 @pytest.fixture
-def empty_headings_lines() -> MKPKLines:
+def empty_file() -> MKPKLines:
+    return _split_into_headings(EMPTY_FILE)
+
+
+@pytest.fixture
+def empty_headings() -> MKPKLines:
     return _split_into_headings(EMPTY_HEADINGS)
 
 
@@ -75,9 +81,19 @@ class TestParseFunctions:
         except InvalidParameter:
             pass
 
-    def test_empty_headings_raises_error(self, empty_headings_lines: MKPKLines):
+    def test_empty_file_raises_error(self, empty_file: MKPKLines):
         try:
-            parse_functions(empty_headings_lines.code)
+            parse_functions(empty_file.code)
+            pytest.fail(
+                "parse_functions should have failed with ParsingError\
+                due to not having a code section, but did not."
+            )
+        except ParsingError:
+            pass
+
+    def test_empty_headings_raises_error(self, empty_headings: MKPKLines):
+        try:
+            parse_functions(empty_headings.code)
             pytest.fail(
                 "parse_functions should have failed with ParsingError\
                 due to not having any functions, but did not."

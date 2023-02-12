@@ -20,7 +20,7 @@ INVALID_DATA_HEX: str = str(RESOURCES_ROOT / "invalid_data_hex.mkpk")
 
 
 @pytest.fixture
-def empty_headings_lines() -> MKPKLines:
+def empty_headings() -> MKPKLines:
     return _split_into_headings(EMPTY_HEADINGS)
 
 
@@ -61,8 +61,8 @@ class TestParseData:
         except InvalidParameter:
             pass
 
-    def test_empty_headings(self, empty_headings_lines: MKPKLines):
-        data = parse_data(empty_headings_lines.data)
+    def test_empty_headings(self, empty_headings: MKPKLines):
+        data = parse_data(empty_headings.data)
 
         assert len(data) == 0
 
