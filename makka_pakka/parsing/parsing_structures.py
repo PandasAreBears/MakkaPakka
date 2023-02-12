@@ -96,10 +96,10 @@ class MKPKIR:
     to be populated during the parsing phase."""
 
     def __init__(self):
-        self.data = List[MKPKData]
-        self.functions = List[MKPKFunction]
-        self.gadgets = List[MKPKGadget]
-        self.metadata = List[MKPKMetaData]
+        self.data: List[MKPKData] = []
+        self.functions: List[MKPKFunction] = []
+        self.gadgets: List[MKPKGadget] = []
+        self.metadata: List[MKPKMetaData] = []
 
     def add_data(self, data: MKPKData):
         self.data.append(data)
