@@ -28,8 +28,9 @@ class MKPKFunction:
 
 
 class MKPKDataType:
-    TYPE_STR = 0
-    TYPE_INT = 1
+    NONE = 0
+    STR = 1
+    INT = 2
 
 
 class MKPKData:

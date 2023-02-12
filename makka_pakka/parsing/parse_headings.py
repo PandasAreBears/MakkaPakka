@@ -1,3 +1,4 @@
+from typing import Any
 from typing import List
 
 from makka_pakka.exceptions.exceptions import ErrorType
@@ -7,6 +8,7 @@ from makka_pakka.parsing.detect_headings import _assert_valid_heading_name
 from makka_pakka.parsing.detect_headings import detect_heading_in_line
 from makka_pakka.parsing.detect_headings import HeadingStyle
 from makka_pakka.parsing.parsing_structures import MKPKData
+from makka_pakka.parsing.parsing_structures import MKPKDataType
 from makka_pakka.parsing.parsing_structures import MKPKFunction
 from makka_pakka.parsing.parsing_structures import MKPKGadget
 
@@ -22,6 +24,10 @@ def parse_functions(lines: List[str]) -> List[MKPKFunction]:
         [isinstance(line, str) for line in lines]
     ):
         raise InvalidParameter("lines", "parse_functions", lines)
+
+    # Early breakout when no lines are supplied
+    if len(lines) == 0:
+        return []
 
     functions: List[MKPKFunction] = []
 
@@ -96,7 +102,85 @@ def parse_data(lines: List[str]) -> List[MKPKData]:
     :lines: A list of code lines from the .mkpk source file.
     :returns: A list of parsed MKPKData objects.
     """
-    pass
+    if not isinstance(lines, list) or not all(
+        [isinstance(line, str) for line in lines]
+    ):
+        raise InvalidParameter("lines", "parse_data", lines)
+
+    # Early breakout when no lines are supplied
+    if len(lines) == 0:
+        return []
+
+    data: List[MKPKData] = []
+
+    # Loop through each line, excluding the first line, as this will always be
+    # the [[data]] heading.
+    for line in lines[1:]:
+        # Data declarations should always be in the format name: value, so
+        # split by ':' and expect [name, value]
+        if len(line.split(":")) != 2:
+            raise ParsingError(
+                "Data declaration is invalid",
+                f"The data declaration on the following line is invalid:\n> {line}\
+                \n\nData declarations should be in the format `name: value`.",
+                ErrorType.FATAL,
+            )
+
+        (name, value) = line.split(":")
+        value = value.strip()
+
+        # Data identifiers have the same requirements are heading names, so use
+        # that assertion and re-write the error message.
+        try:
+            _assert_valid_heading_name(name, line)
+        except ParsingError:
+            raise ParsingError(
+                "Data identifier name is invalid.",
+                f"The argument\
+                    {name} is invalid in line:\n> {line}\n\nValid heading names \
+                    only use characters in the range [a-z][A-Z][0-9][_].",
+                ErrorType.FATAL,
+            )
+
+        # If the value is wrapped in "" then it is a string, otherwise it is an
+        # int in either decimal or hexadecimal format.
+        value_type: MKPKDataType = MKPKDataType.NONE
+        parsed_value: Any = 0
+        if len(value) >= 2 and value[0] == '"' and value[-1] == '"':
+            value_type = MKPKDataType.STR
+            # Strip the surrounding ""
+            parsed_value = value[1:-1]
+
+        else:
+            value_type = MKPKDataType.INT
+
+            if "0x" in value:
+                try:
+                    parsed_value = int(value, 16)
+                except ValueError:
+                    raise ParsingError(
+                        "Unable to interpret hex value.",
+                        f"Unable to parse as integer in the following line:\n> \
+                        {line}\n\nHex data is defined using the 0x prefix.",
+                        ErrorType.FATAL,
+                    )
+
+            else:
+                try:
+                    parsed_value = int(value)
+                except ValueError:
+                    raise ParsingError(
+                        "Unable to interpret integer value.",
+                        f'Unable to parse as integer in the following line:\n> \
+                        {line}\n\nData must either be a string, defined using\
+                        "your_string_here", or an integer, either in decimal\
+                         or hexadecimal notation.',
+                        ErrorType.FATAL,
+                    )
+
+        data.append(MKPKData(name, parsed_value, value_type))
+
+    return data
 
 
 def parse_gadgets(lines: List[str]) -> List[MKPKGadget]:
