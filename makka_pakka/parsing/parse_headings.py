@@ -11,6 +11,73 @@ from makka_pakka.parsing.parsing_structures import MKPKData
 from makka_pakka.parsing.parsing_structures import MKPKDataType
 from makka_pakka.parsing.parsing_structures import MKPKFunction
 from makka_pakka.parsing.parsing_structures import MKPKGadget
+from makka_pakka.parsing.parsing_structures import MKPKMetaData
+
+
+def parse_metadata(lines: List[str]) -> List[MKPKMetaData]:
+    """
+    Packs metadata from the .mkpk file into MKPKMetaData structures.
+    :lines: A list of code lines from the .mkpk source file.
+    :returns: A list of parsed MKPKMetaData objects.
+    """
+
+    if not isinstance(lines, list) or not all(
+        [isinstance(line, str) for line in lines]
+    ):
+        raise InvalidParameter("lines", "parse_functions", lines)
+
+    # Early breakout when no lines are supplied
+    if len(lines) == 0:
+        return []
+
+    metadata: List[MKPKMetaData] = []
+
+    for line in lines:
+        if line == "":
+            continue
+
+        # Metadata lines begin with the '!' directive.
+        if line[0] != "!":
+            raise ParsingError(
+                "Couldn't interpret metadata code.",
+                f"The code in the following line is not under a heading, and\
+                  does not contain the metadata directive (!):\n> {line}\n\n\
+            Either prefix the line with a ! if it is metadata, or put the code\
+            under the correct heading.",
+                ErrorType.FATAL,
+            )
+
+        # Get the label of the metadata, and assert that it's correctly
+        # formatted.
+        line = line[1:]
+        label: str = line.split(" ")[0]
+        try:
+            _assert_valid_heading_name(label, line)
+        except ParsingError:
+            raise ParsingError(
+                "Metadata label is invalid.",
+                f"The label {label} is invalid in line:\n> {line}\n\nValid\
+                    label names only use characters in the range\
+                         [a-z][A-Z][0-9][_].",
+                ErrorType.FATAL,
+            )
+
+        # Get the value by taking everything after the label + space
+        value: str = line[len(label) + 1 :]
+
+        # Check if the a metadata object already exists for this label, if it
+        # does then add the value to the existing object.
+        metadata_with_label: List[MKPKMetaData] = list(
+            filter(lambda md: md.label == label, metadata)
+        )
+        if len(metadata_with_label) > 0:
+            metadata_with_label[0].append_value(value)
+
+        # Otherwise, create a new object with this label, value pair.
+        else:
+            metadata.append(MKPKMetaData(label, value))
+
+    return metadata
 
 
 def parse_functions(lines: List[str]) -> List[MKPKFunction]:

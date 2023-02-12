@@ -70,6 +70,27 @@ class MKPKGadget:
         self.content.append(line)
 
 
+class MKPKMetaData:
+    """A data structure to encapsulate metadata used in makka pakka"""
+
+    def __init__(self, label: str, value: str) -> None:
+        """
+        Metadata Constructor.
+        :label: The label to uniquely identify the meta data.
+        :values: The values associated with the metadata label.
+        """
+        self.label: str = label
+        self.values: List[str] = []
+        self.append_value(value)
+
+    def append_value(self, value: str):
+        """
+        Appends a value to the metadata label.
+        :value: The value to append to the metadata label.
+        """
+        self.values.append(value)
+
+
 class MKPKIR:
     """An intermediate representation of the makka pakka programming language
     to be populated during the parsing phase."""
@@ -98,10 +119,12 @@ class MKPKLines:
         data: List[str] = [],
         code: List[str] = [],
         gadgets: List[str] = [],
+        metadata: List[str] = [],
     ):
         self.data: List[str] = data
         self.code: List[str] = code
         self.gadgets: List[str] = gadgets
+        self.metadata: List[str] = metadata
 
     def add_data(self, line: str):
         """Adds a line to the data heading"""
@@ -115,9 +138,14 @@ class MKPKLines:
         """Add a line to the gadget heading"""
         self.gadgets.append(line)
 
+    def add_metadata(self, line: str):
+        """Add a line to the metadata heading"""
+        self.metadata.append(line)
+
     def __eq__(self, other: object) -> bool:
         return (
             self.data == other.data
             and self.code == other.code
             and self.gadgets == other.gadgets
+            and self.metadata == other.metadata
         )

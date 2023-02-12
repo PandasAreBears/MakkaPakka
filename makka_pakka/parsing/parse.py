@@ -30,7 +30,7 @@ def _split_into_headings(
     if not isinstance(mkpk_filepath, str) or not Path(mkpk_filepath).exists():
         raise InvalidParameter("mkpk_filepath", "_split_into_headings", mkpk_filepath)
 
-    code_lines: MKPKLines = MKPKLines(code=[], data=[], gadgets=[])
+    code_lines: MKPKLines = MKPKLines(code=[], data=[], gadgets=[], metadata=[])
 
     def _add_to_section(line: str, type: HeadingType):
         """Adds a line to the specified section's code store"""
@@ -41,6 +41,8 @@ def _split_into_headings(
                 code_lines.add_code(line)
             case HeadingType.GADGETS:
                 code_lines.add_gadget(line)
+            case HeadingType.NONE:
+                code_lines.add_metadata(line)
 
     curr_heading_type: HeadingType = HeadingType.NONE
     with open(mkpk_filepath, "r") as mkpk_file:
@@ -68,8 +70,8 @@ def _split_into_headings(
             # If the heading type is NONE and the line is not a heading
             # definition, then code will be ignored.
             elif curr_heading_type == HeadingType.NONE:
-                # TODO: Warn that code here may be ignored.
-                continue
+                # Every line before headings is interpretted as metadata.
+                _add_to_section(line, curr_heading_type)
 
             # The line is not a heading so add to the previous heading.
             else:

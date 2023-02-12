@@ -1,0 +1,5 @@
+!link other_file.mkpk
+!name my_file
+
+[[code]]
+[main]

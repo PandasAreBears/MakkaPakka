@@ -81,13 +81,6 @@ class TestSplitIntoHeadings:
 
         assert result == expected_result
 
-    def test_misplaced_code(self):
-        expected_result = MKPKLines(data=["[[data]]"], code=["[[code]]", "[main]"])
-
-        result: MKPKLines = _split_into_headings(MISPLACED_CODE)
-
-        assert result == expected_result
-
     def test_simple_code(self):
         expected_result = MKPKLines(
             data=["[[data]]"], code=["[[code]]", "[main]", "mov rax, 1"]

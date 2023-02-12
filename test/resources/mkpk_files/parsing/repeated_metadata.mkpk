@@ -1,0 +1,6 @@
+!link first_file.mkpk
+!link second_file.mkpk
+!link third_file.mkpk
+
+[[code]]
+[main]
