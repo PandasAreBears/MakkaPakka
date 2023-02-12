@@ -10,6 +10,7 @@ from makka_pakka.parsing.parse_headings import parse_gadgets
 from makka_pakka.parsing.parse_headings import parse_metadata
 from makka_pakka.parsing.parsing_structures import MKPKIR
 from makka_pakka.parsing.parsing_structures import MKPKLines
+from makka_pakka.parsing.parsing_structures import MKPKMetaData
 
 
 def parse_makka_pakka(mkpk_filepath: str) -> MKPKIR:
@@ -23,6 +24,12 @@ def parse_makka_pakka(mkpk_filepath: str) -> MKPKIR:
         raise InvalidParameter("mkpk_filepath", "parse_makka_pakka", mkpk_filepath)
 
     mkpk_im_repr: MKPKIR = MKPKIR()
+
+    # Add the filename to the metadata of every IR.
+    mkpk_im_repr.metadata.append(
+        MKPKMetaData("filename", Path(mkpk_filepath).resolve())
+    )
+
     headings: MKPKLines = _split_into_headings(mkpk_filepath)
 
     mkpk_im_repr.functions = parse_functions(headings.code)
