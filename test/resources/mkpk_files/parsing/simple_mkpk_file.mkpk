@@ -1,0 +1,23 @@
+!author Alex J
+!link my_other_file.mkpk
+!link stdlib.mkpk
+
+[[data]]
+name: "Alex"
+
+[[code]]
+[main]
+mov rax, ${name}
+my_func 1 2 3
+xor eax, eax
+pop
+
+[my_func] arg1 hi panda
+mov al, ${arg1}
+mov ah, ${hi}
+xor rsi, ${panda}
+
+[[gadgets]]
+[0xabc123ef]
+xor eax, eax
+pop

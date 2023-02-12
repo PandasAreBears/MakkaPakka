@@ -4,6 +4,10 @@ from makka_pakka.exceptions.exceptions import InvalidParameter
 from makka_pakka.parsing.detect_headings import detect_heading_in_line
 from makka_pakka.parsing.detect_headings import HeadingStyle
 from makka_pakka.parsing.detect_headings import HeadingType
+from makka_pakka.parsing.parse_headings import parse_data
+from makka_pakka.parsing.parse_headings import parse_functions
+from makka_pakka.parsing.parse_headings import parse_gadgets
+from makka_pakka.parsing.parse_headings import parse_metadata
 from makka_pakka.parsing.parsing_structures import MKPKIR
 from makka_pakka.parsing.parsing_structures import MKPKLines
 
@@ -15,8 +19,18 @@ def parse_makka_pakka(mkpk_filepath: str) -> MKPKIR:
     :mkpk_filepath: The filepath to the .mkpk file to be split into headings.
     :returns: A MKPKIR object to be used during the processing phase.
     """
-    if not isinstance(mkpk_filepath) or not Path(mkpk_filepath).exists():
+    if not isinstance(mkpk_filepath, str) or not Path(mkpk_filepath).exists():
         raise InvalidParameter("mkpk_filepath", "parse_makka_pakka", mkpk_filepath)
+
+    mkpk_im_repr: MKPKIR = MKPKIR()
+    headings: MKPKLines = _split_into_headings(mkpk_filepath)
+
+    mkpk_im_repr.functions = parse_functions(headings.code)
+    mkpk_im_repr.data = parse_data(headings.data)
+    mkpk_im_repr.gadgets = parse_gadgets(headings.gadgets)
+    mkpk_im_repr.metadata = parse_metadata(headings.metadata)
+
+    return mkpk_im_repr
 
 
 def _split_into_headings(

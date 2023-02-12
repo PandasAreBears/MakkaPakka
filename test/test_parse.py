@@ -6,7 +6,14 @@ from makka_pakka.exceptions.exceptions import InvalidParameter
 from makka_pakka.parsing.detect_headings import HeadingType
 from makka_pakka.parsing.parse import _convert_heading_name_to_type
 from makka_pakka.parsing.parse import _split_into_headings
+from makka_pakka.parsing.parse import parse_makka_pakka
+from makka_pakka.parsing.parsing_structures import MKPKDataType
+from makka_pakka.parsing.parsing_structures import MKPKIR
 from makka_pakka.parsing.parsing_structures import MKPKLines
+from test.test_parse_data import _assert_data_state_eq
+from test.test_parse_functions import _assert_func_state_eq
+from test.test_parse_gadgets import _assert_gadget_state_eq
+from test.test_parse_metadata import _assert_metadata_state_eq
 
 RESOURCES_ROOT: str = Path("test/resources/mkpk_files/parsing")
 EMPTY_FILE: str = str(RESOURCES_ROOT / "empty_file.mkpk")
@@ -16,6 +23,56 @@ SIMPLE_DATA: str = str(RESOURCES_ROOT / "simple_data.mkpk")
 SIMPLE_GADGET: str = str(RESOURCES_ROOT / "simple_gadget.mkpk")
 MISPLACED_CODE: str = str(RESOURCES_ROOT / "misplaced_code.mkpk")
 COMMENTS: str = str(RESOURCES_ROOT / "comments.mkpk")
+SIMPLE_MKPK: str = str(RESOURCES_ROOT / "simple_mkpk_file.mkpk")
+
+
+class TestParseMakkaPakka:
+    def test_invalid_parameters(self):
+        try:
+            parse_makka_pakka(None)
+
+            pytest.fail(
+                "parse_makka_pakka should have failed with\
+                InvalidParameter but did not."
+            )
+        except InvalidParameter:
+            pass
+
+    def test_simple_mkpk_file(self):
+        im_repr: MKPKIR = parse_makka_pakka(SIMPLE_MKPK)
+
+        assert len(im_repr.metadata) == 2
+        assert len(im_repr.data) == 1
+        assert len(im_repr.functions) == 2
+        assert len(im_repr.gadgets) == 1
+
+        _assert_metadata_state_eq(im_repr.metadata[0], "author", ["Alex J"])
+        _assert_metadata_state_eq(
+            im_repr.metadata[1], "link", ["my_other_file.mkpk", "stdlib.mkpk"]
+        )
+
+        _assert_data_state_eq(im_repr.data[0], "name", "Alex", MKPKDataType.STR)
+
+        _assert_func_state_eq(
+            im_repr.functions[0],
+            "main",
+            True,
+            0,
+            [],
+            ["mov rax, ${name}", "my_func 1 2 3", "xor eax, eax", "pop"],
+        )
+        _assert_func_state_eq(
+            im_repr.functions[1],
+            "my_func",
+            False,
+            3,
+            ["arg1", "hi", "panda"],
+            ["mov al, ${arg1}", "mov ah, ${hi}", "xor rsi, ${panda}"],
+        )
+
+        _assert_gadget_state_eq(
+            im_repr.gadgets[0], "0xabc123ef", ["xor eax, eax", "pop"]
+        )
 
 
 class TestConvertHeadingNameToType:

@@ -99,6 +99,7 @@ class MKPKIR:
         self.data = List[MKPKData]
         self.functions = List[MKPKFunction]
         self.gadgets = List[MKPKGadget]
+        self.metadata = List[MKPKMetaData]
 
     def add_data(self, data: MKPKData):
         self.data.append(data)
