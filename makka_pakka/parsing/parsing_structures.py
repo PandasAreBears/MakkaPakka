@@ -21,7 +21,7 @@ class MKPKFunction:
 
     def add_line_to_content(self, line: str):
         """
-        Adds a line to the content of the function
+        Adds a line to the content of the function.
         :line: A string line to add to the content.
         """
         self.content.append(line)
@@ -61,6 +61,13 @@ class MKPKGadget:
         """
         self.memory_location = memory_location
         self.content = content
+
+    def add_line_to_content(self, line: str):
+        """
+        Adds a line to the content of the gadget.
+        :line: A string line to add to the content.
+        """
+        self.content.append(line)
 
 
 class MKPKIR:

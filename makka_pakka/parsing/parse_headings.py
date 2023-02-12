@@ -38,6 +38,9 @@ def parse_functions(lines: List[str]) -> List[MKPKFunction]:
         # Single headings indicate a new function
         heading_style, name = detect_heading_in_line(line)
         if heading_style == HeadingStyle.SINGLE_HEADING:
+            # Assert that the heading only uses valid characters
+            _assert_valid_heading_name(name, line)
+
             # We're now in a new function, so save the old one, if applicable
             if current_function is not None:
                 functions.append(current_function)
@@ -189,7 +192,62 @@ def parse_gadgets(lines: List[str]) -> List[MKPKGadget]:
     :lines: A list of code lines from the .mkpk source file.
     :returns: A list of parsed MKPKGadget objects.
     """
-    pass
+    if not isinstance(lines, list) or not all(
+        [isinstance(line, str) for line in lines]
+    ):
+        raise InvalidParameter("lines", "parse_gadgets", lines)
+
+    # Early breakout when no lines are supplied
+    if len(lines) == 0:
+        return []
+
+    gadgets: List[MKPKGadget] = []
+
+    # Loop through each line, excluding the first line, as this will always be
+    # the [[gadgets]] heading.
+    current_gadget: MKPKGadget = None
+    for line in lines[1:]:
+        # Single headings indicate a new gadget
+        heading_style, gadget_address = detect_heading_in_line(line)
+        if heading_style == HeadingStyle.SINGLE_HEADING:
+            # Assert that the gadget address is a valid memory address.
+            try:
+                int(gadget_address, 16)
+            except ValueError:
+                raise ParsingError(
+                    "Gadget address in heading is invalid.",
+                    f"The gadget address specified in the heading in the following\
+                    line is invalid:\n> {line}\n\nGadget address headings\
+                    should be the virtual memory address of the gadget in the\
+                    target binary.",
+                    ErrorType.FATAL,
+                )
+
+            # We're now in a new function, so save the old one, if applicable
+            if current_gadget is not None:
+                gadgets.append(current_gadget)
+
+            current_gadget = MKPKGadget(memory_location=gadget_address, content=[])
+
+        # If the line is not a function declaration, then it is a line of code
+        # that should be added to the current function.
+        else:
+            if current_gadget is None:
+                raise ParsingError(
+                    "Code line not in gadget",
+                    f"A code line has no associated gadget:\n> {line}\n\n\
+                        Code must be assigned to a gadget - gadgets are\
+                        declared using a [memory_address] heading.",
+                    ErrorType.FATAL,
+                )
+
+            current_gadget.add_line_to_content(line)
+
+    # Add the last gadget to the gadgets list
+    if current_gadget is not None:
+        gadgets.append(current_gadget)
+
+    return gadgets
 
 
 def _extract_args_from_function(line: str) -> List[str]:

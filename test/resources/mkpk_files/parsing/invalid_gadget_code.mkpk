@@ -1,0 +1,7 @@
+[[code]]
+[main]
+
+[[gadgets]]
+mov rax, 1
+[0xcafebabe]
+mov rax, 2

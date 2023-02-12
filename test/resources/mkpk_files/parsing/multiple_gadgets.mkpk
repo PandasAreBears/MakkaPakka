@@ -1,0 +1,13 @@
+[[code]]
+[data]
+
+[[gadgets]]
+[0xdeadb33f]
+mov rax, 1
+pop
+
+[0xcafebabe]
+lea rsi, 0x500
+
+[0xabcabcabc]
+xor eax, eax
