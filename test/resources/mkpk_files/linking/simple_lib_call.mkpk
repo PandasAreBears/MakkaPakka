@@ -1,0 +1,5 @@
+!link lib_a.mkpk
+
+[[code]]
+[main]
+func_a 1

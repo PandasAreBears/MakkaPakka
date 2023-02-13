@@ -4,6 +4,12 @@ from typing import List
 from makka_pakka.exceptions.exceptions import InvalidParameter
 
 
+class PriorityType:
+    NONE = 0
+    HIGH = 1
+    LOW = 2
+
+
 class PriorityList:
     """
     A class to prioritise string items in a list, intended for archiving
@@ -22,6 +28,26 @@ class PriorityList:
             raise InvalidParameter("default_items", "__init__", default_items)
 
         self.items = default_items
+
+    def insert_with_priority(self, item: str, priority: PriorityType) -> None:
+        """
+        Inserts an item into the priority list with the specified priority.
+        :item: The item to insert into the priority list.
+        :priority: A PriorityType specifying the priority to insert to item
+            with.
+        """
+        if not isinstance(item, str):
+            raise InvalidParameter("item", "insert_with_priority", item)
+
+        # PriorityType is an underlying int
+        if not isinstance(priority, int):
+            raise InvalidParameter("priority", "insert_with_priority", priority)
+
+        match priority:
+            case PriorityType.HIGH:
+                self.insert_highest_priority(item)
+            case PriorityType.LOW:
+                self.insert_lowest_priority(item)
 
     def insert_highest_priority(self, item: str) -> None:
         """
@@ -42,54 +68,6 @@ class PriorityList:
             raise InvalidParameter("item", "insert_lowest_priority", item)
 
         self.items += [item]
-
-    def insert_above_item(self, new_item: str, existing_item: str) -> bool:
-        """
-        Inserts an item above an item that already exists in the priority list.
-        :new_item: The new item to place above another item in the list.
-        :existing_item: The item to use an anchor to place the new item above.
-        :returns: False if the existing item is not already in the priority
-            list, in this case the new item will not be added.
-        """
-        if not isinstance(new_item, str):
-            raise InvalidParameter("new_item", "insert_above_item", new_item)
-
-        if not isinstance(existing_item, str):
-            raise InvalidParameter("existing_item", "insert_above_item", existing_item)
-
-        existing_item_index: int = -1
-        try:
-            # .index raises ValueError when item not in list
-            existing_item_index = self.items.index(existing_item)
-        except ValueError:
-            return False
-
-        self.items.insert(existing_item_index, new_item)
-        return True
-
-    def insert_below_item(self, new_item: str, existing_item: str) -> bool:
-        """
-        Inserts an item below an item that already exists in the priority list.
-        :new_item: The new item to place below another item in the list.
-        :existing_item: The item to use an anchor to place the new item below.
-        :returns: False if the existing item is not already in the priority
-            list, in this case the new item will not be added.
-        """
-        if not isinstance(new_item, str):
-            raise InvalidParameter("new_item", "insert_below_item", new_item)
-
-        if not isinstance(existing_item, str):
-            raise InvalidParameter("existing_item", "insert_below_item", existing_item)
-
-        existing_item_index: int = -1
-        try:
-            # .index raises ValueError when item not in list
-            existing_item_index = self.items.index(existing_item)
-        except ValueError:
-            return False
-
-        self.items.insert(existing_item_index + 1, new_item)
-        return True
 
     def yield_highest_priority(self) -> Generator[str, None, None]:
         """
