@@ -35,9 +35,18 @@ class TestParseWithLinking:
         assert MKPKMetaData.get_metadata_with_label(
             mkpkirs[0].metadata, "filename"
         ).values == ["simple_lib_call.mkpk"]
+
+        assert MKPKMetaData.get_metadata_with_label(
+            mkpkirs[0].metadata, "link_depth"
+        ).values == ["0"]
+
         assert MKPKMetaData.get_metadata_with_label(
             mkpkirs[1].metadata, "filename"
         ).values == ["lib_a.mkpk"]
+
+        assert MKPKMetaData.get_metadata_with_label(
+            mkpkirs[1].metadata, "link_depth"
+        ).values == ["1"]
 
     def test_finds_file_in_lib_dir(self):
         # A system mkpk library path as defined by LinkerPath

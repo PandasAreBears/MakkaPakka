@@ -31,9 +31,10 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
 
     linking_graph: DirectedGraph = DirectedGraph("root")
     file_IRs: List[MKPKIR] = []
+    link_depth: int = 0
 
     def parse_file(parent: Node, filename: str):
-        nonlocal linker_path, linking_graph, file_IRs
+        nonlocal linker_path, linking_graph, file_IRs, link_depth
 
         full_file_path: str = linker_path.find_mkpk_file(filename)
         if not full_file_path:
@@ -62,6 +63,10 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
         # Parse the file, add it to the list of IR's, then recurse on all
         # linking dependencies.
         file_IR = parse_makka_pakka(full_file_path)
+
+        # Add the 'link_depth' metadata attribute to the object.
+        file_IR.metadata.append(MKPKMetaData("link_depth", str(link_depth)))
+
         file_IRs.append(file_IR)
 
         # There should be either 0 or 1 metadata objects with the label 'link'.
@@ -71,10 +76,12 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
         new_node = linking_graph.get_node_with_label(full_file_path)
 
         if link_md:
+            link_depth += 1
             for link_filename in link_md.values:
                 parse_file(new_node, link_filename)
 
     parse_file(linking_graph.root, Path(mkpk_filepath).name)
+    link_depth -= 1
 
     return file_IRs
 
