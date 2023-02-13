@@ -41,7 +41,7 @@ class TestParseMakkaPakka:
     def test_simple_mkpk_file(self):
         im_repr: MKPKIR = parse_makka_pakka(SIMPLE_MKPK)
 
-        assert len(im_repr.metadata) == 2
+        assert len(im_repr.metadata) == 3
         assert len(im_repr.data) == 1
         assert len(im_repr.functions) == 2
         assert len(im_repr.gadgets) == 1
@@ -49,6 +49,9 @@ class TestParseMakkaPakka:
         _assert_metadata_state_eq(im_repr.metadata[0], "author", ["Alex J"])
         _assert_metadata_state_eq(
             im_repr.metadata[1], "link", ["my_other_file.mkpk", "stdlib.mkpk"]
+        )
+        _assert_metadata_state_eq(
+            im_repr.metadata[2], "filename", ["simple_mkpk_file.mkpk"]
         )
 
         _assert_data_state_eq(im_repr.data[0], "name", "Alex", MKPKDataType.STR)

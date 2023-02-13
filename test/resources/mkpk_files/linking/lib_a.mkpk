@@ -1,0 +1,4 @@
+
+[[code]]
+[func_a] arg
+mov rax, ${arg}

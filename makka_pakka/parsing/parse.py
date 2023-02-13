@@ -25,17 +25,15 @@ def parse_makka_pakka(mkpk_filepath: str) -> MKPKIR:
 
     mkpk_im_repr: MKPKIR = MKPKIR()
 
-    # Add the filename to the metadata of every IR.
-    mkpk_im_repr.metadata.append(
-        MKPKMetaData("filename", Path(mkpk_filepath).resolve())
-    )
-
     headings: MKPKLines = _split_into_headings(mkpk_filepath)
 
     mkpk_im_repr.functions = parse_functions(headings.code)
     mkpk_im_repr.data = parse_data(headings.data)
     mkpk_im_repr.gadgets = parse_gadgets(headings.gadgets)
     mkpk_im_repr.metadata = parse_metadata(headings.metadata)
+
+    # Add the filename to the metadata of every IR.
+    mkpk_im_repr.metadata.append(MKPKMetaData("filename", Path(mkpk_filepath).name))
 
     return mkpk_im_repr
 

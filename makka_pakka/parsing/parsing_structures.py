@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List
 from typing import Union
 
@@ -89,6 +91,24 @@ class MKPKMetaData:
         :value: The value to append to the metadata label.
         """
         self.values.append(value)
+
+    @staticmethod
+    def get_metadata_with_label(
+        metadatas: List[MKPKMetaData], label: str
+    ) -> MKPKMetaData:
+        """
+        Gets the MKPKMetaData object with the given label from a list of
+        MKPKMetaData objects.
+        :metadatas: The list of MKPKMetaData objects to find the label in.
+        :label: The label to search for in the list of MKPKMetaData objects.
+        :returns: The MKPKMetaData object with the passed label, or None if the
+            label was not found.
+        """
+        label_objs: List[MKPKMetaData] = list(
+            filter(lambda md: md.label == label, metadatas)
+        )
+
+        return label_objs[0] if label_objs else []
 
 
 class MKPKIR:

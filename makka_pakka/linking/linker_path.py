@@ -13,7 +13,10 @@ class LinkerPath:
     """
 
     # The default directories to look for linkable .mkpk files in.
-    DEFAULT_LINKER_PATHS: List[str] = ["/usr/local/lib/mkpk/"]
+    DEFAULT_LINKER_PATHS: List[str] = [
+        "/usr/local/lib/mkpk/",
+        "~/.local/lib/mkpk",
+    ]
 
     def __init__(self, mkpk_main_filepath: str) -> None:
         """
@@ -29,7 +32,7 @@ class LinkerPath:
         ):
             raise InvalidParameter("mkpk_main_filepath", "__init__", mkpk_main_filepath)
 
-        parent_abs_path = str(Path(mkpk_main_filepath).parent.resolve())
+        parent_abs_path = str(Path(mkpk_main_filepath).parent.resolve()) + "/"
 
         self.linker_paths = PriorityList(self.DEFAULT_LINKER_PATHS)
 
