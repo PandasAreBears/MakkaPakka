@@ -1,9 +1,0 @@
-
-[[data]]
-
-[[code]]
-[main]
-mov rax, 1
-
-[main]
-mov rax, 2

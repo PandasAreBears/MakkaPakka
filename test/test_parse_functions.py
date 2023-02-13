@@ -16,7 +16,6 @@ EMPTY_HEADINGS: str = str(RESOURCES_ROOT / "empty_headings.mkpk")
 SIMPLE_CODE: str = str(RESOURCES_ROOT / "simple_code.mkpk")
 TWO_FUNCS_SINGLE_ARG: str = str(RESOURCES_ROOT / "single_argument.mkpk")
 MULTIPLE_ARGS: str = str(RESOURCES_ROOT / "multiple_arguments.mkpk")
-TWO_MAIN_FUNCS: str = str(RESOURCES_ROOT / "two_main_funcs.mkpk")
 INVALID_ARG: str = str(RESOURCES_ROOT / "invalid_argument.mkpk")
 
 
@@ -43,11 +42,6 @@ def two_funcs_single_arg() -> MKPKLines:
 @pytest.fixture
 def mutiple_args() -> MKPKLines:
     return _split_into_headings(MULTIPLE_ARGS)
-
-
-@pytest.fixture
-def two_main_funcs() -> MKPKLines:
-    return _split_into_headings(TWO_MAIN_FUNCS)
 
 
 @pytest.fixture
@@ -82,24 +76,14 @@ class TestParseFunctions:
             pass
 
     def test_empty_file_raises_error(self, empty_file: MKPKLines):
-        try:
-            parse_functions(empty_file.code)
-            pytest.fail(
-                "parse_functions should have failed with ParsingError\
-                due to not having a code section, but did not."
-            )
-        except ParsingError:
-            pass
+        functions = parse_functions(empty_file.code)
 
-    def test_empty_headings_raises_error(self, empty_headings: MKPKLines):
-        try:
-            parse_functions(empty_headings.code)
-            pytest.fail(
-                "parse_functions should have failed with ParsingError\
-                due to not having any functions, but did not."
-            )
-        except ParsingError:
-            pass
+        assert len(functions) == 0
+
+    def test_empty_headings(self, empty_headings: MKPKLines):
+        functions = parse_functions(empty_headings.code)
+
+        assert len(functions) == 0
 
     def test_parse_simple_code(self, simple_code_lines: MKPKLines):
         functions: List[MKPKFunction] = parse_functions(simple_code_lines.code)
@@ -137,16 +121,6 @@ class TestParseFunctions:
             ["arg1", "arg2", "arg3"],
             ["mov rax, ${arg1}"],
         )
-
-    def test_two_main_funcs(self, two_main_funcs: MKPKLines):
-        try:
-            parse_functions(two_main_funcs.code)
-            pytest.fail(
-                "parse_functions should have failed with ParsingError\
-                due to having two main functions, but did not."
-            )
-        except ParsingError:
-            pass
 
     def test_invalid_function_argument(self, invalid_argument: MKPKLines):
         try:

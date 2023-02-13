@@ -92,13 +92,9 @@ def parse_functions(lines: List[str]) -> List[MKPKFunction]:
     ):
         raise InvalidParameter("lines", "parse_functions", lines)
 
-    # Assert that there is a code section defined in the .mkpk file.
+    # Early breakout when there are no code lines.
     if len(lines) == 0:
-        raise ParsingError(
-            "No code heading defined.",
-            "The .mkpk file doesn't have a [[code]] section defined.",
-            ErrorType.FATAL,
-        )
+        return []
 
     functions: List[MKPKFunction] = []
 
@@ -136,36 +132,9 @@ def parse_functions(lines: List[str]) -> List[MKPKFunction]:
 
             current_function.add_line_to_content(line)
 
-    # Assert that there is atleast one function defined in the file
-    if current_function is None:
-        raise ParsingError(
-            "No functions defined.",
-            "No function are defined\
-             in the .mkpk file. Function are defined using a [function_name]\
-                declaration.",
-            ErrorType.FATAL,
-        )
-
     # Add the last function to the functions list
-    functions.append(current_function)
-
-    # Check that there is one, and only one main function.
-    func_names: List[str] = [func.name for func in functions]
-    num_main_funcs: int = func_names.count("main")
-    if num_main_funcs > 1:
-        raise ParsingError(
-            "More than 1 main functions declared.",
-            f"Only 1 main function should be defined in a .mkpk file, however\
-            {num_main_funcs} were found.",
-            ErrorType.FATAL,
-        )
-    elif num_main_funcs == 0:
-        raise ParsingError(
-            "No main function found.",
-            "No main function was found in the .mkpk file. A main function is\
-            delared using [main].",
-            ErrorType.FATAL,
-        )
+    if current_function is not None:
+        functions.append(current_function)
 
     return functions
 
