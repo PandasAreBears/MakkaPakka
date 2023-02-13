@@ -36,7 +36,7 @@ class TestLinkerPathInit:
 
 class TestAddPathToLinker:
     def test_invaild_parameters(self, default_linker_path: LinkerPath):
-        mock_path = "~/.local/mkpk/"
+        mock_path = str(Path.home()) + "/.local/lib/mkpk/"
         mock_priority = PriorityType.HIGH
 
         try:
@@ -69,7 +69,7 @@ class TestAddPathToLinker:
     def test_adds_path_to_linker(self, default_linker_path: LinkerPath):
         initial_len: int = len(default_linker_path)
 
-        new_dir_path: str = "~/.local/mkpk/"
+        new_dir_path: str = str(Path.home()) + "/.local/lib/mkpk/"
         default_linker_path.add_path_to_linker(new_dir_path, PriorityType.HIGH)
 
         assert len(default_linker_path) == initial_len + 1

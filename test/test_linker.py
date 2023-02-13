@@ -50,7 +50,7 @@ class TestParseWithLinking:
 
     def test_finds_file_in_lib_dir(self):
         # A system mkpk library path as defined by LinkerPath
-        parent_dir: str = "~/.local/lib/mkpk/"
+        parent_dir: str = str(Path.home()) + "/.local/lib/mkpk/"
         Path(parent_dir).mkdir(parents=True, exist_ok=True)
 
         # Move the copy file, then delete from the test directory.

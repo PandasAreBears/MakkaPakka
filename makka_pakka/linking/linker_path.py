@@ -15,7 +15,7 @@ class LinkerPath:
     # The default directories to look for linkable .mkpk files in.
     DEFAULT_LINKER_PATHS: List[str] = [
         "/usr/local/lib/mkpk/",
-        "~/.local/lib/mkpk",
+        str(Path.home()) + "/.local/lib/mkpk/",
     ]
 
     def __init__(self, mkpk_main_filepath: str) -> None:
