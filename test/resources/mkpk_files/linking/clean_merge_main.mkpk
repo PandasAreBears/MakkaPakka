@@ -1,0 +1,16 @@
+!link clean_merge_link.mkpk
+
+[[data]]
+panda: "panda"
+giraffe: "giraffe"
+
+[[code]]
+[main]
+func_a
+
+[func_a]
+xor eax, eax
+
+[[gadgets]]
+[0xabcdef12]
+xor eax, eax

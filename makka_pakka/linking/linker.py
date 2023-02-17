@@ -4,6 +4,7 @@ from typing import List
 from makka_pakka.directed_graph.directed_graph import DirectedGraph
 from makka_pakka.directed_graph.node import Node
 from makka_pakka.exceptions.exceptions import ErrorType
+from makka_pakka.exceptions.exceptions import InvalidParameter
 from makka_pakka.exceptions.exceptions import LinkingError
 from makka_pakka.linking.linker_path import LinkerPath
 from makka_pakka.parsing.parse import parse_makka_pakka
@@ -25,10 +26,13 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
         between it and the main source file. A direct link from the source
         file will have value 1.
     """
-    # Initialise the linking graph for dependency loop checking. Root doesn't
-    # represent a file, just a placeholder for the start of the graph.
+    if not isinstance(mkpk_filepath, str):
+        raise InvalidParameter("mkpk_filepath", "parse_with_linking", mkpk_filepath)
+
     linker_path: LinkerPath = LinkerPath(mkpk_filepath)
 
+    # Initialise the linking graph for dependency loop checking. Root doesn't
+    # represent a file, just a placeholder for the start of the graph.
     linking_graph: DirectedGraph = DirectedGraph("root")
     file_IRs: List[MKPKIR] = []
     link_depth: int = 0
@@ -91,7 +95,146 @@ def merge_MKPKIRs(mkpkirs: List[MKPKIR]) -> MKPKIR:
     Merges a list of MKPKIR objects into a single MKPKIR. The returned object
     is then ready to be processed. This function is intended to be called
     using the result of parse_with_linking.
+    This function is responsible for several validation checks:
+      - Function names do not conflict
+      - Data labels do not conflit
+      - ROPGadget memory addresses do not conflict
     :mkpkirs: The list of MKPKIR objects to be merged into one.
     :returns: A MKPKIR object with all passed objects merged into it.
     """
-    pass
+    if not isinstance(mkpkirs, list) or not all(
+        [isinstance(ir, MKPKIR) for ir in mkpkirs]
+    ):
+        raise InvalidParameter("mkpkirs", "merge_MKPKIRs", mkpkirs)
+
+    """
+    The merging process starts with the main source IR and individually
+    copies the function names, data labels, and gadget memory
+    locations into the combined IR object. Any conflicts in the name, labels,
+    or memory locations will cause an error, detailing this conflict.
+    """
+    # Copy the main MKPKIR then delete it from the list before iteration.
+    merged_IR: MKPKIR = mkpkirs[0]
+    del mkpkirs[0]
+
+    # Sort the IR by link depth, this will means the error message can contain
+    # the filename of the deeper function (metadata of everything other than
+    # main is lost in the merge).
+    mkpkirs = sorted(
+        mkpkirs,
+        key=lambda ir: int(
+            MKPKMetaData.get_metadata_with_label(ir.metadata, "link_depth").values[0]
+        ),
+    )
+
+    # Merge each IR object into the main object, ensuring that there are no
+    # conflicts in the function names, data labels, and gadget addreses.
+    for ir in mkpkirs:
+        _assert_no_conflict_in_functions(merged_IR, ir)
+        _assert_no_conflict_in_data_labels(merged_IR, ir)
+        _assert_no_conflict_in_gadget_addresses(merged_IR, ir)
+
+        _combine_MKPKIRs(merged_IR, ir)
+
+    return merged_IR
+
+
+def _combine_MKPKIRs(lhs: MKPKIR, rhs: MKPKIR) -> MKPKIR:
+    """
+    Combines to MKPKIR objects into one.
+    :lhs: The first object to combine. The metadata of this object is kept.
+    :rhs: The second object to combine. The metadata of this object is lost.
+    :return: The combined MKPKIR object.
+    """
+    if not isinstance(lhs, MKPKIR):
+        raise InvalidParameter("lhs", "_combine_MKPKIRs", lhs)
+
+    if not isinstance(rhs, MKPKIR):
+        raise InvalidParameter("rhs", "_combine_MKPKIRs", rhs)
+
+    for r_func in rhs.functions:
+        lhs.functions.append(r_func)
+
+    for r_data in rhs.data:
+        lhs.data.append(r_data)
+
+    for r_gadget in rhs.gadgets:
+        lhs.gadgets.append(r_gadget)
+
+    return lhs
+
+
+def _assert_no_conflict_in_functions(lhs: MKPKIR, rhs: MKPKIR):
+    """
+    Asserts if there are conflicts in the function names' of MKPKIR objects.
+    """
+    if not isinstance(lhs, MKPKIR):
+        raise InvalidParameter("lhs", "_assert_no_conflict_in_functions", lhs)
+
+    if not isinstance(rhs, MKPKIR):
+        raise InvalidParameter("rhs", "_assert_no_conflict_in_functions", rhs)
+
+    for l_func in lhs.functions:
+        for r_func in rhs.functions:
+            if l_func.name == r_func.name:
+                rhs_filename = MKPKMetaData.get_metadata_with_label(
+                    rhs.metadata, "filename"
+                ).values[0]
+                raise LinkingError(
+                    "Conflict in function name.",
+                    f"The function name {l_func.name} appears in more than one\
+                    file. The conflict occured while trying to link with\
+                    {rhs_filename}.",
+                    ErrorType.FATAL,
+                )
+
+
+def _assert_no_conflict_in_data_labels(lhs: MKPKIR, rhs: MKPKIR):
+    """
+    Asserts if there are conflicts in the data labels of MKPKIR objects.
+    """
+    if not isinstance(lhs, MKPKIR):
+        raise InvalidParameter("lhs", "_assert_no_conflict_in_data_labels", lhs)
+
+    if not isinstance(rhs, MKPKIR):
+        raise InvalidParameter("rhs", "_assert_no_conflict_in_data_labels", rhs)
+
+    for l_data in lhs.data:
+        for r_data in rhs.data:
+            if l_data.name == r_data.name:
+                rhs_filename = MKPKMetaData.get_metadata_with_label(
+                    rhs.metadata, "filename"
+                ).values[0]
+                raise LinkingError(
+                    "Conflict in data label name.",
+                    f"The data label {l_data.name} appears in more than one\
+                    file. The conflict occured while trying to link with\
+                    {rhs_filename}.",
+                    ErrorType.FATAL,
+                )
+
+
+def _assert_no_conflict_in_gadget_addresses(lhs: MKPKIR, rhs: MKPKIR):
+    """
+    Asserts if there are conflicts in the ROP gadget memory locations of
+    MKPKIR objects.
+    """
+    if not isinstance(lhs, MKPKIR):
+        raise InvalidParameter("lhs", "_assert_no_conflict_in_gadget_addresses", lhs)
+
+    if not isinstance(rhs, MKPKIR):
+        raise InvalidParameter("rhs", "_assert_no_conflict_in_gadget_addresses", rhs)
+
+    for l_gadget in lhs.gadgets:
+        for r_gadget in rhs.gadgets:
+            if r_gadget.memory_location == l_gadget.memory_location:
+                rhs_filename = MKPKMetaData.get_metadata_with_label(
+                    rhs.metadata, "filename"
+                ).values[0]
+                raise LinkingError(
+                    "Conflict in ROP gadget address.",
+                    f"The gadget address {r_gadget.memory_location} appears in\
+                    more than one file. The conflict occured while trying to\
+                    link with {rhs_filename}.",
+                    ErrorType.FATAL,
+                )

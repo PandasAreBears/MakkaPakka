@@ -1,0 +1,16 @@
+!link multipart_d.mkpk
+
+[[data]]
+elder: "Elder berry"
+fig: "Fig"
+
+[[code]]
+[orange]
+nop
+
+[purple]
+nop
+
+[[gadgets]]
+[0x33333333]
+nop

@@ -1,0 +1,16 @@
+
+[[data]]
+lion: "lion"
+platypus: "platypus"
+
+[[code]]
+[func_b]
+lea rax, 0xbc
+jmp 0x500
+
+[func_c]
+func_b
+
+[[gadgets]]
+[0x09876543]
+mov rax, 1

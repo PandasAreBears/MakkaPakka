@@ -1,0 +1,11 @@
+
+[[code]]
+[duplicate]
+xor eax, eax
+
+[[data]]
+copy_name: "hello"
+
+[[gadgets]]
+[0xc067c067]
+xor eax, eax

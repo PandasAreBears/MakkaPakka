@@ -1,0 +1,16 @@
+!link multipart_c.mkpk
+
+[[data]]
+cherry: "cherry"
+dragon: "dragon fruit"
+
+[[code]]
+[green]
+nop
+
+[yellow]
+nop
+
+[[gadgets]]
+[0x22222222]
+nop

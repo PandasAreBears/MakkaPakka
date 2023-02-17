@@ -1,0 +1,16 @@
+!link multipart_b.mkpk
+
+[[data]]
+apple: "apple"
+banana: "banana"
+
+[[code]]
+[main]
+nop
+
+[blue]
+nop
+
+[[gadgets]]
+[0x11111111]
+nop

@@ -1,0 +1,12 @@
+!link unclean_merge_link.mkpk
+
+[[code]]
+[duplicate]
+mov rax, 1
+
+[[data]]
+copy_name: "hi"
+
+[[gadgets]]
+[0xc067c067]
+jmp 0x0

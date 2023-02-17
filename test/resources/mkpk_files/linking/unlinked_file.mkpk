@@ -1,0 +1,12 @@
+
+[[data]]
+hi: "hello"
+
+[[code]]
+[main]
+mov rax, 15
+
+
+[[gadgets]]
+[0xbbbbbbbb]
+xor $1, $1
