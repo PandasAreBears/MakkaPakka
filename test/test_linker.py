@@ -10,6 +10,7 @@ from makka_pakka.linking.linker import _assert_no_conflict_in_functions
 from makka_pakka.linking.linker import _assert_no_conflict_in_gadget_addresses
 from makka_pakka.linking.linker import _combine_MKPKIRs
 from makka_pakka.linking.linker import merge_MKPKIRs
+from makka_pakka.linking.linker import parse_link_and_merge
 from makka_pakka.linking.linker import parse_with_linking
 from makka_pakka.parsing.parsing_structures import MKPKDataType
 from makka_pakka.parsing.parsing_structures import MKPKIR
@@ -19,6 +20,7 @@ from test.test_parse_functions import _assert_func_state_eq
 from test.test_parse_gadgets import _assert_gadget_state_eq
 
 RESOURCES_ROOT: str = Path("test/resources/mkpk_files/linking")
+EMPTY_FILE: str = str(RESOURCES_ROOT / "empty_file.mkpk")
 SIMPLE_LINK: str = str(RESOURCES_ROOT / "simple_lib_call.mkpk")
 LINK_WITH_COPY: str = str(RESOURCES_ROOT / "link_with_copy.mkpk")
 COPY_FILE: str = str(RESOURCES_ROOT / "copy_me.mkpk")
@@ -59,6 +61,36 @@ def multipart_merge() -> List[MKPKIR]:
     assert len(parsed_files) == 4
 
     return parsed_files
+
+
+class TestParseLinkAndMerge:
+    def test_invalid_parameters(self):
+        try:
+            parse_link_and_merge(None)
+
+            pytest.fail(
+                "parse_makka_pakka should have failed with\
+                InvalidParameter but did not."
+            )
+        except InvalidParameter:
+            pass
+
+    def test_empty_file(self):
+        file_ir = parse_link_and_merge(EMPTY_FILE)
+
+        assert len(file_ir.functions) == 0
+        assert len(file_ir.data) == 0
+        assert len(file_ir.gadgets) == 0
+
+    def test_multipart_merge(self):
+        file_ir = parse_link_and_merge(MULTIPART_ROOT)
+
+        # The accuracy of this merge is more throughly tested in the
+        # subfunction unit tests, this test is just checking that all the parts
+        # are linked together correctly.
+        assert len(file_ir.functions) == 8
+        assert len(file_ir.data) == 8
+        assert len(file_ir.gadgets) == 4
 
 
 class TestParseWithLinking:

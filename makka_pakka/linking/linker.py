@@ -12,6 +12,21 @@ from makka_pakka.parsing.parsing_structures import MKPKIR
 from makka_pakka.parsing.parsing_structures import MKPKMetaData
 
 
+def parse_link_and_merge(mkpk_filepath: str) -> MKPKIR:
+    """
+    Parses, links, and merges a main makka pakkka source file.
+    :mkpk_filepath: The filepath the main .mkpk source file to be parsed,
+        linked, and merged.
+    :returns: A linked, and merged MKPKIR object.
+    """
+    if not isinstance(mkpk_filepath, str):
+        raise InvalidParameter("mkpk_filepath", "parse_link_and_merge", mkpk_filepath)
+
+    unlinked_files: List[MKPKIR] = parse_with_linking(mkpk_filepath)
+
+    return merge_MKPKIRs(unlinked_files)
+
+
 def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
     """
     Parses a makka pakka source file, recursively linking with files found in
