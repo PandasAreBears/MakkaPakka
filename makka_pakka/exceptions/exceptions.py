@@ -60,7 +60,7 @@ class MakkaPakkaError(Exception):
                 print(format_message(headline, description, type))
 
 
-class ParsingError(MakkaPakkaError):
+class MKPKParsingError(MakkaPakkaError):
     """Alerts the caller of an error while parsing makka pakka code."""
 
     def __init__(self, headline: str, description: str, type: int) -> None:
@@ -75,7 +75,7 @@ class ParsingError(MakkaPakkaError):
         super().__init__(headline, description, type)
 
 
-class LinkingError(MakkaPakkaError):
+class MKPKLinkingError(MakkaPakkaError):
     """Alerts the caller of an error while linking makka pakka code."""
 
     def __init__(self, headline: str, description: str, type: int) -> None:
@@ -88,3 +88,38 @@ class LinkingError(MakkaPakkaError):
         """
 
         super().__init__(headline, description, type)
+
+
+class MKPKProcessingError(MakkaPakkaError):
+    """Alerts the caller of an error while processing makka pakka code."""
+
+    def __init__(self, headline: str, description: str, type: int) -> None:
+        """
+        Processing error constructor.
+        :headline: The headline of what went wrong.
+        :description: A more detailed explaination of how to fix what went
+            wrong.
+        :type: An ErrorType indicating the severity of the problem.
+        """
+
+        super().__init__(headline, description, type)
+
+
+class MKPKNameError(MakkaPakkaError):
+    """Alerts the caller of an error in a name used in makka pakka code."""
+
+    def __init__(self, headline: str, description: str, type: int) -> None:
+        """
+        Name error constructor.
+        :headline: The headline of what went wrong.
+        :description: A more detailed explaination of how to fix what went
+            wrong.
+        :type: An ErrorType indicating the severity of the problem.
+        """
+        self.headline = headline
+        self.description = description
+        self.type = type
+        super().__init__(self.headline, self.description, self.type)
+
+    def trigger(self):
+        super().__init__(self.headline, self.description, self.type)

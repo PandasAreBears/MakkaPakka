@@ -3,8 +3,9 @@ from typing import Callable
 import pytest
 
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import ParsingError
-from makka_pakka.parsing.detect_headings import _assert_valid_heading_name
+from makka_pakka.exceptions.exceptions import MKPKNameError
+from makka_pakka.exceptions.exceptions import MKPKParsingError
+from makka_pakka.parsing.detect_headings import _assert_valid_mkpk_name
 from makka_pakka.parsing.detect_headings import detect_heading_in_line
 from makka_pakka.parsing.detect_headings import HeadingStyle
 
@@ -66,27 +67,27 @@ class TestDetectHeadingInLine:
             detect_heading_in_line(heading_1)
             pytest.fail(
                 "_detect_heading_in_line with invalid heading name\
-                should have failed with ParsingError but did not."
+                should have failed with MKPKParsingError but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass
 
         try:
             detect_heading_in_line(heading_2)
             pytest.fail(
                 "_detect_heading_in_line with invalid heading name\
-                should have failed with ParsingError but did not."
+                should have failed with MKPKParsingError but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass
 
         try:
             detect_heading_in_line(heading_3)
             pytest.fail(
                 "_detect_heading_in_line with invalid heading name\
-                should have failed with ParsingError but did not."
+                should have failed with MKPKParsingError but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass
 
 
@@ -95,27 +96,27 @@ class TestAssertValidHeadingName:
         mock_name = "code"
         mock_line = "[[code]]"
         try:
-            _assert_valid_heading_name(None, None)
+            _assert_valid_mkpk_name(None, None)
             pytest.fail(
-                "_assert_valid_heading_name should have failed with\
+                "_assert_valid_mkpk_name should have failed with\
                 InvalidParameter but did not."
             )
         except InvalidParameter:
             pass
 
         try:
-            _assert_valid_heading_name(mock_name, None)
+            _assert_valid_mkpk_name(mock_name, None)
             pytest.fail(
-                "_assert_valid_heading_name should have failed with\
+                "_assert_valid_mkpk_name should have failed with\
                 InvalidParameter but did not."
             )
         except InvalidParameter:
             pass
 
         try:
-            _assert_valid_heading_name(None, mock_line)
+            _assert_valid_mkpk_name(None, mock_line)
             pytest.fail(
-                "_assert_valid_heading_name should have failed with\
+                "_assert_valid_mkpk_name should have failed with\
                 InvalidParameter but did not."
             )
         except InvalidParameter:
@@ -129,39 +130,39 @@ class TestAssertValidHeadingName:
         invalid_name4: str = "*HI"
 
         try:
-            _assert_valid_heading_name(invalid_name1, get_mock_line(invalid_name1))
+            _assert_valid_mkpk_name(invalid_name1, get_mock_line(invalid_name1))
             pytest.fail(
-                "_assert_valid_heading_name should have raised\
-                ParsingError but did not."
+                "_assert_valid_mkpk_name should have raised\
+                MKPKParsingError but did not."
             )
-        except ParsingError:
+        except MKPKNameError:
             pass
 
         try:
-            _assert_valid_heading_name(invalid_name2, get_mock_line(invalid_name2))
+            _assert_valid_mkpk_name(invalid_name2, get_mock_line(invalid_name2))
             pytest.fail(
-                "_assert_valid_heading_name should have raised\
-                ParsingError but did not."
+                "_assert_valid_mkpk_name should have raised\
+                MKPKParsingError but did not."
             )
-        except ParsingError:
+        except MKPKNameError:
             pass
 
         try:
-            _assert_valid_heading_name(invalid_name3, get_mock_line(invalid_name3))
+            _assert_valid_mkpk_name(invalid_name3, get_mock_line(invalid_name3))
             pytest.fail(
-                "_assert_valid_heading_name should have raised\
-                ParsingError but did not."
+                "_assert_valid_mkpk_name should have raised\
+                MKPKParsingError but did not."
             )
-        except ParsingError:
+        except MKPKNameError:
             pass
 
         try:
-            _assert_valid_heading_name(invalid_name4, get_mock_line(invalid_name4))
+            _assert_valid_mkpk_name(invalid_name4, get_mock_line(invalid_name4))
             pytest.fail(
-                "_assert_valid_heading_name should have raised\
-                ParsingError but did not."
+                "_assert_valid_mkpk_name should have raised\
+                MKPKParsingError but did not."
             )
-        except ParsingError:
+        except MKPKNameError:
             pass
 
     def test_does_not_error_when_name_is_valid(self):
@@ -170,6 +171,6 @@ class TestAssertValidHeadingName:
         valid_name2: str = "code"
         valid_name3: str = "gadget"
 
-        _assert_valid_heading_name(valid_name1, get_mock_line(valid_name1))
-        _assert_valid_heading_name(valid_name2, get_mock_line(valid_name2))
-        _assert_valid_heading_name(valid_name3, get_mock_line(valid_name3))
+        _assert_valid_mkpk_name(valid_name1, get_mock_line(valid_name1))
+        _assert_valid_mkpk_name(valid_name2, get_mock_line(valid_name2))
+        _assert_valid_mkpk_name(valid_name3, get_mock_line(valid_name3))

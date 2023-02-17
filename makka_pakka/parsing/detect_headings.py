@@ -2,7 +2,8 @@ from typing import Tuple
 
 from makka_pakka.exceptions.exceptions import ErrorType
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import ParsingError
+from makka_pakka.exceptions.exceptions import MKPKNameError
+from makka_pakka.exceptions.exceptions import MKPKParsingError
 
 
 class HeadingStyle:
@@ -87,7 +88,17 @@ def detect_heading_in_line(line: str) -> Tuple[HeadingStyle, str]:
         return NO_HEADING_RETURN
 
     heading_name = line[backward_pass_index + 1 : forward_pass_index]
-    _assert_valid_heading_name(heading_name, line)
+
+    # Assert that the heading name is valid
+    try:
+        _assert_valid_mkpk_name(heading_name, line)
+    except MKPKNameError:
+        raise MKPKParsingError(
+            "Invalid heading name",
+            f"An invalid heading name '${heading_name}' was encountered in the\
+                following line:\n >${line}",
+            ErrorType.FATAL,
+        )
 
     # Check if it is a double heading.
     if 0 <= backward_pass_index - 1 and forward_pass_index + 1 < len(line):
@@ -106,18 +117,18 @@ def detect_heading_in_line(line: str) -> Tuple[HeadingStyle, str]:
     )
 
 
-def _assert_valid_heading_name(name: str, line: str) -> None:
-    """Asserts that the name in a [[heading]] is valid.
+def _assert_valid_mkpk_name(name: str, line: str = "") -> None:
+    """Asserts that a name used in makka pakka is valid.
     :name: The name to be validated.
     :line: The line that the heading is defined in, for debugging.
     :raises:
-        ParsingError - When the heading name is invalid.
+        MKPKNameError - When the heading name is invalid.
     """
     if not isinstance(name, str):
-        raise InvalidParameter("name", "_assert_valid_heading_name", name)
+        raise InvalidParameter("name", "_assert_valid_mkpk_name", name)
 
     if not isinstance(line, str):
-        raise InvalidParameter("line", "_assert_valid_heading_name", line)
+        raise InvalidParameter("line", "_assert_valid_mkpk_name", line)
 
     # Check if the name is valid, i.e in the one of the ranges [a-z][A-Z][0-9]
     # [_].
@@ -129,10 +140,10 @@ def _assert_valid_heading_name(name: str, line: str) -> None:
         + [0x5F]
     )
     if not all([ord(char) in valid_chars for char in [*name]]) or len(name) == 0:
-        raise ParsingError(
-            "Heading name is invalid.",
-            f"The name assigned to the heading on the following line is\
-                invalid:\n> {line}\n\nValid heading names only use characters\
+        raise MKPKNameError(
+            "Encountered invalid name.",
+            f"The name assigned on the following line is\
+                invalid:\n> {line}\n\nValid names only use characters\
                 in the range [a-z][A-Z][0-9][_]",
             ErrorType.FATAL,
         )

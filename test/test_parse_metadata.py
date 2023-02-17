@@ -4,7 +4,7 @@ from typing import List
 import pytest
 
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import ParsingError
+from makka_pakka.exceptions.exceptions import MKPKParsingError
 from makka_pakka.parsing.parse import _split_into_headings
 from makka_pakka.parsing.parse_headings import parse_metadata
 from makka_pakka.parsing.parsing_structures import MKPKLines
@@ -95,18 +95,18 @@ class TestParseMetadata:
         try:
             parse_metadata(invalid_metadata.metadata)
             pytest.fail(
-                "parse_metadata should have failed with ParsingError\
+                "parse_metadata should have failed with MKPKParsingError\
                 due to invalid metadata code, but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass
 
     def test_invalid_metadata_label(self, invalid_metadata_label: MKPKLines):
         try:
             parse_metadata(invalid_metadata_label.metadata)
             pytest.fail(
-                "parse_metadata should have failed with ParsingError\
+                "parse_metadata should have failed with MKPKParsingError\
                 due to invalid label name, but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass

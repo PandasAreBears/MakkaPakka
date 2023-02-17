@@ -1,0 +1,5 @@
+!link link_data_replacement.mkpk
+
+[[code]]
+[main]
+mov rax, ${linked_value}

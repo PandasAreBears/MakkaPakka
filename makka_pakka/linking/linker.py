@@ -5,7 +5,7 @@ from makka_pakka.directed_graph.directed_graph import DirectedGraph
 from makka_pakka.directed_graph.node import Node
 from makka_pakka.exceptions.exceptions import ErrorType
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import LinkingError
+from makka_pakka.exceptions.exceptions import MKPKLinkingError
 from makka_pakka.linking.linker_path import LinkerPath
 from makka_pakka.parsing.parse import parse_makka_pakka
 from makka_pakka.parsing.parsing_structures import MKPKIR
@@ -57,7 +57,7 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
 
         full_file_path: str = linker_path.find_mkpk_file(filename)
         if not full_file_path:
-            raise LinkingError(
+            raise MKPKLinkingError(
                 f"Couldn't find file with name {filename}",
                 f"Couldn't link with file. Searched in directories\
                  {linker_path.linker_paths.items}",
@@ -70,7 +70,7 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
             parent, full_file_path
         )
         if backtrace := linking_graph.has_cyclic_dependency():
-            raise LinkingError(
+            raise MKPKLinkingError(
                 "Linking encountered a cyclic linking\
                 dependency",
                 f"The following cyclic dependency was found while linking\
@@ -195,7 +195,7 @@ def _assert_no_conflict_in_functions(lhs: MKPKIR, rhs: MKPKIR):
                 rhs_filename = MKPKMetaData.get_metadata_with_label(
                     rhs.metadata, "filename"
                 ).values[0]
-                raise LinkingError(
+                raise MKPKLinkingError(
                     "Conflict in function name.",
                     f"The function name {l_func.name} appears in more than one\
                     file. The conflict occured while trying to link with\
@@ -220,7 +220,7 @@ def _assert_no_conflict_in_data_labels(lhs: MKPKIR, rhs: MKPKIR):
                 rhs_filename = MKPKMetaData.get_metadata_with_label(
                     rhs.metadata, "filename"
                 ).values[0]
-                raise LinkingError(
+                raise MKPKLinkingError(
                     "Conflict in data label name.",
                     f"The data label {l_data.name} appears in more than one\
                     file. The conflict occured while trying to link with\
@@ -246,7 +246,7 @@ def _assert_no_conflict_in_gadget_addresses(lhs: MKPKIR, rhs: MKPKIR):
                 rhs_filename = MKPKMetaData.get_metadata_with_label(
                     rhs.metadata, "filename"
                 ).values[0]
-                raise LinkingError(
+                raise MKPKLinkingError(
                     "Conflict in ROP gadget address.",
                     f"The gadget address {r_gadget.memory_location} appears in\
                     more than one file. The conflict occured while trying to\

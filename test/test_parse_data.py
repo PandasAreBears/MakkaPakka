@@ -4,7 +4,7 @@ from typing import Any
 import pytest
 
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import ParsingError
+from makka_pakka.exceptions.exceptions import MKPKParsingError
 from makka_pakka.parsing.parse import _split_into_headings
 from makka_pakka.parsing.parse_headings import parse_data
 from makka_pakka.parsing.parsing_structures import MKPKData
@@ -79,28 +79,28 @@ class TestParseData:
         try:
             parse_data(invalid_data_name_lines.data)
             pytest.fail(
-                "parse_data should have failed with ParsingError\
+                "parse_data should have failed with MKPKParsingError\
                 due to an invalid data name, but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass
 
     def test_invalid_data_int_raises_error(self, invalid_data_int_lines: MKPKLines):
         try:
             parse_data(invalid_data_int_lines.data)
             pytest.fail(
-                "parse_data should have failed with ParsingError\
+                "parse_data should have failed with MKPKParsingError\
                 due to an invalid int value, but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass
 
     def test_invalid_data_hex_raises_error(self, invalid_data_hex_lines: MKPKLines):
         try:
             parse_data(invalid_data_hex_lines.data)
             pytest.fail(
-                "parse_data should have failed with ParsingError\
+                "parse_data should have failed with MKPKParsingError\
                 due to an invalid hex value, but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass

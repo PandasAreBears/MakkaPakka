@@ -28,6 +28,24 @@ class MKPKFunction:
         """
         self.content.append(line)
 
+    @staticmethod
+    def get_function_with_name(
+        functions: List[MKPKFunction], name: str
+    ) -> MKPKFunction:
+        """
+        Gets the MKPKFunction object with the given name from a list of
+        MKPKFunction objects.
+        :functions: The list of MKPKFunction objects to find the label in.
+        :label: The label to search for in the list of MKPKFunction objects.
+        :returns: The MKPKFunction object with the passed label, or None if the
+            label was not found.
+        """
+        label_objs: List[MKPKFunction] = list(
+            filter(lambda d: d.name == name, functions)
+        )
+
+        return label_objs[0] if label_objs else []
+
 
 class MKPKDataType:
     NONE = 0
@@ -48,6 +66,20 @@ class MKPKData:
         self.name = name
         self.value = value
         self.type = type
+
+    @staticmethod
+    def get_data_with_label(data: List[MKPKData], label: str) -> MKPKData:
+        """
+        Gets the MKPKData object with the given label from a list of
+        MKPKData objects.
+        :data: The list of MKPKData objects to find the label in.
+        :label: The label to search for in the list of MKPKData objects.
+        :returns: The MKPKData object with the passed label, or None if the
+            label was not found.
+        """
+        label_objs: List[MKPKData] = list(filter(lambda d: d.name == label, data))
+
+        return label_objs[0] if label_objs else []
 
 
 class MKPKGadget:
@@ -129,6 +161,14 @@ class MKPKIR:
 
     def add_gadget(self, gadget: MKPKGadget):
         self.gadgets.append(gadget)
+
+    def __eq__(self, other: MKPKIR):
+        return (
+            self.data == other.data
+            and self.functions == other.functions
+            and self.gadgets == other.gadgets
+            and self.metadata == other.metadata
+        )
 
 
 class MKPKLines:

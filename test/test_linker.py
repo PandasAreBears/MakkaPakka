@@ -4,7 +4,7 @@ from typing import List
 import pytest
 
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import LinkingError
+from makka_pakka.exceptions.exceptions import MKPKLinkingError
 from makka_pakka.linking.linker import _assert_no_conflict_in_data_labels
 from makka_pakka.linking.linker import _assert_no_conflict_in_functions
 from makka_pakka.linking.linker import _assert_no_conflict_in_gadget_addresses
@@ -153,7 +153,7 @@ class TestParseWithLinking:
         try:
             parse_with_linking(CYCLIC_ROOT)
 
-        except LinkingError as e:
+        except MKPKLinkingError as e:
             assert "cyclic" in str(e)
 
 
@@ -197,10 +197,10 @@ class TestAssertNoConflictInFunctions:
             _assert_no_conflict_in_functions(unclean_merge[0], unclean_merge[1])
             pytest.fail(
                 "_assert_no_conflict_in_functions should have failed\
-                        with LinkingError due to duplicate function names in\
+                        with MKPKLinkingError due to duplicate function names in\
                         linked file, but did not."
             )
-        except LinkingError:
+        except MKPKLinkingError:
             pass
 
 
@@ -244,10 +244,10 @@ class TestAssertNoConflictInDataLabels:
             _assert_no_conflict_in_data_labels(unclean_merge[0], unclean_merge[1])
             pytest.fail(
                 "_assert_no_conflict_in_data_labels should have failed\
-                        with LinkingError due to duplicate data labels in\
+                        with MKPKLinkingError due to duplicate data labels in\
                         linked file, but did not."
             )
-        except LinkingError:
+        except MKPKLinkingError:
             pass
 
 
@@ -291,10 +291,10 @@ class TestAssertNoConflictInGadgetAddresses:
             _assert_no_conflict_in_gadget_addresses(unclean_merge[0], unclean_merge[1])
             pytest.fail(
                 "_assert_no_conflict_in_gadget_addreseses should have failed\
-                        with LinkingError due to duplicate gadget memory\
+                        with MKPKLinkingError due to duplicate gadget memory\
                         addresses in linked file, but did not."
             )
-        except LinkingError:
+        except MKPKLinkingError:
             pass
 
 

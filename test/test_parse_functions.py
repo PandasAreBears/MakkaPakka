@@ -4,7 +4,7 @@ from typing import List
 import pytest
 
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import ParsingError
+from makka_pakka.exceptions.exceptions import MKPKParsingError
 from makka_pakka.parsing.parse import _split_into_headings
 from makka_pakka.parsing.parse_headings import parse_functions
 from makka_pakka.parsing.parsing_structures import MKPKFunction
@@ -126,8 +126,8 @@ class TestParseFunctions:
         try:
             parse_functions(invalid_argument.code)
             pytest.fail(
-                "parse_functions should have failed with ParsingError\
+                "parse_functions should have failed with MKPKParsingError\
                 due to having an invalid argument name, but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass

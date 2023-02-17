@@ -3,8 +3,9 @@ from typing import List
 
 from makka_pakka.exceptions.exceptions import ErrorType
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import ParsingError
-from makka_pakka.parsing.detect_headings import _assert_valid_heading_name
+from makka_pakka.exceptions.exceptions import MKPKNameError
+from makka_pakka.exceptions.exceptions import MKPKParsingError
+from makka_pakka.parsing.detect_headings import _assert_valid_mkpk_name
 from makka_pakka.parsing.detect_headings import detect_heading_in_line
 from makka_pakka.parsing.detect_headings import HeadingStyle
 from makka_pakka.parsing.parsing_structures import MKPKData
@@ -38,7 +39,7 @@ def parse_metadata(lines: List[str]) -> List[MKPKMetaData]:
 
         # Metadata lines begin with the '!' directive.
         if line[0] != "!":
-            raise ParsingError(
+            raise MKPKParsingError(
                 "Couldn't interpret metadata code.",
                 f"The code in the following line is not under a heading, and\
                   does not contain the metadata directive (!):\n> {line}\n\n\
@@ -51,10 +52,11 @@ def parse_metadata(lines: List[str]) -> List[MKPKMetaData]:
         # formatted.
         line = line[1:]
         label: str = line.split(" ")[0]
+
         try:
-            _assert_valid_heading_name(label, line)
-        except ParsingError:
-            raise ParsingError(
+            _assert_valid_mkpk_name(label, line)
+        except MKPKNameError:
+            raise MKPKParsingError(
                 "Metadata label is invalid.",
                 f"The label {label} is invalid in line:\n> {line}\n\nValid\
                     label names only use characters in the range\
@@ -106,7 +108,7 @@ def parse_functions(lines: List[str]) -> List[MKPKFunction]:
         heading_style, name = detect_heading_in_line(line)
         if heading_style == HeadingStyle.SINGLE_HEADING:
             # Assert that the heading only uses valid characters
-            _assert_valid_heading_name(name, line)
+            _assert_valid_mkpk_name(name, line)
 
             # We're now in a new function, so save the old one, if applicable
             if current_function is not None:
@@ -122,7 +124,7 @@ def parse_functions(lines: List[str]) -> List[MKPKFunction]:
         # that should be added to the current function.
         else:
             if current_function is None:
-                raise ParsingError(
+                raise MKPKParsingError(
                     "Code line not in function",
                     f"A code line has no associated function:\n> {line}\n\n\
                         Code must be assigned to a function - functions are\
@@ -162,7 +164,7 @@ def parse_data(lines: List[str]) -> List[MKPKData]:
         # Data declarations should always be in the format name: value, so
         # split by ':' and expect [name, value]
         if len(line.split(":")) != 2:
-            raise ParsingError(
+            raise MKPKParsingError(
                 "Data declaration is invalid",
                 f"The data declaration on the following line is invalid:\n> {line}\
                 \n\nData declarations should be in the format `name: value`.",
@@ -175,9 +177,9 @@ def parse_data(lines: List[str]) -> List[MKPKData]:
         # Data identifiers have the same requirements are heading names, so use
         # that assertion and re-write the error message.
         try:
-            _assert_valid_heading_name(name, line)
-        except ParsingError:
-            raise ParsingError(
+            _assert_valid_mkpk_name(name, line)
+        except MKPKNameError:
+            raise MKPKParsingError(
                 "Data identifier name is invalid.",
                 f"The argument\
                     {name} is invalid in line:\n> {line}\n\nValid heading names \
@@ -201,7 +203,7 @@ def parse_data(lines: List[str]) -> List[MKPKData]:
                 try:
                     parsed_value = int(value, 16)
                 except ValueError:
-                    raise ParsingError(
+                    raise MKPKParsingError(
                         "Unable to interpret hex value.",
                         f"Unable to parse as integer in the following line:\n> \
                         {line}\n\nHex data is defined using the 0x prefix.",
@@ -212,7 +214,7 @@ def parse_data(lines: List[str]) -> List[MKPKData]:
                 try:
                     parsed_value = int(value)
                 except ValueError:
-                    raise ParsingError(
+                    raise MKPKParsingError(
                         "Unable to interpret integer value.",
                         f'Unable to parse as integer in the following line:\n> \
                         {line}\n\nData must either be a string, defined using\
@@ -254,7 +256,7 @@ def parse_gadgets(lines: List[str]) -> List[MKPKGadget]:
             try:
                 int(gadget_address, 16)
             except ValueError:
-                raise ParsingError(
+                raise MKPKParsingError(
                     "Gadget address in heading is invalid.",
                     f"The gadget address specified in the heading in the following\
                     line is invalid:\n> {line}\n\nGadget address headings\
@@ -273,7 +275,7 @@ def parse_gadgets(lines: List[str]) -> List[MKPKGadget]:
         # that should be added to the current function.
         else:
             if current_gadget is None:
-                raise ParsingError(
+                raise MKPKParsingError(
                     "Code line not in gadget",
                     f"A code line has no associated gadget:\n> {line}\n\n\
                         Code must be assigned to a gadget - gadgets are\
@@ -314,9 +316,9 @@ def _extract_args_from_function(line: str) -> List[str]:
         if arg != "":
             # The same naming rules apply to args and function names.
             try:
-                _assert_valid_heading_name(arg, line)
-            except ParsingError:
-                raise ParsingError(
+                _assert_valid_mkpk_name(arg, line)
+            except MKPKNameError:
+                raise MKPKParsingError(
                     "Argument name is invalid.",
                     f"The argument\
                      {arg} is invalid in line:\n> {line}\n\nValid heading names \

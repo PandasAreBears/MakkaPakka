@@ -4,7 +4,7 @@ from typing import List
 import pytest
 
 from makka_pakka.exceptions.exceptions import InvalidParameter
-from makka_pakka.exceptions.exceptions import ParsingError
+from makka_pakka.exceptions.exceptions import MKPKParsingError
 from makka_pakka.parsing.parse import _split_into_headings
 from makka_pakka.parsing.parse_headings import parse_gadgets
 from makka_pakka.parsing.parsing_structures import MKPKGadget
@@ -77,20 +77,20 @@ class TestParseGadgets:
         try:
             parse_gadgets(invalid_gadget_code.gadgets)
             pytest.fail(
-                "parse_gadgets should have failed with ParsingError\
+                "parse_gadgets should have failed with MKPKParsingError\
                 due to invalid gadget code placement, but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass
 
     def test_invalid_gadget_headings_errors(self, invalid_gadget_heading: MKPKLines):
         try:
             parse_gadgets(invalid_gadget_heading.gadgets)
             pytest.fail(
-                "parse_gadgets should have failed with ParsingError\
+                "parse_gadgets should have failed with MKPKParsingError\
                 due to invalid gadget memory location, but did not."
             )
-        except ParsingError:
+        except MKPKParsingError:
             pass
 
     def test_multiple_gadgets(self, multiple_gadgets: MKPKLines):

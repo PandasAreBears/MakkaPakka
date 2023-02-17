@@ -1,0 +1,9 @@
+[[data]]
+data_1: "hello"
+data_2: 2
+
+[[code]]
+[main]
+mov rax, ${data_2}
+mov ecx, ${data_1}
+xor eax, ${data_2}
