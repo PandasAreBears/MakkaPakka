@@ -22,7 +22,7 @@ def process_data_replacement(mkpkir: MKPKIR) -> MKPKIR:
         [my_func]
         mov rax, ${num}
 
-    Would become:
+    Will become:
         [[code]]
         [my_func]
         mov rax, 1
@@ -62,11 +62,10 @@ def process_data_replacement(mkpkir: MKPKIR) -> MKPKIR:
                 value: MKPKData = MKPKData.get_data_with_label(mkpkir.data, label)
 
                 if value is None:
-                    raise MKPKProcessingError(
-                        "Couldn't find referenced data.",
-                        f"The data reference ${ref} couldn't be resolved",
-                        ErrorType.FATAL,
-                    )
+                    # It could be the case that the label is a function
+                    # in which case it is yet to be processed, so leave it for
+                    # now and let the function replacer handle it.
+                    continue
 
                 copy_code_line = _replace_reference_with_value(
                     copy_code_line, ref, value
@@ -95,7 +94,7 @@ def _extract_data_references(code_line: str) -> List[str]:
 def _extract_label_from_reference(data_reference: str) -> str:
     """
     Extracts the label from a data references, e.g if data_reference is
-    ${apple} then the return value would be "apple".
+    "${apple}" then the return value would be "apple".
     :data_reference: The data reference to extract the label from.
     :returns: The label extracted from the passed data reference.
     """

@@ -24,6 +24,7 @@ RESOURCES_ROOT: str = Path("test/resources/mkpk_files/processing")
 EMPTY_HEADINGS: str = str(RESOURCES_ROOT / "empty_headings.mkpk")
 SF_DATA_REPLACEMENT: str = str(RESOURCES_ROOT / "single_file_data_replacement.mkpk")
 LINK_DATA_REPLACEMENT: str = str(RESOURCES_ROOT / "main_data_replacement.mkpk")
+UNRESOLVED_DATA: str = str(RESOURCES_ROOT / "unresolved_data.mkpk")
 
 
 @pytest.fixture
@@ -39,6 +40,11 @@ def sf_data_replacement():
 @pytest.fixture
 def linked_data_replacement():
     return parse_link_and_merge(LINK_DATA_REPLACEMENT)
+
+
+@pytest.fixture
+def unresolved_data():
+    return parse_link_and_merge(UNRESOLVED_DATA)
 
 
 class TestProcessDataReplacement:
@@ -79,6 +85,15 @@ class TestProcessDataReplacement:
         )
 
         assert rp_main_func.content == ["mov rax, 5"]
+
+    def test_unresolved_data(self, unresolved_data: MKPKIR):
+        replaced_ir = process_data_replacement(unresolved_data)
+
+        # Despite there being a data reference in the code, the data resolver
+        # should do nothing with it, as there's no corresponding label. The
+        # function resolve may still be able to resolve the label (with
+        # function arguments).
+        assert replaced_ir == unresolved_data
 
 
 class TestExtractDataReferences:

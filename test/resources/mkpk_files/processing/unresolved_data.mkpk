@@ -1,0 +1,7 @@
+
+[[data]]
+label: "hello"
+
+[[code]]
+[main]
+mov rax, ${not_here}

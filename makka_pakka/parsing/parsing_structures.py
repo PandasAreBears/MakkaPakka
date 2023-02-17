@@ -44,7 +44,7 @@ class MKPKFunction:
             filter(lambda d: d.name == name, functions)
         )
 
-        return label_objs[0] if label_objs else []
+        return label_objs[0] if label_objs else None
 
 
 class MKPKDataType:
@@ -79,7 +79,7 @@ class MKPKData:
         """
         label_objs: List[MKPKData] = list(filter(lambda d: d.name == label, data))
 
-        return label_objs[0] if label_objs else []
+        return label_objs[0] if label_objs else None
 
 
 class MKPKGadget:
@@ -140,7 +140,7 @@ class MKPKMetaData:
             filter(lambda md: md.label == label, metadatas)
         )
 
-        return label_objs[0] if label_objs else []
+        return label_objs[0] if label_objs else None
 
 
 class MKPKIR:
