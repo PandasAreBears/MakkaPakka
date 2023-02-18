@@ -105,6 +105,21 @@ class MKPKProcessingError(MKPKError):
         super().__init__(headline, description, type)
 
 
+class MKPKIntegratingError(MKPKError):
+    """Alerts the caller of an error while integrating makka pakka code."""
+
+    def __init__(self, headline: str, description: str, type: int) -> None:
+        """
+        Integrating error constructor.
+        :headline: The headline of what went wrong.
+        :description: A more detailed explaination of how to fix what went
+            wrong.
+        :type: An ErrorType indicating the severity of the problem.
+        """
+
+        super().__init__(headline, description, type)
+
+
 class MKPKNameError(MKPKError):
     """Alerts the caller of an error in a name used in makka pakka code."""
 
