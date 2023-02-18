@@ -1,0 +1,13 @@
+
+[[code]]
+[main]
+> func_1
+
+[func_1]
+> func_2
+
+[func_2]
+> func_3
+
+[func_3]
+> func_1

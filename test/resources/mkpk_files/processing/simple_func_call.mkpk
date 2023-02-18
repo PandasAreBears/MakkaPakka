@@ -1,0 +1,9 @@
+
+[[data]]
+
+[[code]]
+[main]
+> sub_func
+
+[sub_func]
+mov rax, 1

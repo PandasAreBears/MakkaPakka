@@ -1,0 +1,11 @@
+[[data]]
+value: "hello"
+
+[[code]]
+[main]
+> arg_func 1 2 3
+
+[arg_func] arg1 arg2 arg3
+mov rax, ${arg1}
+mov ecx, ${arg2}
+mov rsi ${arg3}

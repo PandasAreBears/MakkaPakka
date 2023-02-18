@@ -3,6 +3,7 @@ import pytest
 from makka_pakka.directed_graph.directed_graph import DirectedGraph
 from makka_pakka.directed_graph.node import Node
 from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKCyclicDependency
 
 
 @pytest.fixture
@@ -288,6 +289,60 @@ class TestHasCyclicDependency:
         assert path
 
         assert path == ["one", "two", "three", "one"]
+
+
+class TestCreateAndAssertNoCycle:
+    def test_invalid_parameters(self, linear_three_nodes: DirectedGraph):
+        mock_parent = linear_three_nodes.root
+        mock_label = "new_label"
+
+        try:
+            linear_three_nodes.create_and_assert_no_cycle(None, None)
+            pytest.fail(
+                "create_and_assert_no_cycle should have failed with\
+                InvalidParameter but did not."
+            )
+        except InvalidParameter:
+            pass
+
+        try:
+            linear_three_nodes.create_and_assert_no_cycle(mock_parent, None)
+            pytest.fail(
+                "create_and_assert_no_cycle should have failed with\
+                InvalidParameter but did not."
+            )
+        except InvalidParameter:
+            pass
+
+        try:
+            linear_three_nodes.create_and_assert_no_cycle(None, mock_label)
+            pytest.fail(
+                "create_and_assert_no_cycle should have failed with\
+                InvalidParameter but did not."
+            )
+        except InvalidParameter:
+            pass
+
+    def test_does_not_error_on_new_node(self, linear_three_nodes: DirectedGraph):
+        new_label = "four"
+        linear_three_nodes.create_and_assert_no_cycle(
+            linear_three_nodes.root, new_label
+        )
+
+        assert len(linear_three_nodes.nodes) == 4
+        assert linear_three_nodes.get_node_with_label(new_label)
+
+    def test_throws_on_cyclic_dependency(self, linear_three_nodes: DirectedGraph):
+        three_node = linear_three_nodes.get_node_with_label("three")
+
+        try:
+            linear_three_nodes.create_and_assert_no_cycle(three_node, "one")
+            pytest.fail(
+                "create_and_assert_no_cycle should have failed with\
+                        MKPKCyclicDependency, but did not."
+            )
+        except MKPKCyclicDependency:
+            pass
 
 
 class TestGetCyclicDependencyStr:

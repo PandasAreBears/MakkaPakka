@@ -1,0 +1,16 @@
+
+[[code]]
+[main]
+> func_1
+
+[func_1]
+xor eax, eax
+> func_2
+mov rsi, 2
+
+[func_2]
+mov ecx, 3
+> func_3
+
+[func_3]
+add rbp, 4

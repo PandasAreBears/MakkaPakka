@@ -1,7 +1,9 @@
 from typing import List
 
 from makka_pakka.directed_graph.node import Node
+from makka_pakka.exceptions.exceptions import ErrorType
 from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKCyclicDependency
 
 
 class DirectedGraph:
@@ -144,6 +146,27 @@ class DirectedGraph:
         travel_to_connected(self.root)
 
         return cyclic_path
+
+    def create_and_assert_no_cycle(self, parent: Node, label: str) -> None:
+        """
+        Creates a new Node node in the graph, if one doesn't already exist, and
+        raises an error if this node doesn't already exist.
+        """
+        if not isinstance(parent, Node):
+            raise InvalidParameter("parent", "create_and_assert_no_cycle", parent)
+        if not isinstance(label, str):
+            raise InvalidParameter("label", "create_and_assert_no_cycle", label)
+
+        self.connect_to_node_with_label_create_if_not_exists(parent, label)
+
+        if cyclic_loop := self.has_cyclic_dependency():
+            raise MKPKCyclicDependency(
+                "Cyclic function call detected.",
+                f"A cyclic function call was detected while processing,\
+                            the following call loop was found:\n\
+                                {cyclic_loop}",
+                ErrorType.FATAL,
+            )
 
     @staticmethod
     def get_cyclic_dependency_str(path: List[str]) -> str:

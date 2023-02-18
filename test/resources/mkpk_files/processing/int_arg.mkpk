@@ -1,0 +1,7 @@
+
+[[code]]
+[main]
+> func 1
+
+[func] arg
+mov rax, ${arg}

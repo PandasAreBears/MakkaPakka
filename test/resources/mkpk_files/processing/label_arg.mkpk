@@ -1,0 +1,10 @@
+
+[[data]]
+pick_me: 1
+
+[[code]]
+[main]
+> func "pick_me"
+
+[func] arg
+mov rax, ${arg}

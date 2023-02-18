@@ -1,5 +1,7 @@
 from typing import Any
 from typing import List
+from typing import Tuple
+from typing import Union
 
 from makka_pakka.exceptions.exceptions import ErrorType
 from makka_pakka.exceptions.exceptions import InvalidParameter
@@ -187,45 +189,65 @@ def parse_data(lines: List[str]) -> List[MKPKData]:
                 ErrorType.FATAL,
             )
 
-        # If the value is wrapped in "" then it is a string, otherwise it is an
-        # int in either decimal or hexadecimal format.
-        value_type: MKPKDataType = MKPKDataType.NONE
-        parsed_value: Any = 0
-        if len(value) >= 2 and value[0] == '"' and value[-1] == '"':
-            value_type = MKPKDataType.STR
-            # Strip the surrounding ""
-            parsed_value = value[1:-1]
-
-        else:
-            value_type = MKPKDataType.INT
-
-            if "0x" in value:
-                try:
-                    parsed_value = int(value, 16)
-                except ValueError:
-                    raise MKPKParsingError(
-                        "Unable to interpret hex value.",
-                        f"Unable to parse as integer in the following line:\n> \
-                        {line}\n\nHex data is defined using the 0x prefix.",
-                        ErrorType.FATAL,
-                    )
-
-            else:
-                try:
-                    parsed_value = int(value)
-                except ValueError:
-                    raise MKPKParsingError(
-                        "Unable to interpret integer value.",
-                        f'Unable to parse as integer in the following line:\n> \
-                        {line}\n\nData must either be a string, defined using\
-                        "your_string_here", or an integer, either in decimal\
-                         or hexadecimal notation.',
-                        ErrorType.FATAL,
-                    )
+        parsed_value, value_type = _interpret_data_type(value, line)
 
         data.append(MKPKData(name, parsed_value, value_type))
 
     return data
+
+
+def _interpret_data_type(value: str, line: str) -> Tuple[Union[str, int], MKPKDataType]:
+    """
+    Interprets data in a .mkpk file.
+    :value: The value to interpret.
+    :line: The line that the data was found in.
+    :returns: A tuple containing the data as a string or int, and the
+        MKPKDataType of the data.
+    :raises:
+        MKPKParsingError - When the data couldn't be interpretted.
+    """
+    if not isinstance(value, str):
+        raise InvalidParameter("value", "_interpret_data_type", value)
+    if not isinstance(line, str):
+        raise InvalidParameter("line", "_interpret_data_type", line)
+
+    # If the value is wrapped in "" then it is a string, otherwise it is an
+    # int in either decimal or hexadecimal format.
+    value_type: MKPKDataType = MKPKDataType.NONE
+    parsed_value: Any = 0
+    if len(value) >= 2 and value[0] == '"' and value[-1] == '"':
+        value_type = MKPKDataType.STR
+        # Strip the surrounding ""
+        parsed_value = value[1:-1]
+
+    else:
+        value_type = MKPKDataType.INT
+
+        if "0x" in value:
+            try:
+                parsed_value = int(value, 16)
+            except ValueError:
+                raise MKPKParsingError(
+                    "Unable to interpret hex value.",
+                    f"Unable to parse as integer in the following line:\n> \
+                    {line}\n\nHex data is defined using the 0x prefix.",
+                    ErrorType.FATAL,
+                )
+
+        else:
+            try:
+                parsed_value = int(value)
+            except ValueError:
+                raise MKPKParsingError(
+                    "Unable to interpret integer value.",
+                    f'Unable to parse as integer in the following line:\n> \
+                    {line}\n\nData must either be a string, defined using\
+                    "your_string_here", or an integer, either in decimal\
+                        or hexadecimal notation.',
+                    ErrorType.FATAL,
+                )
+
+    return (parsed_value, value_type)
 
 
 def parse_gadgets(lines: List[str]) -> List[MKPKGadget]:

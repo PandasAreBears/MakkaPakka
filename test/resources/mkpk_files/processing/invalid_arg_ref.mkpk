@@ -1,0 +1,6 @@
+[[code]]
+[main]
+> my_func 1
+
+[sub_func] arg
+mov rax, ${not_here}
