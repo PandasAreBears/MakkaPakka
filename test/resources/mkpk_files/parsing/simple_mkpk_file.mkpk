@@ -8,7 +8,7 @@ name: "Alex"
 [[code]]
 [main]
 mov rax, ${name}
-my_func 1 2 3
+> my_func 1 2 3
 xor eax, eax
 pop
 

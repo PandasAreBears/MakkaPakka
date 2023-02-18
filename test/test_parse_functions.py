@@ -98,7 +98,7 @@ class TestParseFunctions:
         assert len(functions) == 2
 
         _assert_func_state_eq(
-            functions[0], "main", True, 0, [], ["mov rax, 1", "func2 2"]
+            functions[0], "main", True, 0, [], ["mov rax, 1", "> func2 2"]
         )
 
         _assert_func_state_eq(
@@ -111,7 +111,7 @@ class TestParseFunctions:
         assert len(functions) == 2
 
         _assert_func_state_eq(
-            functions[0], "main", True, 0, [], ["mov rax, 1", "func2 2 3 6"]
+            functions[0], "main", True, 0, [], ["mov rax, 1", "> func2 2 3 6"]
         )
         _assert_func_state_eq(
             functions[1],

@@ -6,7 +6,7 @@ giraffe: "giraffe"
 
 [[code]]
 [main]
-func_a
+> func_a
 
 [func_a]
 xor eax, eax

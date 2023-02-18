@@ -62,7 +62,7 @@ class TestParseMakkaPakka:
             True,
             0,
             [],
-            ["mov rax, ${name}", "my_func 1 2 3", "xor eax, eax", "pop"],
+            ["mov rax, ${name}", "> my_func 1 2 3", "xor eax, eax", "pop"],
         )
         _assert_func_state_eq(
             im_repr.functions[1],

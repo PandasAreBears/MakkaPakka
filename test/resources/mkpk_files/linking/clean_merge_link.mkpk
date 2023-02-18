@@ -9,7 +9,7 @@ lea rax, 0xbc
 jmp 0x500
 
 [func_c]
-func_b
+> func_b
 
 [[gadgets]]
 [0x09876543]
