@@ -1,6 +1,9 @@
 from typing import Any
 from typing import List
 
+from makka_pakka.parsing.parsing_structures import MKPKData
+from makka_pakka.parsing.parsing_structures import MKPKGadget
+
 
 class MKPKArgumentSet:
     def __init__(self, *args) -> None:
@@ -32,3 +35,20 @@ class MKPKFunctionCall:
         """
         self.name = name
         self.args = args
+
+
+class MKPKCode:
+    """Encapsulates the result of the processing phase."""
+
+    def __init__(
+        self, data: List[MKPKData], code: List[str], gadgets: MKPKGadget
+    ) -> None:
+        """
+        MKPKCode constructor
+        :data: The data used in a makka pakka program.
+        :code: The processed code of a makka pakka program.
+        :gadgets: The gadgets to be inserted in the integrating phase.
+        """
+        self.data = data
+        self.code = code
+        self.gadgets = gadgets
