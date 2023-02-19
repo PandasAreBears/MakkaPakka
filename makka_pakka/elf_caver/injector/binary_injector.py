@@ -22,7 +22,8 @@ def inject_nasm_into_binary(
     output_filepath: str = "",
     **kwargs,
 ) -> str:
-    """Injects a nasm source file into binary.
+    """
+    Injects a nasm source file into binary.
     :nasm_filepath: The filepath of the nasm file to inject.
     :target_binary_filepath: The filepath of the binary to inject into.
     :output_filepath: (optional) The filepath to output the injected binary to.
