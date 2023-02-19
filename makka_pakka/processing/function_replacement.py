@@ -3,7 +3,7 @@ from typing import List
 from makka_pakka.directed_graph.directed_graph import DirectedGraph
 from makka_pakka.directed_graph.directed_graph import Node
 from makka_pakka.exceptions.exceptions import ErrorType
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKParsingError
 from makka_pakka.exceptions.exceptions import MKPKProcessingError
 from makka_pakka.parsing.detect_headings import _assert_valid_mkpk_name
@@ -41,11 +41,11 @@ def process_function_replacement(mkpkir: MKPKIR) -> List[str]:
     mov rax, 1
     mov ecx, 2
 
-    :mkpkir: The MKPKIR object to replace function references in.
-    :returns: A list of processed code lines, ready to be executed.
+    :param mkpkir: The MKPKIR object to replace function references in.
+    :return: A list of processed code lines, ready to be executed.
     """
     if not isinstance(mkpkir, MKPKIR):
-        raise InvalidParameter("mkpkir", "process_function_replacement", mkpkir)
+        raise MKPKInvalidParameter("mkpkir", "process_function_replacement", mkpkir)
 
     """
     Function replacement is implemented as a recursive macro replacement.
@@ -139,12 +139,13 @@ def process_function_replacement(mkpkir: MKPKIR) -> List[str]:
 def _get_line_as_function_call(code_line: str) -> MKPKFunctionCall | None:
     """
     Attempts to interpret a code line as a function call.
-    :code_line: The code line to interpret as a function call.
-    :returns: Retruns an MKPKFunctionCall object if the line is a function
+
+    :param code_line: The code line to interpret as a function call.
+    :return: Retruns an MKPKFunctionCall object if the line is a function
         call, or None if it is not.
     """
     if not isinstance(code_line, str):
-        raise InvalidParameter("code_line", "_get_line_as_function_call", code_line)
+        raise MKPKInvalidParameter("code_line", "_get_line_as_function_call", code_line)
 
     try:
         return _parse_line_as_function_call(code_line)
@@ -155,14 +156,17 @@ def _get_line_as_function_call(code_line: str) -> MKPKFunctionCall | None:
 def _parse_line_as_function_call(code_line: str) -> MKPKFunctionCall:
     """
     Parses a code line as a MKPKFunctionCall.
-    :code_line: The code line to interpret as a function call.
-    :returns: The parsed MKPKFunctionCall object.
+
+    :param code_line: The code line to interpret as a function call.
+    :return: The parsed MKPKFunctionCall object.
     :raises:
-        MKPKProcessingError - When the line is not a function call.
-        MKPKNameError - When a name in the function call is invalid.
+        *MKPKProcessingError* - When the line is not a function call.
+        *MKPKNameError* - When a name in the function call is invalid.
     """
     if not isinstance(code_line, str):
-        raise InvalidParameter("code_line", "_parse_line_as_function_call", code_line)
+        raise MKPKInvalidParameter(
+            "code_line", "_parse_line_as_function_call", code_line
+        )
 
     # Function call are always prefixed by a '>'
     if not code_line[0] == ">":
@@ -198,9 +202,11 @@ def _assert_correct_num_of_args(curr_func: MKPKFunction, passed_args: MKPKArgume
     number of expected arguments.
     """
     if not isinstance(curr_func, MKPKFunction):
-        raise InvalidParameter("curr_func", "_assert_correct_num_of_args", curr_func)
+        raise MKPKInvalidParameter(
+            "curr_func", "_assert_correct_num_of_args", curr_func
+        )
     if not isinstance(passed_args, MKPKArgumentSet):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "passed_args", "_assert_correct_num_of_args", passed_args
         )
 
@@ -221,25 +227,26 @@ def _get_ref_value_from_arguments(
 ) -> MKPKData:
     """
     Resolves the value of a data reference using the function's arguments.
-    :data_reference: The data reference to resolve.
-    :func: The function that the data reference was found in.
-    :args: The arguments passed to the function.
-    :data: The data labels defined in the program. These are used to make a
+
+    :param data_reference: The data reference to resolve.
+    :param func: The function that the data reference was found in.
+    :param args: The arguments passed to the function.
+    :param data: The data labels defined in the program. These are used to make a
         reference to existing data in a function call.
-    :returns: The MKPKData that the data reference should be replaced with.
+    :return: The MKPKData that the data reference should be replaced with.
     :raises:
-        MKPKProcessingError - When the data reference couldn't be resolved.
+        *MKPKProcessingError* - When the data reference couldn't be resolved.
     """
     if not isinstance(data_reference, str):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "data_reference", "_get_ref_value_from_arguments", data_reference
         )
     if not isinstance(func, MKPKFunction):
-        raise InvalidParameter("func", "_get_ref_value_from_arguments", func)
+        raise MKPKInvalidParameter("func", "_get_ref_value_from_arguments", func)
     if not isinstance(args, MKPKArgumentSet):
-        raise InvalidParameter("args", "_get_ref_value_from_arguments", args)
+        raise MKPKInvalidParameter("args", "_get_ref_value_from_arguments", args)
     if not isinstance(data, list) or not all([isinstance(d, MKPKData) for d in data]):
-        raise InvalidParameter("data", "_get_ref_value_from_arguments", data)
+        raise MKPKInvalidParameter("data", "_get_ref_value_from_arguments", data)
 
     # All data references have been resolved by this point,
     # so this can only be an argument reference. If it isn't,
@@ -306,21 +313,22 @@ def _get_function_by_name_or_assert(
     """
     Gets a function by name or asserts a ProcessingError if the function is not
       found.
-    :functions: A list of MKPKFunction objects to search for the name in.
-    :name: The function name to search for.
-    :returns: The MKPKFunction object with the specified name.
+
+    :param functions: A list of MKPKFunction objects to search for the name in.
+    :param name: The function name to search for.
+    :return: The MKPKFunction object with the specified name.
     :raises:
-        ProcessingError - When the function name is not found.
+        *ProcessingError* - When the function name is not found.
     """
     if not isinstance(functions, list) or not all(
         [isinstance(f, MKPKFunction) for f in functions]
     ):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "functions", "_get_function_by_name_or_assert", functions
         )
 
     if not isinstance(name, str):
-        raise InvalidParameter("name", "_get_function_by_name_or_assert", name)
+        raise MKPKInvalidParameter("name", "_get_function_by_name_or_assert", name)
 
     func = MKPKFunction.get_function_with_name(functions, name)
     if not func:

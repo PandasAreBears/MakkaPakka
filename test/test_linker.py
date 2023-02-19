@@ -3,7 +3,7 @@ from typing import List
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKLinkingError
 from makka_pakka.linking.linker import _assert_no_conflict_in_data_labels
 from makka_pakka.linking.linker import _assert_no_conflict_in_functions
@@ -70,9 +70,9 @@ class TestParseLinkAndMerge:
 
             pytest.fail(
                 "parse_makka_pakka should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_empty_file(self):
@@ -99,9 +99,9 @@ class TestParseWithLinking:
             parse_with_linking(None)
             pytest.fail(
                 "parse_with_linking should have failed with\
-                InvalidParameters but did not."
+                MKPKInvalidParameters but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_simple_linking_succeeds(self):
@@ -166,27 +166,27 @@ class TestAssertNoConflictInFunctions:
             _assert_no_conflict_in_functions(None, None)
             pytest.fail(
                 "_assert_no_conflict_in_functions should have failed\
-                       with InvalidParameter but did not."
+                       with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _assert_no_conflict_in_functions(mock_ir1, None)
             pytest.fail(
                 "_assert_no_conflict_in_functions should have failed\
-                       with InvalidParameter but did not."
+                       with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _assert_no_conflict_in_functions(None, mock_ir2)
             pytest.fail(
                 "_assert_no_conflict_in_functions should have failed\
-                       with InvalidParameter but did not."
+                       with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_does_not_assert_on_clean_merge(self, clean_merge: List[MKPKIR]):
@@ -213,27 +213,27 @@ class TestAssertNoConflictInDataLabels:
             _assert_no_conflict_in_data_labels(None, None)
             pytest.fail(
                 "_assert_no_conflict_in_data_labels should have failed\
-                       with InvalidParameter but did not."
+                       with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _assert_no_conflict_in_data_labels(mock_ir1, None)
             pytest.fail(
                 "_assert_no_conflict_in_data_labels should have failed\
-                       with InvalidParameter but did not."
+                       with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _assert_no_conflict_in_data_labels(None, mock_ir2)
             pytest.fail(
                 "_assert_no_conflict_in_data_labels should have failed\
-                       with InvalidParameter but did not."
+                       with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_does_not_assert_on_clean_merge(self, clean_merge: List[MKPKIR]):
@@ -260,27 +260,27 @@ class TestAssertNoConflictInGadgetAddresses:
             _assert_no_conflict_in_gadget_addresses(None, None)
             pytest.fail(
                 "_assert_no_conflict_in_gadget_addresses should have\
-                            failed with InvalidParameter but did not."
+                            failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _assert_no_conflict_in_gadget_addresses(mock_ir1, None)
             pytest.fail(
                 "_assert_no_conflict_in_gadget_addresses should have\
-                            failed with InvalidParameter but did not."
+                            failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _assert_no_conflict_in_gadget_addresses(None, mock_ir2)
             pytest.fail(
                 "_assert_no_conflict_in_gadget_addresses should have\
-                            failed with InvalidParameter but did not."
+                            failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_does_not_assert_on_clean_merge(self, clean_merge: List[MKPKIR]):
@@ -307,27 +307,27 @@ class TestCombineMKPKIRs:
             _combine_MKPKIRs(None, None)
             pytest.fail(
                 "_combine_MKPKIRs should have\
-                            failed with InvalidParameter but did not."
+                            failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _combine_MKPKIRs(mock_ir1, None)
             pytest.fail(
                 "_combine_MKPKIRs should have\
-                            failed with InvalidParameter but did not."
+                            failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _combine_MKPKIRs(None, mock_ir2)
             pytest.fail(
                 "_combine_MKPKIRs should have\
-                            failed with InvalidParameter but did not."
+                            failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_combines_functions(self, clean_merge: List[MKPKIR]):
@@ -366,9 +366,9 @@ class TestMergeMKPKIRs:
             merge_MKPKIRs(None)
             pytest.fail(
                 "merge_MKPKIRs should have\
-                            failed with InvalidParameter but did not."
+                            failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_merge_unlinked_file(self, unlinked_file: List[MKPKIR]):

@@ -3,8 +3,8 @@ from typing import List
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKIntegratingError
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.integrating.integrate import _format_code_into_asm_function
 from makka_pakka.integrating.integrate import _translate_mkpkdata_to_asm
 from makka_pakka.integrating.integrate import _write_code_to_file
@@ -36,9 +36,9 @@ class TestFormatCodeIntoAsmFunction:
             _format_code_into_asm_function(None)
             pytest.fail(
                 "_format_code_into_asm_function should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_formats_code(self, simple_func_call: MKPKCode):
@@ -60,9 +60,9 @@ class TestTranslateMKPKDataToASM:
             _translate_mkpkdata_to_asm(None)
             pytest.fail(
                 "_translate_mkpkdata_to_asm should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_translates_data_to_asm(self, sf_data_replacement: MKPKCode):
@@ -80,27 +80,27 @@ class TestWriteCodeToFile:
             _write_code_to_file(None, None)
             pytest.fail(
                 "_write_code_to_file should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _write_code_to_file(simple_func_call, None)
             pytest.fail(
                 "_write_code_to_file should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _write_code_to_file(None, mock_output)
             pytest.fail(
                 "_write_code_to_file should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_creates_file_with_path(self, simple_func_call: MKPKCode):
@@ -158,27 +158,27 @@ class TestIntegrateMakkaPakka:
             integrate_makka_pakka(None, None)
             pytest.fail(
                 "integrate_makka_pakka should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             integrate_makka_pakka(simple_func_call, None)
             pytest.fail(
                 "integrate_makka_pakka should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             integrate_makka_pakka(None, mock_output)
             pytest.fail(
                 "integrate_makka_pakka should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     # TODO: Write more tests here once gadget replacement has been implemented.

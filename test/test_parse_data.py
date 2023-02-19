@@ -3,7 +3,7 @@ from typing import Any
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKParsingError
 from makka_pakka.parsing.parse import _split_into_headings
 from makka_pakka.parsing.parse_headings import _interpret_data_type
@@ -57,9 +57,9 @@ class TestParseData:
             parse_data(None)
             pytest.fail(
                 "parse_data should have failed with error\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_empty_headings(self, empty_headings: MKPKLines):
@@ -115,27 +115,27 @@ class TestInterpretDataType:
             _interpret_data_type(None, None)
             pytest.fail(
                 "_interpret_data_type should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _interpret_data_type(mock_value, None)
             pytest.fail(
                 "_interpret_data_type should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _interpret_data_type(None, mock_line)
             pytest.fail(
                 "_interpret_data_type should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_interprets_string(self):

@@ -3,7 +3,7 @@ from typing import List
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKParsingError
 from makka_pakka.parsing.parse import _split_into_headings
 from makka_pakka.parsing.parse_headings import parse_metadata
@@ -60,9 +60,9 @@ class TestParseMetadata:
             parse_metadata(None)
             pytest.fail(
                 "parse_metadata should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_simple_metadata(self, simple_metadata: MKPKLines):

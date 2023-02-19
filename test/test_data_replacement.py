@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKProcessingError
 from makka_pakka.linking.linker import parse_link_and_merge
 from makka_pakka.parsing.parsing_structures import MKPKData
@@ -53,9 +53,9 @@ class TestProcessDataReplacement:
             process_data_replacement(None)
             pytest.fail(
                 "proccess_data_replacement should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_no_replacement_on_empty_heading(self, empty_headings: MKPKIR):
@@ -102,9 +102,9 @@ class TestExtractDataReferences:
             _extract_data_references(None)
             pytest.fail(
                 "_extract_data_references should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_extracts_no_data_reference(self):
@@ -136,9 +136,9 @@ class TestExtractLabelFromReference:
             _extract_label_from_reference(None)
             pytest.fail(
                 "_extract_label_from_reference should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_raises_error_on_invalid_input(self):
@@ -152,30 +152,30 @@ class TestExtractLabelFromReference:
             _extract_label_from_reference(invalid_input_1)
             pytest.fail(
                 "_extract_label_from_reference should have failed\
-                        with InvalidParameter due to malformed data\
+                        with MKPKInvalidParameter due to malformed data\
                         reference, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _extract_label_from_reference(invalid_input_2)
             pytest.fail(
                 "_extract_label_from_reference should have failed\
-                        with InvalidParameter due to malformed data\
+                        with MKPKInvalidParameter due to malformed data\
                         reference, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _extract_label_from_reference(invalid_input_3)
             pytest.fail(
                 "_extract_label_from_reference should have failed\
-                        with InvalidParameter due to malformed data\
+                        with MKPKInvalidParameter due to malformed data\
                         reference, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -218,36 +218,36 @@ class TestReplaceReferenceWithValue:
             _replace_reference_with_value(None, None, None)
             pytest.fail(
                 "_replace_reference_with_value should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _replace_reference_with_value(mock_code_line, mock_data_reference, None)
             pytest.fail(
                 "_replace_reference_with_value should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _replace_reference_with_value(mock_code_line, None, mock_value)
             pytest.fail(
                 "_replace_reference_with_value should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _replace_reference_with_value(None, mock_data_reference, mock_value)
             pytest.fail(
                 "_replace_reference_with_value should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_replaces_valid_reference_with_int(self):

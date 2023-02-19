@@ -3,8 +3,8 @@ from typing import List
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKCyclicDependency
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKNameError
 from makka_pakka.exceptions.exceptions import MKPKProcessingError
 from makka_pakka.linking.linker import parse_link_and_merge
@@ -107,27 +107,27 @@ class TestGetFunctionByNameOrAssert:
             _get_function_by_name_or_assert(None, None)
             pytest.fail(
                 "_get_function_by_name_or_assert should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _get_function_by_name_or_assert(mock_functions, None)
             pytest.fail(
                 "_get_function_by_name_or_assert should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _get_function_by_name_or_assert(None, mock_name)
             pytest.fail(
                 "_get_function_by_name_or_assert should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_gets_func_with_valid_name(self, simple_func_call: MKPKIR):
@@ -160,9 +160,9 @@ class TestGetRefValueFromArguments:
             _get_ref_value_from_arguments(None, None, None, None)
             pytest.fail(
                 "_get_ref_value_from_arguments should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -171,9 +171,9 @@ class TestGetRefValueFromArguments:
             )
             pytest.fail(
                 "_get_ref_value_from_arguments should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -182,9 +182,9 @@ class TestGetRefValueFromArguments:
             )
             pytest.fail(
                 "_get_ref_value_from_arguments should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -193,18 +193,18 @@ class TestGetRefValueFromArguments:
             )
             pytest.fail(
                 "_get_ref_value_from_arguments should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _get_ref_value_from_arguments(None, mock_func, mock_args, mock_data)
             pytest.fail(
                 "_get_ref_value_from_arguments should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_asserts_on_invalid_reference(self, invalid_arg_ref: MKPKIR):
@@ -249,27 +249,27 @@ class TestAssertCorrectNumOfArgs:
             _assert_correct_num_of_args(None, None)
             pytest.fail(
                 "_assert_correct_num_of_args should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _assert_correct_num_of_args(mock_curr_func, None)
             pytest.fail(
                 "_assert_correct_num_of_args should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _assert_correct_num_of_args(None, mock_passed_args)
             pytest.fail(
                 "_assert_correct_num_of_args should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_does_not_assert_on_equal_args(self, multiple_args: MKPKIR):
@@ -297,9 +297,9 @@ class TestParseLineAsFunctionCall:
             _parse_line_as_function_call(None)
             pytest.fail(
                 "_parse_line_as_function_call should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_no_call_directive_asserts(self):
@@ -363,9 +363,9 @@ class TestGetLineAsFunctionCall:
             _get_line_as_function_call(None)
             pytest.fail(
                 "_get_line_as_function_call should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_returns_on_valid_line(self):
@@ -387,9 +387,9 @@ class TestProcessFunctionReplacement:
             _get_line_as_function_call(None)
             pytest.fail(
                 "_get_line_as_function_call should have failed\
-                        with InvalidParameter, but did not."
+                        with MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_simple_func_call(self, simple_func_call: MKPKIR):

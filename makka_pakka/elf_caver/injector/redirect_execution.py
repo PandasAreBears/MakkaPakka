@@ -4,7 +4,7 @@ from typing import List
 from typing import Tuple
 from uuid import uuid4
 
-from makka_pakka.elf_caver.exceptions.exceptions import InvalidParameter
+from makka_pakka.elf_caver.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.elf_caver.injector.byte_extraction import (
     to_little_endian_32bit,
 )
@@ -13,17 +13,18 @@ from makka_pakka.elf_caver.injector.byte_extraction import (
 def change_entrypoint(target_binary: str, entrypoint: int, output: str = ""):
     """
     Change the entrypoint of an elf64 file.
-    :target_binary: The target binary to change the entrypoint of.
-    :entrypoint: The new entrypoint to change to.
-    :output: The output binary with the new entrypoint.
-    :returns: The output filepath.
+
+    :param target_binary: The target binary to change the entrypoint of.
+    :param entrypoint: The new entrypoint to change to.
+    :param output: The output binary with the new entrypoint.
+    :return: The output filepath.
     """
     if not isinstance(target_binary, str) or not Path(target_binary).exists():
-        raise InvalidParameter("target_binary", "change_entrypoint", target_binary)
+        raise MKPKInvalidParameter("target_binary", "change_entrypoint", target_binary)
     if not isinstance(entrypoint, int) or not 0 <= entrypoint <= 2**32:
-        raise InvalidParameter("entrypoint", "change_entrypoint", entrypoint)
+        raise MKPKInvalidParameter("entrypoint", "change_entrypoint", entrypoint)
     if not isinstance(output, str):
-        raise InvalidParameter("output", "change_entrypoint", output)
+        raise MKPKInvalidParameter("output", "change_entrypoint", output)
 
     if output == "":
         output = f"/tmp/{uuid4()}"
@@ -52,19 +53,21 @@ def patch_pltsec_exit(target_binary: str, inject_offset: int, output: str = "") 
     will be executed on process exit (under certain conditions). This function
     calculates the address using the offset of the code in the binary (this is to comply
     with PIE restrictions).
-    :target_binary: The binary the patch the .plt.sec exit entries in.
-    :inject_offset: The offset into the binary that will be executed on process exit.
-    :output: (Optional) The file to save the patched binary to.
-    :returns: The filepath of the patched binary.
+
+    :param target_binary: The binary the patch the .plt.sec exit entries in.
+    :param inject_offset: The offset into the binary that will be executed on
+        process exit.
+    :param output: Optional The file to save the patched binary to.
+    :return: The filepath of the patched binary.
     """
     if not isinstance(target_binary, str) or not Path(target_binary).exists():
-        raise InvalidParameter("target_binary", "patch_pltsec_exit")
+        raise MKPKInvalidParameter("target_binary", "patch_pltsec_exit")
 
     if not isinstance(inject_offset, int):
-        raise InvalidParameter("inject_offset", "patch_pltsec_exit")
+        raise MKPKInvalidParameter("inject_offset", "patch_pltsec_exit")
 
     if not isinstance(output, str):
-        raise InvalidParameter("output", "patch_pltsec_exit")
+        raise MKPKInvalidParameter("output", "patch_pltsec_exit")
 
     if output == "":
         output = f"/tmp/{uuid4()}"

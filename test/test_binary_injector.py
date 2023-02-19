@@ -4,7 +4,7 @@ from typing import List
 
 import pytest
 
-from makka_pakka.elf_caver.exceptions.exceptions import InvalidParameter
+from makka_pakka.elf_caver.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.elf_caver.injector.binary_injector import (
     _get_shellcode_from_nasm,
 )
@@ -39,7 +39,7 @@ class TestInjectNasmIntoBinary:
                 "inject_nasm_into_binary should have failed with invalid parameter but\
                     did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -48,7 +48,7 @@ class TestInjectNasmIntoBinary:
                 "inject_nasm_into_binary should have failed with invalid parameter but\
                     did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -57,7 +57,7 @@ class TestInjectNasmIntoBinary:
                 "inject_nasm_into_binary should have failed with invalid parameter but\
                     did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -66,7 +66,7 @@ class TestInjectNasmIntoBinary:
                 "inject_nasm_into_binary should have failed with invalid parameter but\
                     did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -80,7 +80,7 @@ class TestInjectNasmIntoBinary:
                 "inject_nasm_into_binary should have failed with invalid parameter but\
                     did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -94,7 +94,7 @@ class TestInjectNasmIntoBinary:
                 "inject_nasm_into_binary should have failed with invalid parameter but\
                     did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_injector_creates_output_file(self):
@@ -176,7 +176,7 @@ class TestGetShellcodeFromASM:
                 "get_shellcode_from_asm should have failed with invalid parameter but\
                     did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -185,7 +185,7 @@ class TestGetShellcodeFromASM:
                 "get_shellcode_from_asm should have failed with invalid parameter but\
                     did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -259,7 +259,7 @@ class TestInjectShellcodeAtOffset:
                 "_inject_shellcode_at_offset should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -268,7 +268,7 @@ class TestInjectShellcodeAtOffset:
                 "_inject_shellcode_at_offset should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -277,7 +277,7 @@ class TestInjectShellcodeAtOffset:
                 "_inject_shellcode_at_offset should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -286,7 +286,7 @@ class TestInjectShellcodeAtOffset:
                 "_inject_shellcode_at_offset should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_can_inject_into_binary(self):
@@ -347,7 +347,7 @@ class TestChangeEntrypoint:
                 "change_entrypoint should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -356,7 +356,7 @@ class TestChangeEntrypoint:
                 "change_entrypoint should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -365,7 +365,7 @@ class TestChangeEntrypoint:
                 "change_entrypoint should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -374,7 +374,7 @@ class TestChangeEntrypoint:
                 "change_entrypoint should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_changes_file(self):
@@ -427,7 +427,7 @@ class TestPatchPltsecExit:
                 "patch_pltsec_exit should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -436,7 +436,7 @@ class TestPatchPltsecExit:
                 "patch_pltsec_exit should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -445,7 +445,7 @@ class TestPatchPltsecExit:
                 "patch_pltsec_exit should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -454,7 +454,7 @@ class TestPatchPltsecExit:
                 "patch_pltsec_exit should have failed with invalid parameter\
                     but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_change_file(self):

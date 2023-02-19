@@ -4,9 +4,11 @@ from typing import List
 
 
 def compile(filepath: str, target_arch: str) -> List[str]:
-    """Compiles a .asm file
-    :filepath: A filepath to the .asm file to be compiled
-    :target_arch: The architecture target of the compilation
+    """
+    Compiles a .asm file
+
+    :param filepath: A filepath to the .asm file to be compiled
+    :param target_arch: The architecture target of the compilation
     :return: A list of files created by this function
     """
     # Strip the extension from the filepath

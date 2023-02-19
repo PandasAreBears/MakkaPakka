@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.linking.linker_path import LinkerPath
 from makka_pakka.linking.priority_list.priority_list import PriorityType
 
@@ -21,10 +21,10 @@ class TestLinkerPathInit:
         try:
             LinkerPath(None)
             pytest.fail(
-                "__init__ should have failed with InvalidParameter\
+                "__init__ should have failed with MKPKInvalidParameter\
                 but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_init_creates_default_paths(self):
@@ -42,28 +42,28 @@ class TestAddPathToLinker:
         try:
             default_linker_path.add_path_to_linker(None, None)
             pytest.fail(
-                "add_path_to_linker should have failed with InvalidParameter\
+                "add_path_to_linker should have failed with MKPKInvalidParameter\
                 but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             default_linker_path.add_path_to_linker(mock_path, None)
             pytest.fail(
-                "add_path_to_linker should have failed with InvalidParameter\
+                "add_path_to_linker should have failed with MKPKInvalidParameter\
                 but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             default_linker_path.add_path_to_linker(None, mock_priority)
             pytest.fail(
-                "add_path_to_linker should have failed with InvalidParameter\
+                "add_path_to_linker should have failed with MKPKInvalidParameter\
                 but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_adds_path_to_linker(self, default_linker_path: LinkerPath):
@@ -92,10 +92,10 @@ class TestFindMKPKFile:
         try:
             default_linker_path.find_mkpk_file(None)
             pytest.fail(
-                "find_mkpk_file should have failed with InvalidParameter\
+                "find_mkpk_file should have failed with MKPKInvalidParameter\
                 but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_finds_other_file_in_main_directory(self, default_linker_path: LinkerPath):

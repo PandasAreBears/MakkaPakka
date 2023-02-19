@@ -15,7 +15,12 @@ class ErrorType:
     FATAL = 2
 
 
-class InvalidParameter(Exception):
+class MKPKInvalidParameter(Exception):
+    """
+    Alerts the callers when a parameter passed to MakkaPakka function is
+    invalid, likely because it is of the incorrect type.
+    """
+
     def __init__(self, name: str, func: str, value: Any):
         super().__init__(
             f"Parameter {name} passed to {func} is invalid.\nValue is {value}"
@@ -29,10 +34,11 @@ class MKPKError(Exception):
     def __init__(self, headline: str, description: str, type: int) -> None:
         """
         Makka Pakka error constructor.
-        :headline: The headline of what went wrong.
-        :description: A more detailed explaination of how to fix what went
+
+        :param headline: The headline of what went wrong.
+        :param description: A more detailed explaination of how to fix what went
             wrong.
-        :type: An ErrorType indicating the severity of the problem.
+        :param type: An ErrorType indicating the severity of the problem.
         """
         self.type = type
 
@@ -66,10 +72,11 @@ class MKPKParsingError(MKPKError):
     def __init__(self, headline: str, description: str, type: int) -> None:
         """
         Parsing error constructor.
-        :headline: The headline of what went wrong.
-        :description: A more detailed explaination of how to fix what went
+
+        :param headline: The headline of what went wrong.
+        :param description: A more detailed explaination of how to fix what went
             wrong.
-        :type: An ErrorType indicating the severity of the problem.
+        :param type: An ErrorType indicating the severity of the problem.
         """
 
         super().__init__(headline, description, type)
@@ -81,10 +88,11 @@ class MKPKLinkingError(MKPKError):
     def __init__(self, headline: str, description: str, type: int) -> None:
         """
         Linking error constructor.
-        :headline: The headline of what went wrong.
-        :description: A more detailed explaination of how to fix what went
+
+        :param headline: The headline of what went wrong.
+        :param description: A more detailed explaination of how to fix what went
             wrong.
-        :type: An ErrorType indicating the severity of the problem.
+        :param type: An ErrorType indicating the severity of the problem.
         """
 
         super().__init__(headline, description, type)
@@ -96,10 +104,11 @@ class MKPKProcessingError(MKPKError):
     def __init__(self, headline: str, description: str, type: int) -> None:
         """
         Processing error constructor.
-        :headline: The headline of what went wrong.
-        :description: A more detailed explaination of how to fix what went
+
+        :param headline: The headline of what went wrong.
+        :param description: A more detailed explaination of how to fix what went
             wrong.
-        :type: An ErrorType indicating the severity of the problem.
+        :param type: An ErrorType indicating the severity of the problem.
         """
 
         super().__init__(headline, description, type)
@@ -111,10 +120,11 @@ class MKPKIntegratingError(MKPKError):
     def __init__(self, headline: str, description: str, type: int) -> None:
         """
         Integrating error constructor.
-        :headline: The headline of what went wrong.
-        :description: A more detailed explaination of how to fix what went
+
+        :param headline: The headline of what went wrong.
+        :param description: A more detailed explaination of how to fix what went
             wrong.
-        :type: An ErrorType indicating the severity of the problem.
+        :param type: An ErrorType indicating the severity of the problem.
         """
 
         super().__init__(headline, description, type)
@@ -126,10 +136,11 @@ class MKPKNameError(MKPKError):
     def __init__(self, headline: str, description: str, type: int) -> None:
         """
         Name error constructor.
-        :headline: The headline of what went wrong.
-        :description: A more detailed explaination of how to fix what went
+
+        :param headline: The headline of what went wrong.
+        :param description: A more detailed explaination of how to fix what went
             wrong.
-        :type: An ErrorType indicating the severity of the problem.
+        :param type: An ErrorType indicating the severity of the problem.
         """
         self.headline = headline
         self.description = description
@@ -145,10 +156,11 @@ class MKPKCyclicDependency(MKPKError):
     def __init__(self, headline: str, description: str, type: int) -> None:
         """
         Cyclic dependency error constructor.
-        :headline: The headline of what went wrong.
-        :description: A more detailed explaination of how to fix what went
+
+        :param headline: The headline of what went wrong.
+        :param description: A more detailed explaination of how to fix what went
             wrong.
-        :type: An ErrorType indicating the severity of the problem.
+        :param type: An ErrorType indicating the severity of the problem.
         """
         self.headline = headline
         self.description = description

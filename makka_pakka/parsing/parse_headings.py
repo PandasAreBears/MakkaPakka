@@ -4,7 +4,7 @@ from typing import Tuple
 from typing import Union
 
 from makka_pakka.exceptions.exceptions import ErrorType
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKNameError
 from makka_pakka.exceptions.exceptions import MKPKParsingError
 from makka_pakka.parsing.detect_headings import _assert_valid_mkpk_name
@@ -20,14 +20,15 @@ from makka_pakka.parsing.parsing_structures import MKPKMetaData
 def parse_metadata(lines: List[str]) -> List[MKPKMetaData]:
     """
     Packs metadata from the .mkpk file into MKPKMetaData structures.
-    :lines: A list of code lines from the .mkpk source file.
-    :returns: A list of parsed MKPKMetaData objects.
+
+    :param lines: A list of code lines from the .mkpk source file.
+    :return: A list of parsed MKPKMetaData objects.
     """
 
     if not isinstance(lines, list) or not all(
         [isinstance(line, str) for line in lines]
     ):
-        raise InvalidParameter("lines", "parse_functions", lines)
+        raise MKPKInvalidParameter("lines", "parse_functions", lines)
 
     # Early breakout when no lines are supplied
     if len(lines) == 0:
@@ -87,14 +88,15 @@ def parse_metadata(lines: List[str]) -> List[MKPKMetaData]:
 def parse_functions(lines: List[str]) -> List[MKPKFunction]:
     """
     Packs code lines from the .mkpk file into MKPKFunction strcutures.
-    :lines: A list of code lines from the .mkpk source file.
-    :returns: A list of parsed MKPKFunction objects.
+
+    :param lines: A list of code lines from the .mkpk source file.
+    :return: A list of parsed MKPKFunction objects.
     """
 
     if not isinstance(lines, list) or not all(
         [isinstance(line, str) for line in lines]
     ):
-        raise InvalidParameter("lines", "parse_functions", lines)
+        raise MKPKInvalidParameter("lines", "parse_functions", lines)
 
     # Early breakout when there are no code lines.
     if len(lines) == 0:
@@ -146,13 +148,14 @@ def parse_functions(lines: List[str]) -> List[MKPKFunction]:
 def parse_data(lines: List[str]) -> List[MKPKData]:
     """
     Packs data lines from the .mkpk file into MKPKData structures.
-    :lines: A list of code lines from the .mkpk source file.
-    :returns: A list of parsed MKPKData objects.
+
+    :param lines: A list of code lines from the .mkpk source file.
+    :return: A list of parsed MKPKData objects.
     """
     if not isinstance(lines, list) or not all(
         [isinstance(line, str) for line in lines]
     ):
-        raise InvalidParameter("lines", "parse_data", lines)
+        raise MKPKInvalidParameter("lines", "parse_data", lines)
 
     # Early breakout when no lines are supplied
     if len(lines) == 0:
@@ -199,17 +202,18 @@ def parse_data(lines: List[str]) -> List[MKPKData]:
 def _interpret_data_type(value: str, line: str) -> Tuple[Union[str, int], MKPKDataType]:
     """
     Interprets data in a .mkpk file.
-    :value: The value to interpret.
-    :line: The line that the data was found in.
-    :returns: A tuple containing the data as a string or int, and the
+
+    :param value: The value to interpret.
+    :param line: The line that the data was found in.
+    :return: A tuple containing the data as a string or int, and the
         MKPKDataType of the data.
     :raises:
         MKPKParsingError - When the data couldn't be interpretted.
     """
     if not isinstance(value, str):
-        raise InvalidParameter("value", "_interpret_data_type", value)
+        raise MKPKInvalidParameter("value", "_interpret_data_type", value)
     if not isinstance(line, str):
-        raise InvalidParameter("line", "_interpret_data_type", line)
+        raise MKPKInvalidParameter("line", "_interpret_data_type", line)
 
     # If the value is wrapped in "" then it is a string, otherwise it is an
     # int in either decimal or hexadecimal format.
@@ -253,13 +257,14 @@ def _interpret_data_type(value: str, line: str) -> Tuple[Union[str, int], MKPKDa
 def parse_gadgets(lines: List[str]) -> List[MKPKGadget]:
     """
     Packs gadget lines from the .mkpk file into MKPKGadget structures.
-    :lines: A list of code lines from the .mkpk source file.
-    :returns: A list of parsed MKPKGadget objects.
+
+    :param lines: A list of code lines from the .mkpk source file.
+    :return: A list of parsed MKPKGadget objects.
     """
     if not isinstance(lines, list) or not all(
         [isinstance(line, str) for line in lines]
     ):
-        raise InvalidParameter("lines", "parse_gadgets", lines)
+        raise MKPKInvalidParameter("lines", "parse_gadgets", lines)
 
     # Early breakout when no lines are supplied
     if len(lines) == 0:
@@ -318,16 +323,17 @@ def _extract_args_from_function(line: str) -> List[str]:
     """
     Extracts the args definined in a function definition line. e.g the function
     definition "[func_name] name age" will return ["name", "age"].
-    :line: The function definition line to extract the args from.
-    :returns: A list of strings indicating the names of the function arguments.
+
+    :param line: The function definition line to extract the args from.
+    :return: A list of strings indicating the names of the function arguments.
     """
     if not isinstance(line, str):
-        raise InvalidParameter("line", "_extract_args_from_function", line)
+        raise MKPKInvalidParameter("line", "_extract_args_from_function", line)
 
     # Check that the line is actually a function.
     headingStyle, _ = detect_heading_in_line(line)
     if headingStyle != HeadingStyle.SINGLE_HEADING:
-        raise InvalidParameter("line", "_extract_args_from_function", line)
+        raise MKPKInvalidParameter("line", "_extract_args_from_function", line)
 
     # Strip the function name definition from the line by taking everything
     # after the ]

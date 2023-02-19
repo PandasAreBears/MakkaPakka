@@ -1,0 +1,1006 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Full API &#8212; MakkaPakka 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modules" href="modules.html" />
+    <link rel="prev" title="Public API" href="public_api.html" />
+
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <section id="full-api">
+<h1><strong>Full API</strong><a class="headerlink" href="#full-api" title="Permalink to this heading">¶</a></h1>
+<p id="elf-caver"><span id="integrating"></span><span id="processing"></span><span id="parsing"></span>This sections defines every function in the project, either public or private.
+It is highly recommend to use the <a class="reference internal" href="public_api.html"><span class="doc">Public API</span></a> documentation instead.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="data_structures.html"><span class="doc">Data Structures</span></a></p></li>
+<li><p><a class="reference internal" href="public_api.html"><span class="doc">Public API</span></a></p></li>
+</ul>
+</div>
+<section id="id1">
+<h2>Parsing<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
+<span class="target" id="module-makka_pakka.parsing.parse"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.parse._convert_heading_name_to_type">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.parse.</span></span><span class="sig-name descname"><span class="pre">_convert_heading_name_to_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#makka_pakka.parsing.detect_headings.HeadingType" title="makka_pakka.parsing.detect_headings.HeadingType"><span class="pre">HeadingType</span></a></span></span><a class="headerlink" href="#makka_pakka.parsing.parse._convert_heading_name_to_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a string heading name into its associated HeadingType value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – The name to convert into a HeadingType.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The HeadingType of the passed name, None if invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.parse._split_into_headings">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.parse.</span></span><span class="sig-name descname"><span class="pre">_split_into_headings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkpk_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKLines" title="makka_pakka.parsing.parsing_structures.MKPKLines"><span class="pre">MKPKLines</span></a></span></span><a class="headerlink" href="#makka_pakka.parsing.parse._split_into_headings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits a makka pakka code file into its headings - code, data, gadgets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mkpk_filepath</strong> – The filepath to the .mkpk file to be split into headings.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A MKPKLines object contain the raw lines from the .mkpk files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.parse.parse_makka_pakka">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.parse.</span></span><span class="sig-name descname"><span class="pre">parse_makka_pakka</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkpk_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></span><a class="headerlink" href="#makka_pakka.parsing.parse.parse_makka_pakka" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses a makka pakka code file to generate an intermediate representation
+object used by the processing phase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mkpk_filepath</strong> – The filepath to the .mkpk file to be split into headings.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A MKPKIR object to be used during the processing phase.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.parsing.parse_headings"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.parse_headings._extract_args_from_function">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.parse_headings.</span></span><span class="sig-name descname"><span class="pre">_extract_args_from_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.parsing.parse_headings._extract_args_from_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the args definined in a function definition line. e.g the function
+definition “[func_name] name age” will return [“name”, “age”].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line</strong> – The function definition line to extract the args from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of strings indicating the names of the function arguments.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.parse_headings._interpret_data_type">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.parse_headings.</span></span><span class="sig-name descname"><span class="pre">_interpret_data_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKDataType" title="makka_pakka.parsing.parsing_structures.MKPKDataType"><span class="pre">MKPKDataType</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.parsing.parse_headings._interpret_data_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interprets data in a .mkpk file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – The value to interpret.</p></li>
+<li><p><strong>line</strong> – The line that the data was found in.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the data as a string or int, and the
+MKPKDataType of the data.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p>MKPKParsingError - When the data couldn’t be interpretted.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.parse_headings.parse_data">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.parse_headings.</span></span><span class="sig-name descname"><span class="pre">parse_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKData" title="makka_pakka.parsing.parsing_structures.MKPKData"><span class="pre">MKPKData</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.parsing.parse_headings.parse_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Packs data lines from the .mkpk file into MKPKData structures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lines</strong> – A list of code lines from the .mkpk source file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of parsed MKPKData objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.parse_headings.parse_functions">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.parse_headings.</span></span><span class="sig-name descname"><span class="pre">parse_functions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKFunction" title="makka_pakka.parsing.parsing_structures.MKPKFunction"><span class="pre">MKPKFunction</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.parsing.parse_headings.parse_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Packs code lines from the .mkpk file into MKPKFunction strcutures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lines</strong> – A list of code lines from the .mkpk source file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of parsed MKPKFunction objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.parse_headings.parse_gadgets">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.parse_headings.</span></span><span class="sig-name descname"><span class="pre">parse_gadgets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKGadget" title="makka_pakka.parsing.parsing_structures.MKPKGadget"><span class="pre">MKPKGadget</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.parsing.parse_headings.parse_gadgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Packs gadget lines from the .mkpk file into MKPKGadget structures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lines</strong> – A list of code lines from the .mkpk source file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of parsed MKPKGadget objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.parse_headings.parse_metadata">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.parse_headings.</span></span><span class="sig-name descname"><span class="pre">parse_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKMetaData" title="makka_pakka.parsing.parsing_structures.MKPKMetaData"><span class="pre">MKPKMetaData</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.parsing.parse_headings.parse_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Packs metadata from the .mkpk file into MKPKMetaData structures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lines</strong> – A list of code lines from the .mkpk source file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of parsed MKPKMetaData objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.parsing.detect_headings"></span><dl class="py class">
+<dt class="sig sig-object py" id="makka_pakka.parsing.detect_headings.HeadingStyle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.detect_headings.</span></span><span class="sig-name descname"><span class="pre">HeadingStyle</span></span><a class="headerlink" href="#makka_pakka.parsing.detect_headings.HeadingStyle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enum of heading style e.g [heading_name] is SINGLE_HEADING, [[name]] is
+a DOUBLE_HEADING.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="makka_pakka.parsing.detect_headings.HeadingType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.detect_headings.</span></span><span class="sig-name descname"><span class="pre">HeadingType</span></span><a class="headerlink" href="#makka_pakka.parsing.detect_headings.HeadingType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enum  of heading type, which defines the type of code expected below,
+and therefore how to parse this data, e.g [[data]] is DATA, [[code]] is
+CODE, [[gadget]] is gadget.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.detect_headings._assert_valid_mkpk_name">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.detect_headings.</span></span><span class="sig-name descname"><span class="pre">_assert_valid_mkpk_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#makka_pakka.parsing.detect_headings._assert_valid_mkpk_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asserts that a name used in makka pakka is valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – The name to be validated.</p></li>
+<li><p><strong>line</strong> – The line that the heading is defined in, for debugging.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p>MKPKNameError - When the heading name is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.parsing.detect_headings.detect_heading_in_line">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.detect_headings.</span></span><span class="sig-name descname"><span class="pre">detect_heading_in_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#makka_pakka.parsing.detect_headings.HeadingStyle" title="makka_pakka.parsing.detect_headings.HeadingStyle"><span class="pre">HeadingStyle</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.parsing.detect_headings.detect_heading_in_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines if a line contains a heading, i.e [{name}] or [[{name}]]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line</strong> – The line of makka pakka code to detect a heading in.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple of (HeadingStyle, {heading_name}), where heading_name is
+“” if the type is HeadingStyle.NO_HEADING.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.linking.linker"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.linking.linker._assert_no_conflict_in_data_labels">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.linking.linker.</span></span><span class="sig-name descname"><span class="pre">_assert_no_conflict_in_data_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lhs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#makka_pakka.linking.linker._assert_no_conflict_in_data_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asserts if there are conflicts in the data labels of MKPKIR objects.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.linking.linker._assert_no_conflict_in_functions">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.linking.linker.</span></span><span class="sig-name descname"><span class="pre">_assert_no_conflict_in_functions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lhs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#makka_pakka.linking.linker._assert_no_conflict_in_functions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asserts if there are conflicts in the function names’ of MKPKIR objects.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.linking.linker._assert_no_conflict_in_gadget_addresses">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.linking.linker.</span></span><span class="sig-name descname"><span class="pre">_assert_no_conflict_in_gadget_addresses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lhs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#makka_pakka.linking.linker._assert_no_conflict_in_gadget_addresses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asserts if there are conflicts in the ROP gadget memory locations of
+MKPKIR objects.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.linking.linker._combine_MKPKIRs">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.linking.linker.</span></span><span class="sig-name descname"><span class="pre">_combine_MKPKIRs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lhs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></span><a class="headerlink" href="#makka_pakka.linking.linker._combine_MKPKIRs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines to MKPKIR objects into one.
+:param lhs: The first object to combine. The metadata of this object is kept.
+:param rhs: The second object to combine. The metadata of this object is lost.
+:return: The combined MKPKIR object.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.linking.linker.merge_MKPKIRs">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.linking.linker.</span></span><span class="sig-name descname"><span class="pre">merge_MKPKIRs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkpkirs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></span><a class="headerlink" href="#makka_pakka.linking.linker.merge_MKPKIRs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merges a list of MKPKIR objects into a single MKPKIR. The returned object
+is then ready to be processed. This function is intended to be called
+using the result of parse_with_linking.
+This function is responsible for several validation checks:
+- Function names do not conflict
+- Data labels do not conflit
+- ROPGadget memory addresses do not conflict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mkpkirs</strong> – The list of MKPKIR objects to be merged into one.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A MKPKIR object with all passed objects merged into it.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.linking.linker.parse_link_and_merge">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.linking.linker.</span></span><span class="sig-name descname"><span class="pre">parse_link_and_merge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkpk_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></span><a class="headerlink" href="#makka_pakka.linking.linker.parse_link_and_merge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses, links, and merges a main makka pakkka source file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mkpk_filepath</strong> – The filepath the main .mkpk source file to be parsed,
+linked, and merged.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A linked, and merged MKPKIR object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.linking.linker.parse_with_linking">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.linking.linker.</span></span><span class="sig-name descname"><span class="pre">parse_with_linking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkpk_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.linking.linker.parse_with_linking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses a makka pakka source file, recursively linking with files found in
+the !link metadata directive.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mkpk_filepath</strong> – The makka pakka source file to parse using recursive
+linking.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of MKPKIR objects which represent .mkpk files that have
+been parsed as dependencies of the main source file. The main source
+file will at index 0.</p>
+</dd>
+<dt class="field-odd">Remark<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Each IR object in the returned list is assigned a metadata
+attribute ‘link_depth’ which specifies the number of linked files
+between it and the main source file. A direct link from the source
+file will have value 1.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.linking.linker_path"></span><dl class="py class">
+<dt class="sig sig-object py" id="makka_pakka.linking.linker_path.LinkerPath">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">makka_pakka.linking.linker_path.</span></span><span class="sig-name descname"><span class="pre">LinkerPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkpk_main_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#makka_pakka.linking.linker_path.LinkerPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to store paths to directories that the linker should search in to
+find linkable makka pakka files.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="makka_pakka.linking.linker_path.LinkerPath.add_path_to_linker">
+<span class="sig-name descname"><span class="pre">add_path_to_linker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PriorityType</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#makka_pakka.linking.linker_path.LinkerPath.add_path_to_linker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a directory path to the linker paths with a specified priority.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dir_path</strong> – The path to directory to add to the linker path.</p></li>
+<li><p><strong>priority</strong> – The priority to give the new linker path.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="makka_pakka.linking.linker_path.LinkerPath.find_mkpk_file">
+<span class="sig-name descname"><span class="pre">find_mkpk_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkpk_filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.linking.linker_path.LinkerPath.find_mkpk_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates through the stored linker paths to find a .mkpk file using
+its basename. If there are multiple files with the same basename in the
+linkable directories, then the higher priority directory path will be
+selected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mkpk_filename</strong> – The basename of the .mkpk file. e.g “file.mkpk”.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resolved absolute filepath of the passed .mkpk filename,
+or “” if not found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="id2">
+<h2>Processing<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<span class="target" id="module-makka_pakka.processing.process"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.process.process_makka_pakka">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.process.</span></span><span class="sig-name descname"><span class="pre">process_makka_pakka</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.processing.processing_structures.MKPKCode" title="makka_pakka.processing.processing_structures.MKPKCode"><span class="pre">MKPKCode</span></a></span></span><a class="headerlink" href="#makka_pakka.processing.process.process_makka_pakka" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the processing phase of makka pakka compilation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ir</strong> – The MKPKIR object which was the result of the parsing phase.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A MKPKCode object which has been processed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.processing.data_replacement"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.data_replacement._extract_data_references">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.data_replacement.</span></span><span class="sig-name descname"><span class="pre">_extract_data_references</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code_line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.processing.data_replacement._extract_data_references" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Extracts 0 to many data references in the format ${&lt;label&gt;} from a line of</dt><dd><p>code.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>code_line</strong> – The line of code to extract data references from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of string data references that were found in the code
+line.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.data_replacement._extract_label_from_reference">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.data_replacement.</span></span><span class="sig-name descname"><span class="pre">_extract_label_from_reference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.processing.data_replacement._extract_label_from_reference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the label from a data references, e.g if data_reference is
+“${apple}” then the return value would be “apple”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_reference</strong> – The data reference to extract the label from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The label extracted from the passed data reference.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.data_replacement._replace_reference_with_value">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.data_replacement.</span></span><span class="sig-name descname"><span class="pre">_replace_reference_with_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code_line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKData" title="makka_pakka.parsing.parsing_structures.MKPKData"><span class="pre">MKPKData</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.processing.data_replacement._replace_reference_with_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces a data reference in a code line with its archived value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code_line</strong> – The code line to replace the data reference in.</p></li>
+<li><p><strong>data_reference</strong> – The data reference in the line to replace.</p></li>
+<li><p><strong>value</strong> – The value to replace the data reference with.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new code line with the replaced value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.data_replacement.process_data_replacement">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.data_replacement.</span></span><span class="sig-name descname"><span class="pre">process_data_replacement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkpkir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></span><a class="headerlink" href="#makka_pakka.processing.data_replacement.process_data_replacement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces any data references in code with the corresponding data value.
+For example:</p>
+<blockquote>
+<div><p>[[data]]
+num: 1</p>
+<p>[[code]]
+[my_func]
+mov rax, ${num}</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Will become:</dt><dd><p>[[code]]
+[my_func]
+mov rax, 1</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mkpkir</strong> – The MKPKIR object to replace data references in.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The MKPKIR object with its data replaced.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.processing.function_replacement"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.function_replacement._assert_correct_num_of_args">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.function_replacement.</span></span><span class="sig-name descname"><span class="pre">_assert_correct_num_of_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curr_func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKFunction" title="makka_pakka.parsing.parsing_structures.MKPKFunction"><span class="pre">MKPKFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">passed_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MKPKArgumentSet</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#makka_pakka.processing.function_replacement._assert_correct_num_of_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asserts that the number arguments passed to a MKPKFunction is equal to the
+number of expected arguments.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.function_replacement._get_function_by_name_or_assert">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.function_replacement.</span></span><span class="sig-name descname"><span class="pre">_get_function_by_name_or_assert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">functions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKFunction" title="makka_pakka.parsing.parsing_structures.MKPKFunction"><span class="pre">MKPKFunction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKFunction" title="makka_pakka.parsing.parsing_structures.MKPKFunction"><span class="pre">MKPKFunction</span></a></span></span><a class="headerlink" href="#makka_pakka.processing.function_replacement._get_function_by_name_or_assert" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Gets a function by name or asserts a ProcessingError if the function is not</dt><dd><p>found.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>functions</strong> – A list of MKPKFunction objects to search for the name in.</p></li>
+<li><p><strong>name</strong> – The function name to search for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The MKPKFunction object with the specified name.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>ProcessingError</em> - When the function name is not found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.function_replacement._get_line_as_function_call">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.function_replacement.</span></span><span class="sig-name descname"><span class="pre">_get_line_as_function_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code_line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MKPKFunctionCall</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#makka_pakka.processing.function_replacement._get_line_as_function_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts to interpret a code line as a function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>code_line</strong> – The code line to interpret as a function call.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Retruns an MKPKFunctionCall object if the line is a function
+call, or None if it is not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.function_replacement._get_ref_value_from_arguments">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.function_replacement.</span></span><span class="sig-name descname"><span class="pre">_get_ref_value_from_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_reference</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKFunction" title="makka_pakka.parsing.parsing_structures.MKPKFunction"><span class="pre">MKPKFunction</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MKPKArgumentSet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKData" title="makka_pakka.parsing.parsing_structures.MKPKData"><span class="pre">MKPKData</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKData" title="makka_pakka.parsing.parsing_structures.MKPKData"><span class="pre">MKPKData</span></a></span></span><a class="headerlink" href="#makka_pakka.processing.function_replacement._get_ref_value_from_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resolves the value of a data reference using the function’s arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_reference</strong> – The data reference to resolve.</p></li>
+<li><p><strong>func</strong> – The function that the data reference was found in.</p></li>
+<li><p><strong>args</strong> – The arguments passed to the function.</p></li>
+<li><p><strong>data</strong> – The data labels defined in the program. These are used to make a
+reference to existing data in a function call.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The MKPKData that the data reference should be replaced with.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>MKPKProcessingError</em> - When the data reference couldn’t be resolved.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.function_replacement._parse_line_as_function_call">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.function_replacement.</span></span><span class="sig-name descname"><span class="pre">_parse_line_as_function_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code_line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MKPKFunctionCall</span></span></span><a class="headerlink" href="#makka_pakka.processing.function_replacement._parse_line_as_function_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses a code line as a MKPKFunctionCall.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>code_line</strong> – The code line to interpret as a function call.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The parsed MKPKFunctionCall object.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>MKPKProcessingError</em> - When the line is not a function call.
+<em>MKPKNameError</em> - When a name in the function call is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.processing.function_replacement.process_function_replacement">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.function_replacement.</span></span><span class="sig-name descname"><span class="pre">process_function_replacement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkpkir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.processing.function_replacement.process_function_replacement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces any function references with the code resolved at the reference.
+For example:
+[[code]]
+[main]
+mov rax, 1
+func_1 2</p>
+<p>[func_1] arg1
+mov ecx, ${arg1}</p>
+<p>Will become:
+[[code]]
+[main]
+mov rax, 1
+mov ecx, 2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mkpkir</strong> – The MKPKIR object to replace function references in.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of processed code lines, ready to be executed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="id3">
+<h2>Integrating<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
+<span class="target" id="module-makka_pakka.integrating.integrate"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.integrating.integrate._format_code_into_asm_function">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.integrating.integrate.</span></span><span class="sig-name descname"><span class="pre">_format_code_into_asm_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.processing.processing_structures.MKPKCode" title="makka_pakka.processing.processing_structures.MKPKCode"><span class="pre">MKPKCode</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.processing.processing_structures.MKPKCode" title="makka_pakka.processing.processing_structures.MKPKCode"><span class="pre">MKPKCode</span></a></span></span><a class="headerlink" href="#makka_pakka.integrating.integrate._format_code_into_asm_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formats the assembly code into an _start function so that it can be
+compiled as a standalone binary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>code</strong> – The MKPKCode to be formatted into an assembly function.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The formatted MKPKCode obj.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.integrating.integrate._translate_mkpkdata_to_asm">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.integrating.integrate.</span></span><span class="sig-name descname"><span class="pre">_translate_mkpkdata_to_asm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKData" title="makka_pakka.parsing.parsing_structures.MKPKData"><span class="pre">MKPKData</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.integrating.integrate._translate_mkpkdata_to_asm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translates a MKPKData object into assembly data definitions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – The MKPKData object to translate into assembly.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A List of assembly strings, translated from the passed MKPKData.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.integrating.integrate._write_code_to_file">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.integrating.integrate.</span></span><span class="sig-name descname"><span class="pre">_write_code_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.processing.processing_structures.MKPKCode" title="makka_pakka.processing.processing_structures.MKPKCode"><span class="pre">MKPKCode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.integrating.integrate._write_code_to_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes makka pakka code into an output filepath.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> – The MKPKCode obj to write to file.</p></li>
+<li><p><strong>output_filepath</strong> – (Optional) The filepath to write the code to. This will
+be a random /tmp/{uuid} path if not specified.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The filepath that the code was written to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.integrating.integrate.integrate_makka_pakka">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.integrating.integrate.</span></span><span class="sig-name descname"><span class="pre">integrate_makka_pakka</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.processing.processing_structures.MKPKCode" title="makka_pakka.processing.processing_structures.MKPKCode"><span class="pre">MKPKCode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.integrating.integrate.integrate_makka_pakka" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the integrating phase of makka pakka compilation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code</strong> – The MKPKCode object which as the result of the processing phase.</p></li>
+<li><p><strong>output_filepath</strong> – The filepath to write the integrated code to. This will
+be a random /tmp/{uuid} path if not specified.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The filepath that the code was written to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="id4">
+<h2>ELF Caver<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
+<span class="target" id="module-makka_pakka.elf_caver.caver.code_caver"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.caver.code_caver._get_end_of_section">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.caver.code_caver.</span></span><span class="sig-name descname"><span class="pre">_get_end_of_section</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Section</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.caver.code_caver._get_end_of_section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the offset at the end of the passed section</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sections</strong> – The ELF.Section object to get the final offset of.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The offset at the end of the section.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.caver.code_caver._get_end_of_segment">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.caver.code_caver.</span></span><span class="sig-name descname"><span class="pre">_get_end_of_segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Segment</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.caver.code_caver._get_end_of_segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the offset at the end of a segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> – The ELF.Segment object to get final offset of.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The offset at the end of the segment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.caver.code_caver._get_executable_segments">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.caver.code_caver.</span></span><span class="sig-name descname"><span class="pre">_get_executable_segments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Segment</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Segment</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.caver.code_caver._get_executable_segments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filters a list of segments to just those with the executable flag.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segments</strong> – An Iterator of ELF.Segment objects to be filtered</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of ELF.Segment objects with the executable flag</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.caver.code_caver._get_last_section_in_segment">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.caver.code_caver.</span></span><span class="sig-name descname"><span class="pre">_get_last_section_in_segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Segment</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Section</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.caver.code_caver._get_last_section_in_segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the last section in a segment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>segment</strong> – The ELF.Segment object to get the last section from</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ELF.Section object which was last in the segment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.caver.code_caver.get_code_caves">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.caver.code_caver.</span></span><span class="sig-name descname"><span class="pre">get_code_caves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Binary</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.caver.code_caver.get_code_caves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the code caves from the passed binary. Returns a list of tuples in the
+format: (code cave offset, code cave size).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>binary</strong> – The binary to find the code caves in</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of code caves in the format (code cave offset, code cave size)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.elf_caver.caver.file_permissions"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.caver.file_permissions.is_executable">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.caver.file_permissions.</span></span><span class="sig-name descname"><span class="pre">is_executable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.caver.file_permissions.is_executable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true when a permission integer indicates it is executable</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.caver.file_permissions.is_writable">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.caver.file_permissions.</span></span><span class="sig-name descname"><span class="pre">is_writable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.caver.file_permissions.is_writable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true when a permission integer indicates it is writable</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.caver.file_permissions.permission_to_str">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.caver.file_permissions.</span></span><span class="sig-name descname"><span class="pre">permission_to_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.caver.file_permissions.permission_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a permission integer into its string form.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – The permission integer to convert to a permission string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The permission string e.g “RW” or “RX”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.elf_caver.formatting.print_elf"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.formatting.print_elf.pprint_header">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.formatting.print_elf.</span></span><span class="sig-name descname"><span class="pre">pprint_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Binary</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.formatting.print_elf.pprint_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the ELF header stdout in a readable format</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.formatting.print_elf.pprint_sections">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.formatting.print_elf.</span></span><span class="sig-name descname"><span class="pre">pprint_sections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Binary</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.formatting.print_elf.pprint_sections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the ELF sections table</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.formatting.print_elf.pprint_segments">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.formatting.print_elf.</span></span><span class="sig-name descname"><span class="pre">pprint_segments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Binary</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.formatting.print_elf.pprint_segments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the ELF segments table</p>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.elf_caver.formatting.table_formatter"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.formatting.table_formatter.print_table">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.formatting.table_formatter.</span></span><span class="sig-name descname"><span class="pre">print_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.formatting.table_formatter.print_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pretty prints table data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>headers</strong> – Optional A list of the column headers in order. Length must
+be equal to number of data columns.</p></li>
+<li><p><strong>alignment</strong> – Optional A list indicating the desired alignment for each column.
+Left=’&lt;’, Right=’&gt;’, Centre=’^’. Length must be equal to number of data columns.</p></li>
+<li><p><strong>offset</strong> – Optional The no. leading/ trailing spaces applied to a data column.
+For example a right aligned entry with an offset of 1 would have 1 space before
+the end of the column.</p></li>
+<li><p><strong>padding</strong> – Optional The no. blank spaces to add to a column on top of the
+dynamically calculated size.</p></li>
+<li><p><strong>columns</strong> – Lists of strings for the column data should be passed in order as
+variadic arguments</p></li>
+</ul>
+</dd>
+</dl>
+<p>For example a table containing columns for name, age would pass
+headers=[“Name”, “Age”] and two list arguments: the first containing the names, and
+the second containing the ages (as strings).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.formatting.table_formatter.table_rows_to_columns">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.formatting.table_formatter.</span></span><span class="sig-name descname"><span class="pre">table_rows_to_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#makka_pakka.elf_caver.formatting.table_formatter.table_rows_to_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convienience function for converting table rows into table columns, the correct
+format for print_table</p>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.elf_caver.injector.binary_injector"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.injector.binary_injector._get_shellcode_from_nasm">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.injector.binary_injector.</span></span><span class="sig-name descname"><span class="pre">_get_shellcode_from_nasm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nasm_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.injector.binary_injector._get_shellcode_from_nasm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the shellcode bytes from a .nasm file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nasm_filepath</strong> – The filepath of the nasm file to get the shellcode from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of shellcode bytes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.injector.binary_injector._inject_shellcode_at_offset">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.injector.binary_injector.</span></span><span class="sig-name descname"><span class="pre">_inject_shellcode_at_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shellcode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.injector.binary_injector._inject_shellcode_at_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Injects shellcode into the binary at a given offset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shellcode</strong> – The shellcode bytes to inject into the binary.</p></li>
+<li><p><strong>target_binary</strong> – The filepath to the binary to inject the shellcode into.</p></li>
+<li><p><strong>offset</strong> – The offset into the binary where the shellcode should be injected.</p></li>
+<li><p><strong>output</strong> – The filepath to where the patch binary should be created.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A filepath to the output binary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.injector.binary_injector.inject_nasm_into_binary">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.injector.binary_injector.</span></span><span class="sig-name descname"><span class="pre">inject_nasm_into_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nasm_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_binary_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.injector.binary_injector.inject_nasm_into_binary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Injects a nasm source file into binary.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nasm_filepath</strong> – The filepath of the nasm file to inject.</p></li>
+<li><p><strong>target_binary_filepath</strong> – The filepath of the binary to inject into.</p></li>
+<li><p><strong>output_filepath</strong> – Optional The filepath to output the injected binary to.</p></li>
+<li><p><strong>kwargs</strong> – <em>patch_entrypoint</em> Whether the entrypoint of the output binary should be patched
+to point to the code cave.
+<em>patch_exit</em> Whether the process exit of the output binary should be patched to
+point to the code cave.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The filepath to the injected binary.</p>
+</dd>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>InsufficientCodeCaves -&gt; There was not a large enough code cave in the target</dt><dd><p>binary to inject into.</p>
+</dd>
+</dl>
+<p>MKPKInvalidParameter -&gt; A parameter was malformed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.elf_caver.injector.byte_extraction"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.injector.byte_extraction.extract_bytes">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.injector.byte_extraction.</span></span><span class="sig-name descname"><span class="pre">extract_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.injector.byte_extraction.extract_bytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the bytes from a hex file and returns them as a concatenated string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>binary_filepath</strong> – The filepath string to the binary to extract bytes from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The bytes as a continuous string i.e “12 34 56…”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.injector.byte_extraction.to_little_endian_32bit">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.injector.byte_extraction.</span></span><span class="sig-name descname"><span class="pre">to_little_endian_32bit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.injector.byte_extraction.to_little_endian_32bit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a 32-bit value to little endian byte array</p>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.elf_caver.injector.compile"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.injector.compile.compile">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.injector.compile.</span></span><span class="sig-name descname"><span class="pre">compile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_arch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.injector.compile.compile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compiles a .asm file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> – A filepath to the .asm file to be compiled</p></li>
+<li><p><strong>target_arch</strong> – The architecture target of the compilation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of files created by this function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-makka_pakka.elf_caver.injector.redirect_execution"></span><dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.injector.redirect_execution.change_entrypoint">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.injector.redirect_execution.</span></span><span class="sig-name descname"><span class="pre">change_entrypoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entrypoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#makka_pakka.elf_caver.injector.redirect_execution.change_entrypoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the entrypoint of an elf64 file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_binary</strong> – The target binary to change the entrypoint of.</p></li>
+<li><p><strong>entrypoint</strong> – The new entrypoint to change to.</p></li>
+<li><p><strong>output</strong> – The output binary with the new entrypoint.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output filepath.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="makka_pakka.elf_caver.injector.redirect_execution.patch_pltsec_exit">
+<span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.injector.redirect_execution.</span></span><span class="sig-name descname"><span class="pre">patch_pltsec_exit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inject_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.injector.redirect_execution.patch_pltsec_exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Patches the address of the exit functions in .plt.sec. Code at the patched address
+will be executed on process exit (under certain conditions). This function
+calculates the address using the offset of the code in the binary (this is to comply
+with PIE restrictions).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_binary</strong> – The binary the patch the .plt.sec exit entries in.</p></li>
+<li><p><strong>inject_offset</strong> – The offset into the binary that will be executed on
+process exit.</p></li>
+<li><p><strong>output</strong> – Optional The file to save the patched binary to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The filepath of the patched binary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MakkaPakka</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html"><strong>Installation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="language_spec.html"><strong>Language Features</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html"><strong>Examples</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="compilation.html"><strong>Compilation Process</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_structures.html"><strong>Data Structures</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="public_api.html"><strong>Public API</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Full API</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Integrating</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">ELF Caver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html"><strong>Modules</strong></a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="public_api.html" title="previous chapter"><strong>Public API</strong></a></li>
+      <li>Next: <a href="modules.html" title="next chapter"><strong>Modules</strong></a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Alex J.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+
+      |
+      <a href="_sources/private_api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+
+
+
+  </body>
+</html>

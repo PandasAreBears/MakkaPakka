@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.parsing.detect_headings import detect_heading_in_line
 from makka_pakka.parsing.detect_headings import HeadingStyle
 from makka_pakka.parsing.detect_headings import HeadingType
@@ -17,11 +17,12 @@ def parse_makka_pakka(mkpk_filepath: str) -> MKPKIR:
     """
     Parses a makka pakka code file to generate an intermediate representation
     object used by the processing phase.
-    :mkpk_filepath: The filepath to the .mkpk file to be split into headings.
-    :returns: A MKPKIR object to be used during the processing phase.
+
+    :param mkpk_filepath: The filepath to the .mkpk file to be split into headings.
+    :return: A MKPKIR object to be used during the processing phase.
     """
     if not isinstance(mkpk_filepath, str) or not Path(mkpk_filepath).exists():
-        raise InvalidParameter("mkpk_filepath", "parse_makka_pakka", mkpk_filepath)
+        raise MKPKInvalidParameter("mkpk_filepath", "parse_makka_pakka", mkpk_filepath)
 
     mkpk_im_repr: MKPKIR = MKPKIR()
 
@@ -43,16 +44,21 @@ def _split_into_headings(
 ) -> MKPKLines:
     """
     Splits a makka pakka code file into its headings - code, data, gadgets.
-    :mkpk_filepath: The filepath to the .mkpk file to be split into headings.
-    :returns: A MKPKLines object contain the raw lines from the .mkpk files.
+
+    :param mkpk_filepath: The filepath to the .mkpk file to be split into headings.
+    :return: A MKPKLines object contain the raw lines from the .mkpk files.
     """
     if not isinstance(mkpk_filepath, str) or not Path(mkpk_filepath).exists():
-        raise InvalidParameter("mkpk_filepath", "_split_into_headings", mkpk_filepath)
+        raise MKPKInvalidParameter(
+            "mkpk_filepath", "_split_into_headings", mkpk_filepath
+        )
 
     code_lines: MKPKLines = MKPKLines(code=[], data=[], gadgets=[], metadata=[])
 
     def _add_to_section(line: str, type: HeadingType):
-        """Adds a line to the specified section's code store"""
+        """
+        Adds a line to the specified section's code store
+        """
         match type:
             case HeadingType.DATA:
                 code_lines.add_data(line)
@@ -102,12 +108,13 @@ def _split_into_headings(
 def _convert_heading_name_to_type(name: str) -> HeadingType:
     """
     Converts a string heading name into its associated HeadingType value.
-    :name: The name to convert into a HeadingType.
-    :returns: The HeadingType of the passed name, None if invalid.
+
+    :param name: The name to convert into a HeadingType.
+    :return: The HeadingType of the passed name, None if invalid.
     """
 
     if not isinstance(name, str):
-        raise InvalidParameter("name", "_convert_heading_name_to_type", name)
+        raise MKPKInvalidParameter("name", "_convert_heading_name_to_type", name)
 
     match name:
         case "data":

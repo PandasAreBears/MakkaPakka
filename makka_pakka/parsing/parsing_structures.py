@@ -10,10 +10,11 @@ class MKPKFunction:
     def __init__(self, name: str, arguments: List[str], content: List[str]):
         """
         Code structure constructor.
-        :name: A unique function name for the section of code.
-        :arugments: A list of unique names for arguements that this function
+
+        :param name: A unique function name for the section of code.
+        :param arugments: A list of unique names for arguements that this function
             expects.
-        :content: A list of lines of makka pakka code.
+        :param content: A list of lines of makka pakka code.
         """
         self.name = name
         self.is_main = name == "main"
@@ -24,7 +25,8 @@ class MKPKFunction:
     def add_line_to_content(self, line: str):
         """
         Adds a line to the content of the function.
-        :line: A string line to add to the content.
+
+        :param line: A string line to add to the content.
         """
         self.content.append(line)
 
@@ -35,9 +37,10 @@ class MKPKFunction:
         """
         Gets the MKPKFunction object with the given name from a list of
         MKPKFunction objects.
-        :functions: The list of MKPKFunction objects to find the label in.
-        :label: The label to search for in the list of MKPKFunction objects.
-        :returns: The MKPKFunction object with the passed label, or None if the
+
+        :param functions: The list of MKPKFunction objects to find the label in.
+        :param label: The label to search for in the list of MKPKFunction objects.
+        :return: The MKPKFunction object with the passed label, or None if the
             label was not found.
         """
         label_objs: List[MKPKFunction] = list(
@@ -48,6 +51,10 @@ class MKPKFunction:
 
 
 class MKPKDataType:
+    """
+    Identifies the data type of a MKPKData object.
+    """
+
     NONE = 0
     STR = 1
     INT = 2
@@ -59,9 +66,10 @@ class MKPKData:
     def __init__(self, name: str, value: Union[int, str], type: MKPKDataType):
         """
         Data structure constructor.
-        :name: A unique label assigned to the constant data.
-        :value: The constant data itself.
-        :type: The data type of the constant data.
+
+        :param name: A unique label assigned to the constant data.
+        :param value: The constant data itself.
+        :param type: The data type of the constant data.
         """
         self.name = name
         self.value = value
@@ -72,9 +80,10 @@ class MKPKData:
         """
         Gets the MKPKData object with the given label from a list of
         MKPKData objects.
-        :data: The list of MKPKData objects to find the label in.
-        :label: The label to search for in the list of MKPKData objects.
-        :returns: The MKPKData object with the passed label, or None if the
+
+        :param data: The list of MKPKData objects to find the label in.
+        :param label: The label to search for in the list of MKPKData objects.
+        :return: The MKPKData object with the passed label, or None if the
             label was not found.
         """
         label_objs: List[MKPKData] = list(filter(lambda d: d.name == label, data))
@@ -88,9 +97,10 @@ class MKPKGadget:
     def __init__(self, memory_location: str, content: List[str]) -> None:
         """
         Gadget Constructor.
-        :memory_location: The virtual memory address of the ROP gadget in the
+
+        :param memory_location: The virtual memory address of the ROP gadget in the
             target binary.
-        :content: A list of assembly lines at that address, up until a ret is
+        :param content: A list of assembly lines at that address, up until a ret is
             reached.
         """
         self.memory_location = memory_location
@@ -99,7 +109,8 @@ class MKPKGadget:
     def add_line_to_content(self, line: str):
         """
         Adds a line to the content of the gadget.
-        :line: A string line to add to the content.
+
+        :param line: A string line to add to the content.
         """
         self.content.append(line)
 
@@ -110,8 +121,9 @@ class MKPKMetaData:
     def __init__(self, label: str, value: str) -> None:
         """
         Metadata Constructor.
-        :label: The label to uniquely identify the meta data.
-        :values: The values associated with the metadata label.
+
+        :param label: The label to uniquely identify the meta data.
+        :param values: The values associated with the metadata label.
         """
         self.label: str = label
         self.values: List[str] = []
@@ -120,7 +132,8 @@ class MKPKMetaData:
     def append_value(self, value: str):
         """
         Appends a value to the metadata label.
-        :value: The value to append to the metadata label.
+
+        :param value: The value to append to the metadata label.
         """
         self.values.append(value)
 
@@ -131,9 +144,10 @@ class MKPKMetaData:
         """
         Gets the MKPKMetaData object with the given label from a list of
         MKPKMetaData objects.
-        :metadatas: The list of MKPKMetaData objects to find the label in.
-        :label: The label to search for in the list of MKPKMetaData objects.
-        :returns: The MKPKMetaData object with the passed label, or None if the
+
+        :param metadatas: The list of MKPKMetaData objects to find the label in.
+        :param label: The label to search for in the list of MKPKMetaData objects.
+        :return: The MKPKMetaData object with the passed label, or None if the
             label was not found.
         """
         label_objs: List[MKPKMetaData] = list(

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKProcessingError
 from makka_pakka.linking.linker import parse_link_and_merge
 from makka_pakka.parsing.parsing_structures import MKPKIR
@@ -30,9 +30,9 @@ class TestProcessMakkaPakka:
             process_makka_pakka(None)
             pytest.fail(
                 "process_makka_pakka should have failed with\
-                        InvalidParameter, but did not."
+                        MKPKInvalidParameter, but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_no_main(self, empty_headings: MKPKIR):

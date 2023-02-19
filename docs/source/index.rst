@@ -5,18 +5,40 @@
 
 Welcome to MakkaPakka's documentation!
 ======================================
+**Overview**
+------------
+**Makka pakka** is a programming language which translates into Netwide
+Assembly (NASM). It implements additional features on top of traditional
+assembly, such as:
+ - Functions
+ - Automatic linking
+ - ROP replacement
 
-.. autosummary::
-   makka_pakka.elf_caver
-   makka_pakka
+The language was built to make it easier to write programs that sit in code
+caves. Code cave code must be position independant, therefore, when written
+correctly, all makka pakka code will translate into position independant NASM.
 
-.. automodule:: makka_pakka.elf_caver.caver.code_caver
-   :members:
-   :private-members:
+For instructions on how to install makka pakka, check out the :doc:`installation`
+documentation.
+
+.. note::
+   This project was made for research purposes and should not be used for
+   malicious code injection.
+
+
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+
+   installation
+   language_spec
+   examples
+   compilation
+   data_structures
+   public_api
+   private_api
+   modules
 
 
 
@@ -24,5 +46,3 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

@@ -2,7 +2,7 @@ from re import findall
 from typing import List
 
 from makka_pakka.exceptions.exceptions import ErrorType
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKNameError
 from makka_pakka.exceptions.exceptions import MKPKProcessingError
 from makka_pakka.parsing.detect_headings import _assert_valid_mkpk_name
@@ -27,11 +27,11 @@ def process_data_replacement(mkpkir: MKPKIR) -> MKPKIR:
         [my_func]
         mov rax, 1
 
-    :mkpkir: The MKPKIR object to replace data references in.
-    :returns: The MKPKIR object with its data replaced.
+    :param mkpkir: The MKPKIR object to replace data references in.
+    :return: The MKPKIR object with its data replaced.
     """
     if not isinstance(mkpkir, MKPKIR):
-        raise InvalidParameter("mkpkir", "process_data_replacement", mkpkir)
+        raise MKPKInvalidParameter("mkpkir", "process_data_replacement", mkpkir)
 
     """
     Data references are wrapped in a ${<label>}. So iterate through each line
@@ -81,12 +81,13 @@ def _extract_data_references(code_line: str) -> List[str]:
     """
     Extracts 0 to many data references in the format ${<label>} from a line of
       code.
-    :code_line: The line of code to extract data references from.
-    :returns: A list of string data references that were found in the code
+
+    :param code_line: The line of code to extract data references from.
+    :return: A list of string data references that were found in the code
      line.
     """
     if not isinstance(code_line, str):
-        raise InvalidParameter("code_line", "_extract_data_references", code_line)
+        raise MKPKInvalidParameter("code_line", "_extract_data_references", code_line)
 
     return findall(r"\$\{\w*\}", code_line)
 
@@ -95,17 +96,18 @@ def _extract_label_from_reference(data_reference: str) -> str:
     """
     Extracts the label from a data references, e.g if data_reference is
     "${apple}" then the return value would be "apple".
-    :data_reference: The data reference to extract the label from.
-    :returns: The label extracted from the passed data reference.
+
+    :param data_reference: The data reference to extract the label from.
+    :return: The label extracted from the passed data reference.
     """
     if not isinstance(data_reference, str):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "data_reference", "_extract_label_from_reference", data_reference
         )
 
     # Check that data_reference is in the format ${<label>}
     if len(data_reference) < 3:
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "data_reference", "_extract_label_from_reference", data_reference
         )
 
@@ -114,7 +116,7 @@ def _extract_label_from_reference(data_reference: str) -> str:
         or not data_reference[1] == "{"
         or not data_reference[-1] == "}"
     ):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "data_reference", "_extract_label_from_reference", data_reference
         )
 
@@ -140,21 +142,24 @@ def _replace_reference_with_value(
 ) -> str:
     """
     Replaces a data reference in a code line with its archived value.
-    :code_line: The code line to replace the data reference in.
-    :data_reference: The data reference in the line to replace.
-    :value: The value to replace the data reference with.
-    :returns: The new code line with the replaced value.
+
+    :param code_line: The code line to replace the data reference in.
+    :param data_reference: The data reference in the line to replace.
+    :param value: The value to replace the data reference with.
+    :return: The new code line with the replaced value.
     """
     if not isinstance(code_line, str):
-        raise InvalidParameter("code_line", "_replace_reference_with_value", code_line)
+        raise MKPKInvalidParameter(
+            "code_line", "_replace_reference_with_value", code_line
+        )
 
     if not isinstance(data_reference, str):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "data_reference", "_replace_reference_with_value", data_reference
         )
 
     if not isinstance(data, MKPKData):
-        raise InvalidParameter("value", "_replace_reference_with_value", data)
+        raise MKPKInvalidParameter("value", "_replace_reference_with_value", data)
 
     copy_code_line = code_line
 

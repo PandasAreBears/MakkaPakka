@@ -2,7 +2,7 @@ from typing import Callable
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKNameError
 from makka_pakka.exceptions.exceptions import MKPKParsingError
 from makka_pakka.parsing.detect_headings import _assert_valid_mkpk_name
@@ -16,9 +16,9 @@ class TestDetectHeadingInLine:
             detect_heading_in_line(None)
             pytest.fail(
                 "_detect_heading_in_line should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_no_heading(self):
@@ -99,27 +99,27 @@ class TestAssertValidHeadingName:
             _assert_valid_mkpk_name(None, None)
             pytest.fail(
                 "_assert_valid_mkpk_name should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _assert_valid_mkpk_name(mock_name, None)
             pytest.fail(
                 "_assert_valid_mkpk_name should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             _assert_valid_mkpk_name(None, mock_line)
             pytest.fail(
                 "_assert_valid_mkpk_name should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_errors_when_name_is_invalid(self):

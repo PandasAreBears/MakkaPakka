@@ -3,8 +3,8 @@ from typing import List
 from uuid import uuid4
 
 from makka_pakka.exceptions.exceptions import ErrorType
-from makka_pakka.exceptions.exceptions import InvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKIntegratingError
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.parsing.parsing_structures import MKPKData
 from makka_pakka.parsing.parsing_structures import MKPKDataType
 from makka_pakka.processing.processing_structures import MKPKCode
@@ -13,15 +13,16 @@ from makka_pakka.processing.processing_structures import MKPKCode
 def integrate_makka_pakka(code: MKPKCode, output_filepath: str = "") -> str:
     """
     Runs the integrating phase of makka pakka compilation.
-    :code: The MKPKCode object which as the result of the processing phase.
-    :output_filepath: The filepath to write the integrated code to. This will
+
+    :param code: The MKPKCode object which as the result of the processing phase.
+    :param output_filepath: The filepath to write the integrated code to. This will
         be a random /tmp/{uuid} path if not specified.
-    :returns: The filepath that the code was written to.
+    :return: The filepath that the code was written to.
     """
     if not isinstance(code, MKPKCode):
-        raise InvalidParameter("code", "integrate_makka_pakka", code)
+        raise MKPKInvalidParameter("code", "integrate_makka_pakka", code)
     if not isinstance(output_filepath, str):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "output_filepath", "integrate_makka_pakka", output_filepath
         )
 
@@ -41,15 +42,16 @@ def integrate_makka_pakka(code: MKPKCode, output_filepath: str = "") -> str:
 def _write_code_to_file(code: MKPKCode, output_filepath: str = "") -> str:
     """
     Writes makka pakka code into an output filepath.
-    :code: The MKPKCode obj to write to file.
-    :output_filepath: (Optional) The filepath to write the code to. This will
+
+    :param code: The MKPKCode obj to write to file.
+    :param output_filepath: (Optional) The filepath to write the code to. This will
         be a random /tmp/{uuid} path if not specified.
-    :returns: The filepath that the code was written to.
+    :return: The filepath that the code was written to.
     """
     if not isinstance(code, MKPKCode):
-        raise InvalidParameter("code", "_write_code_to_file", code)
+        raise MKPKInvalidParameter("code", "_write_code_to_file", code)
     if not isinstance(output_filepath, str):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "output_filepath", "_write_code_to_file", output_filepath
         )
 
@@ -79,11 +81,12 @@ def _write_code_to_file(code: MKPKCode, output_filepath: str = "") -> str:
 def _translate_mkpkdata_to_asm(data: List[MKPKData]) -> List[str]:
     """
     Translates a MKPKData object into assembly data definitions.
-    :data: The MKPKData object to translate into assembly.
-    :returns: A List of assembly strings, translated from the passed MKPKData.
+
+    :param data: The MKPKData object to translate into assembly.
+    :return: A List of assembly strings, translated from the passed MKPKData.
     """
     if not isinstance(data, list) or not all([isinstance(d, MKPKData) for d in data]):
-        raise InvalidParameter("data", "_translate_mkpkdata_to_asm", data)
+        raise MKPKInvalidParameter("data", "_translate_mkpkdata_to_asm", data)
 
     data_asm: List[str] = []
 
@@ -100,11 +103,12 @@ def _format_code_into_asm_function(code: MKPKCode) -> MKPKCode:
     """
     Formats the assembly code into an _start function so that it can be
     compiled as a standalone binary.
-    :code: The MKPKCode to be formatted into an assembly function.
-    :retuns: The formatted MKPKCode obj.
+
+    :param code: The MKPKCode to be formatted into an assembly function.
+    :return: The formatted MKPKCode obj.
     """
     if not isinstance(code, MKPKCode):
-        raise InvalidParameter("code", "_format_code_into_asm_function", code)
+        raise MKPKInvalidParameter("code", "_format_code_into_asm_function", code)
 
     formatted_code: List[str] = [
         "Section .text",

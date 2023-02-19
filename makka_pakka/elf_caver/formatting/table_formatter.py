@@ -1,7 +1,7 @@
 from typing import Dict
 from typing import List
 
-from makka_pakka.elf_caver.exceptions.exceptions import InvalidParameter
+from makka_pakka.elf_caver.exceptions.exceptions import MKPKInvalidParameter
 
 
 def print_table(
@@ -9,22 +9,23 @@ def print_table(
     **kwargs: Dict,
 ) -> None:
     """
-    Pretty prints table data
-    :headers: (optional) A list of the column headers in order. Length must be equal to
-        number of data columns.
-    :alignment: (optional) A list indicating the desired alignment for each column.
+    Pretty prints table data.
+
+    :param headers: Optional A list of the column headers in order. Length must
+        be equal to number of data columns.
+    :param alignment: Optional A list indicating the desired alignment for each column.
         Left='<', Right='>', Centre='^'. Length must be equal to number of data columns.
-    :offset: (optional) The no. leading/ trailing spaces applied to a data column. For
-        example a right aligned entry with an offset of 1 would have 1 space before the
-        end of the column.
-    :padding: (optional) The no. blank spaces to add to a column on top of the
+    :param offset: Optional The no. leading/ trailing spaces applied to a data column.
+        For example a right aligned entry with an offset of 1 would have 1 space before
+        the end of the column.
+    :param padding: Optional The no. blank spaces to add to a column on top of the
         dynamically calculated size.
-    :...columns: Lists of strings for the column data should be passed in order as
+    :param columns: Lists of strings for the column data should be passed in order as
         variadic arguments
 
     For example a table containing columns for name, age would pass
     headers=["Name", "Age"] and two list arguments: the first containing the names, and
-    the second containing the ages (as strings)
+    the second containing the ages (as strings).
     """
     # Defaults #
     HEADERS: List[str] = kwargs["headers"] if "headers" in kwargs else []
@@ -37,44 +38,44 @@ def print_table(
     # Validation #
     FUNC_NAME: str = "print_table"
     if len(columns) == 0:
-        raise InvalidParameter("columns", FUNC_NAME, columns)
+        raise MKPKInvalidParameter("columns", FUNC_NAME, columns)
 
     # All the columns must have the same number of entries.
     if len(set([len(column) for column in columns])) != 1:
-        raise InvalidParameter("columns", FUNC_NAME, columns)
+        raise MKPKInvalidParameter("columns", FUNC_NAME, columns)
 
     # Ensure every data entry is a string.
     try:
         if not all([isinstance(data, str) for column in columns for data in column]):
-            raise InvalidParameter("columns", FUNC_NAME, columns)
+            raise MKPKInvalidParameter("columns", FUNC_NAME, columns)
     except TypeError:
         # If *columns is malformed, i.e it is not a 2D array, then the encapsulated
         # check will fail, this is also an invalid parameter case.
-        raise InvalidParameter("columns", FUNC_NAME, columns)
+        raise MKPKInvalidParameter("columns", FUNC_NAME, columns)
 
     # Validate the HEADERS, if applicable.
     if HEADERS:
         # Ensure the number of header equals the number of columns
         if len(HEADERS) != len(columns):
-            raise InvalidParameter("HEADERS", FUNC_NAME, HEADERS)
+            raise MKPKInvalidParameter("HEADERS", FUNC_NAME, HEADERS)
 
     # Validate the ALIGNMENT indicators, if applicable.
     if ALIGNMENT:
         # Ensure the number of aligment idicators equals the number of columns
         if len(ALIGNMENT) != len(columns):
-            raise InvalidParameter("ALIGNMENT", FUNC_NAME, ALIGNMENT)
+            raise MKPKInvalidParameter("ALIGNMENT", FUNC_NAME, ALIGNMENT)
 
         # Ensure ALIGNMENT characters are valid
         VALID_ALIGNMENT_CHARS: List[str] = ["<", "^", ">"]
         if not all(char in VALID_ALIGNMENT_CHARS for char in ALIGNMENT):
-            raise InvalidParameter("ALIGNMENT", FUNC_NAME, ALIGNMENT)
+            raise MKPKInvalidParameter("ALIGNMENT", FUNC_NAME, ALIGNMENT)
 
     # Validate OFFSET and PADDING, if applicable.
     if not isinstance(OFFSET, int):
-        raise InvalidParameter("OFFSET", FUNC_NAME, OFFSET)
+        raise MKPKInvalidParameter("OFFSET", FUNC_NAME, OFFSET)
 
     if not isinstance(PADDING, int):
-        raise InvalidParameter("OFFSET", FUNC_NAME, PADDING)
+        raise MKPKInvalidParameter("OFFSET", FUNC_NAME, PADDING)
 
     # Print header #
     NO_ROWS: int = len(columns[0])
@@ -133,11 +134,11 @@ def table_rows_to_columns(*rows: List[List[str]]):
 
     # Validation #
     if len(rows) == 0:
-        raise InvalidParameter("rows", "table_rows_to_columns")
+        raise MKPKInvalidParameter("rows", "table_rows_to_columns")
 
     # Ensure all rows are the same length
     if len(set([len(row) for row in rows])) != 1:
-        raise InvalidParameter("rows", "table_rows_to_columns")
+        raise MKPKInvalidParameter("rows", "table_rows_to_columns")
 
     # Conversion #
     ROW_LEN: int = len(rows[0])

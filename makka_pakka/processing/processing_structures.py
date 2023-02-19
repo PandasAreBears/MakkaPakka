@@ -10,7 +10,8 @@ class MKPKArgumentSet:
         """
         MKPKArgumentSet constructor. Passed arguments are interpreted as the
         arguments for a MKPKFunction.
-        :args: A variable number of arguments passed to a MKPKFunction.
+
+        :param args: A variable number of arguments passed to a MKPKFunction.
         """
         self.arguments = args
 
@@ -28,8 +29,9 @@ class MKPKFunctionCall:
     def __init__(self, name: str, args: List[str]):
         """
         MKPKFunctionCall constructor.
-        :name: The name of the function that is being called.
-        :args: A list of arguments to be passed to the function. These are
+
+        :param name: The name of the function that is being called.
+        :param args: A list of arguments to be passed to the function. These are
             string stripped from the program text, and have not yet had their
             type interpretted.
         """
@@ -45,9 +47,10 @@ class MKPKCode:
     ) -> None:
         """
         MKPKCode constructor
-        :data: The data used in a makka pakka program.
-        :code: The processed code of a makka pakka program.
-        :gadgets: The gadgets to be inserted in the integrating phase.
+
+        :param data: The data used in a makka pakka program.
+        :param code: The processed code of a makka pakka program.
+        :param gadgets: The gadgets to be inserted in the integrating phase.
         """
         self.data = data
         self.code = code

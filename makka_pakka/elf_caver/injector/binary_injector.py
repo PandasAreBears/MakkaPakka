@@ -10,7 +10,7 @@ from lief import parse
 from makka_pakka.elf_caver.caver.code_caver import get_code_caves
 from makka_pakka.elf_caver.exceptions.exceptions import ByteExtractionFailed
 from makka_pakka.elf_caver.exceptions.exceptions import InsufficientCodeCaves
-from makka_pakka.elf_caver.exceptions.exceptions import InvalidParameter
+from makka_pakka.elf_caver.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.elf_caver.injector.compile import compile
 from makka_pakka.elf_caver.injector.redirect_execution import change_entrypoint
 from makka_pakka.elf_caver.injector.redirect_execution import patch_pltsec_exit
@@ -24,19 +24,20 @@ def inject_nasm_into_binary(
 ) -> str:
     """
     Injects a nasm source file into binary.
-    :nasm_filepath: The filepath of the nasm file to inject.
-    :target_binary_filepath: The filepath of the binary to inject into.
-    :output_filepath: (optional) The filepath to output the injected binary to.
-    :kwargs:
-        :patch_entrypoint: Whether the entrypoint of the output binary should be patched
+
+    :param nasm_filepath: The filepath of the nasm file to inject.
+    :param target_binary_filepath: The filepath of the binary to inject into.
+    :param output_filepath: Optional The filepath to output the injected binary to.
+    :param kwargs:
+        *patch_entrypoint* Whether the entrypoint of the output binary should be patched
         to point to the code cave.
-        :patch_exit: Whether the process exit of the output binary should be patched to
+        *patch_exit* Whether the process exit of the output binary should be patched to
         point to the code cave.
-    :returns: The filepath to the injected binary.
+    :return: The filepath to the injected binary.
     :throws:
         InsufficientCodeCaves -> There was not a large enough code cave in the target
             binary to inject into.
-        InvalidParameter -> A parameter was malformed.
+        MKPKInvalidParameter -> A parameter was malformed.
     """
     patch_entrypoint = (
         kwargs["patch_entrypoint"] if "patch_entrypoint" in kwargs else False
@@ -44,7 +45,7 @@ def inject_nasm_into_binary(
     patch_exit = kwargs["patch_exit"] if "patch_exit" in kwargs else False
 
     if not isinstance(nasm_filepath, str) or not Path(nasm_filepath).exists():
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "nasm_filepath", "inject_nasm_into_binary", nasm_filepath
         )
 
@@ -52,24 +53,24 @@ def inject_nasm_into_binary(
         not isinstance(target_binary_filepath, str)
         or not Path(target_binary_filepath).exists()
     ):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "target_binary_filepath",
             "inject_nasm_into_binary",
             target_binary_filepath,
         )
 
     if not isinstance(output_filepath, str):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "output_filepath", "inject_nasm_into_binary", output_filepath
         )
 
     if not isinstance(patch_entrypoint, bool):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "patch_entrypoint", "inject_nasm_into_binary", patch_entrypoint
         )
 
     if not isinstance(patch_exit, bool):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "patch_exit", "inject_nasm_into_binary", patch_entrypoint
         )
 
@@ -107,12 +108,14 @@ def inject_nasm_into_binary(
 
 
 def _get_shellcode_from_nasm(nasm_filepath: str) -> List[int]:
-    """Gets the shellcode bytes from a .nasm file
-    :nasm_filepath: The filepath of the nasm file to get the shellcode from.
-    :returns: A list of shellcode bytes.
+    """
+    Gets the shellcode bytes from a .nasm file
+
+    :param nasm_filepath: The filepath of the nasm file to get the shellcode from.
+    :return: A list of shellcode bytes.
     """
     if not isinstance(nasm_filepath, str):
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "nasm_filepath", "_get_shellcode_from_nasm", nasm_filepath
         )
 
@@ -142,28 +145,32 @@ def _get_shellcode_from_nasm(nasm_filepath: str) -> List[int]:
 def _inject_shellcode_at_offset(
     shellcode: List[int], target_binary: str, offset: int, output: str = ""
 ) -> str:
-    """Injects shellcode into the binary at a given offset.
-    :shellcode: The shellcode bytes to inject into the binary.
-    :target_binary: The filepath to the binary to inject the shellcode into.
-    :offset: The offset into the binary where the shellcode should be injected.
-    :output: The filepath to where the patch binary should be created.
-    :return: A filepath to the output binary
+    """
+    Injects shellcode into the binary at a given offset.
+
+    :param shellcode: The shellcode bytes to inject into the binary.
+    :param target_binary: The filepath to the binary to inject the shellcode into.
+    :param offset: The offset into the binary where the shellcode should be injected.
+    :param output: The filepath to where the patch binary should be created.
+    :return: A filepath to the output binary.
     """
     if not isinstance(shellcode, list) or not all(
         [isinstance(byte, int) and byte < 256 for byte in shellcode]
     ):
-        raise InvalidParameter("shellcode", "_inject_shellcode_at_offset", shellcode)
+        raise MKPKInvalidParameter(
+            "shellcode", "_inject_shellcode_at_offset", shellcode
+        )
 
     if not isinstance(target_binary, str) or not Path(target_binary).exists():
-        raise InvalidParameter(
+        raise MKPKInvalidParameter(
             "target_binary", "_inject_shellcode_at_offset", target_binary
         )
 
     if not isinstance(offset, int):
-        raise InvalidParameter("offset", "_inject_shellcode_at_offset", offset)
+        raise MKPKInvalidParameter("offset", "_inject_shellcode_at_offset", offset)
 
     if not isinstance(output, str):
-        raise InvalidParameter("output", "_inject_shellcode_at_offset", output)
+        raise MKPKInvalidParameter("output", "_inject_shellcode_at_offset", output)
 
     if output == "":
         output = f"/tmp/{uuid4()}"

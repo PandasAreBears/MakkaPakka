@@ -2,7 +2,7 @@ from typing import List
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.linking.priority_list.priority_list import PriorityList
 from makka_pakka.linking.priority_list.priority_list import PriorityType
 
@@ -17,10 +17,10 @@ class TestPriorityListInit:
         try:
             PriorityList(None)
             pytest.fail(
-                "__init__ should have failed with InvalidParameter\
+                "__init__ should have failed with MKPKInvalidParameter\
                 but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_init_with_items(self):
@@ -47,28 +47,28 @@ class TestInsertWithPriority:
         try:
             three_items.insert_with_priority(None, None)
             pytest.fail(
-                "insert_with_priority should have failed with InvalidParameter\
+                "insert_with_priority should have failed with MKPKInvalidParameter\
                 but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             three_items.insert_with_priority(mock_item, None)
             pytest.fail(
-                "insert_with_priority should have failed with InvalidParameter\
+                "insert_with_priority should have failed with MKPKInvalidParameter\
                 but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             three_items.insert_with_priority(None, mock_priority)
             pytest.fail(
-                "insert_with_priority should have failed with InvalidParameter\
+                "insert_with_priority should have failed with MKPKInvalidParameter\
                 but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_insert_with_priority_high(self, three_items: PriorityList):
@@ -106,9 +106,9 @@ class TestInsertHighestPriority:
             three_items.insert_highest_priority(None)
             pytest.fail(
                 "insert_highest_priority should have failed with\
-                 InvalidParameter but did not."
+                 MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_inserts_into_highest_priority(self, three_items: PriorityList):
@@ -125,9 +125,9 @@ class TestInsertLowestPriority:
             three_items.insert_lowest_priority(None)
             pytest.fail(
                 "insert_lowest_priority should have failed with\
-                 InvalidParameter but did not."
+                 MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_inserts_into_lowest_priority(self, three_items: PriorityList):

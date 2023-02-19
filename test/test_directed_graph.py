@@ -2,8 +2,8 @@ import pytest
 
 from makka_pakka.directed_graph.directed_graph import DirectedGraph
 from makka_pakka.directed_graph.node import Node
-from makka_pakka.exceptions.exceptions import InvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKCyclicDependency
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 
 
 @pytest.fixture
@@ -86,10 +86,10 @@ class TestDirectedGraphConstructor:
         try:
             DirectedGraph(None)
             pytest.fail(
-                "DirectedGraph should have failed with InvalidParameter\
+                "DirectedGraph should have failed with MKPKInvalidParameter\
             but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
 
@@ -99,9 +99,9 @@ class TestGetNodeWithLabel:
             empty_graph.get_node_with_label(None)
             pytest.fail(
                 "get_node_with_label should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_gets_node_with_label(self, linear_three_nodes: DirectedGraph):
@@ -124,18 +124,18 @@ class TestConnectToNodeWithLabelCreateIfNotExists:
             empty_graph.connect_to_node_with_label_create_if_not_exists(None, None)
             pytest.fail(
                 "connect_to_node_with_label_create_if_not_exists should\
-                have failed with InvalidParameter but did not."
+                have failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             empty_graph.connect_to_node_with_label_create_if_not_exists(mock_node, None)
             pytest.fail(
                 "connect_to_node_with_label_create_if_not_exists should\
-                have failed with InvalidParameter but did not."
+                have failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -144,9 +144,9 @@ class TestConnectToNodeWithLabelCreateIfNotExists:
             )
             pytest.fail(
                 "connect_to_node_with_label_create_if_not_exists should\
-                have failed with InvalidParameter but did not."
+                have failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
@@ -155,9 +155,9 @@ class TestConnectToNodeWithLabelCreateIfNotExists:
             )
             pytest.fail(
                 "connect_to_node_with_label_create_if_not_exists should\
-                have failed with InvalidParameter but did not."
+                have failed with MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_creates_new_node_when_label_invalid(
@@ -216,27 +216,27 @@ class TestConnectNewNode:
             empty_graph.connect_new_node(None, None)
             pytest.fail(
                 "connect_new_node should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             empty_graph.connect_new_node(mock_parent, None)
             pytest.fail(
                 "connect_new_node should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             empty_graph.connect_new_node(None, mock_new_label)
             pytest.fail(
                 "connect_new_node should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_connects_new_node(self, empty_graph: DirectedGraph):
@@ -300,27 +300,27 @@ class TestCreateAndAssertNoCycle:
             linear_three_nodes.create_and_assert_no_cycle(None, None)
             pytest.fail(
                 "create_and_assert_no_cycle should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             linear_three_nodes.create_and_assert_no_cycle(mock_parent, None)
             pytest.fail(
                 "create_and_assert_no_cycle should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
         try:
             linear_three_nodes.create_and_assert_no_cycle(None, mock_label)
             pytest.fail(
                 "create_and_assert_no_cycle should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_does_not_error_on_new_node(self, linear_three_nodes: DirectedGraph):
@@ -351,9 +351,9 @@ class TestGetCyclicDependencyStr:
             DirectedGraph.get_cyclic_dependency_str(None)
             pytest.fail(
                 "get_cyclic_dependency_str should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_simple_cyclic_dep(self, simple_cyclic_dependency: DirectedGraph):

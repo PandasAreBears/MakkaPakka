@@ -1,7 +1,7 @@
 from typing import Generator
 from typing import List
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 
 
 class PriorityType:
@@ -25,7 +25,7 @@ class PriorityList:
         if not isinstance(default_items, list) or not all(
             [isinstance(i, str) for i in default_items]
         ):
-            raise InvalidParameter("default_items", "__init__", default_items)
+            raise MKPKInvalidParameter("default_items", "__init__", default_items)
 
         self.items = default_items
 
@@ -37,11 +37,11 @@ class PriorityList:
             with.
         """
         if not isinstance(item, str):
-            raise InvalidParameter("item", "insert_with_priority", item)
+            raise MKPKInvalidParameter("item", "insert_with_priority", item)
 
         # PriorityType is an underlying int
         if not isinstance(priority, int):
-            raise InvalidParameter("priority", "insert_with_priority", priority)
+            raise MKPKInvalidParameter("priority", "insert_with_priority", priority)
 
         match priority:
             case PriorityType.HIGH:
@@ -55,7 +55,7 @@ class PriorityList:
         :item: The item to give the highest priority in the priority list.
         """
         if not isinstance(item, str):
-            raise InvalidParameter("item", "insert_highest_priority", item)
+            raise MKPKInvalidParameter("item", "insert_highest_priority", item)
 
         self.items = [item] + self.items
 
@@ -65,7 +65,7 @@ class PriorityList:
         :item: The item to give the lowest priority in the priority list.
         """
         if not isinstance(item, str):
-            raise InvalidParameter("item", "insert_lowest_priority", item)
+            raise MKPKInvalidParameter("item", "insert_lowest_priority", item)
 
         self.items += [item]
 

@@ -12,7 +12,7 @@ from makka_pakka.elf_caver.caver.code_caver import _get_executable_segments
 from makka_pakka.elf_caver.caver.code_caver import _get_last_section_in_segment
 from makka_pakka.elf_caver.caver.code_caver import get_code_caves
 from makka_pakka.elf_caver.caver.file_permissions import is_executable
-from makka_pakka.elf_caver.exceptions.exceptions import InvalidParameter
+from makka_pakka.elf_caver.exceptions.exceptions import MKPKInvalidParameter
 
 RES_PATH: str = Path("test/resources/elf_caver")
 
@@ -51,7 +51,7 @@ class TestGetExecSegments:
                 "_get_executable_segments should have failed with invalid parameter but\
                      did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_invalid_parameter_int(self):
@@ -61,7 +61,7 @@ class TestGetExecSegments:
                 "_get_executable_segments should have failed with invalid parameter but\
                      did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_get_seg_count_for_crontab(self, crontab_binary):
@@ -81,7 +81,7 @@ class TestGetLastSectionInSegment:
                 "_get_last_section_in_segment should have failed with invalid parameter\
                      but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_invalid_parameter_int(self):
@@ -91,7 +91,7 @@ class TestGetLastSectionInSegment:
                 "_get_last_section_in_segment should have failed with invalid parameter\
                      but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_get_last_section_of_code(self, cat_binary):
@@ -113,7 +113,7 @@ class TestGetEndOfSegment:
                 "_get_end_of_segment should have failed with invalid parameter\
                      but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_invalid_parameter_int(self):
@@ -123,7 +123,7 @@ class TestGetEndOfSegment:
                 "_get_end_of_segment should have failed with invalid parameter\
                      but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_get_last_address_of_code(self, cat_binary):
@@ -145,7 +145,7 @@ class TestGetEndOfSection:
                 "_get_end_of_section should have failed with invalid parameter\
                      but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_invalid_parameter_int(self):
@@ -155,7 +155,7 @@ class TestGetEndOfSection:
                 "_get_end_of_section should have failed with invalid parameter\
                      but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_get_end_of_fini(self, crontab_binary):
@@ -181,7 +181,7 @@ class TestGetCodeCaves:
                 "get_code_caves should have failed with invalid parameter\
                      but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_invalid_parameter_int(self):
@@ -191,7 +191,7 @@ class TestGetCodeCaves:
                 "get_code_caves should have failed with invalid parameter\
                      but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_invalid_parameter_section(self, cat_binary):
@@ -201,7 +201,7 @@ class TestGetCodeCaves:
                 "get_code_caves should have failed with invalid parameter\
                      but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_get_code_caves_from_cat(self, cat_binary):

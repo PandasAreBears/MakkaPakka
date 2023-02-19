@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import List
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.linking.priority_list.priority_list import PriorityList
 from makka_pakka.linking.priority_list.priority_list import PriorityType
 
@@ -22,7 +22,8 @@ class LinkerPath:
         """
         LinkerPath constructor. Uses constant class attribute DEFAULT_LINKER_PATHS
         to initialise a priority list.
-        :mkpk_main_filepath: The filepath to the main .mkpk file targeted by
+
+        :param mkpk_main_filepath: The filepath to the main .mkpk file targeted by
             compilation. The parent directory will be used as the highest priority
             directory in linking.
         """
@@ -30,7 +31,9 @@ class LinkerPath:
             not isinstance(mkpk_main_filepath, str)
             or not Path(mkpk_main_filepath).exists()
         ):
-            raise InvalidParameter("mkpk_main_filepath", "__init__", mkpk_main_filepath)
+            raise MKPKInvalidParameter(
+                "mkpk_main_filepath", "__init__", mkpk_main_filepath
+            )
 
         parent_abs_path = str(Path(mkpk_main_filepath).parent.resolve()) + "/"
 
@@ -41,15 +44,16 @@ class LinkerPath:
     def add_path_to_linker(self, dir_path: str, priority: PriorityType) -> None:
         """
         Adds a directory path to the linker paths with a specified priority.
-        :dir_path: The path to directory to add to the linker path.
-        :priority: The priority to give the new linker path.
+
+        :param dir_path: The path to directory to add to the linker path.
+        :param priority: The priority to give the new linker path.
         """
         if not isinstance(dir_path, str):
-            raise InvalidParameter("dir_path", "add_path_to_linker", dir_path)
+            raise MKPKInvalidParameter("dir_path", "add_path_to_linker", dir_path)
 
         # PriorityType is an underlying int.
         if not isinstance(priority, int):
-            raise InvalidParameter("priority", "add_path_to_linker", priority)
+            raise MKPKInvalidParameter("priority", "add_path_to_linker", priority)
 
         self.linker_paths.insert_with_priority(dir_path, priority)
 
@@ -59,12 +63,13 @@ class LinkerPath:
         its basename. If there are multiple files with the same basename in the
         linkable directories, then the higher priority directory path will be
         selected.
-        :mkpk_filename: The basename of the .mkpk file. e.g "file.mkpk".
-        :returns: The resolved absolute filepath of the passed .mkpk filename,
+
+        :param mkpk_filename: The basename of the .mkpk file. e.g "file.mkpk".
+        :return: The resolved absolute filepath of the passed .mkpk filename,
             or "" if not found.
         """
         if not isinstance(mkpk_filename, str):
-            raise InvalidParameter("mkpk_filename", "find_mkpk_file", mkpk_filename)
+            raise MKPKInvalidParameter("mkpk_filename", "find_mkpk_file", mkpk_filename)
 
         gen_linker_paths = self.linker_paths.yield_highest_priority()
 

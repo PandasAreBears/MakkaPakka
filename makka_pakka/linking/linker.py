@@ -4,7 +4,7 @@ from typing import List
 from makka_pakka.directed_graph.directed_graph import DirectedGraph
 from makka_pakka.directed_graph.node import Node
 from makka_pakka.exceptions.exceptions import ErrorType
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKLinkingError
 from makka_pakka.linking.linker_path import LinkerPath
 from makka_pakka.parsing.parse import parse_makka_pakka
@@ -15,12 +15,15 @@ from makka_pakka.parsing.parsing_structures import MKPKMetaData
 def parse_link_and_merge(mkpk_filepath: str) -> MKPKIR:
     """
     Parses, links, and merges a main makka pakkka source file.
-    :mkpk_filepath: The filepath the main .mkpk source file to be parsed,
+
+    :param mkpk_filepath: The filepath the main .mkpk source file to be parsed,
         linked, and merged.
-    :returns: A linked, and merged MKPKIR object.
+    :return: A linked, and merged MKPKIR object.
     """
     if not isinstance(mkpk_filepath, str):
-        raise InvalidParameter("mkpk_filepath", "parse_link_and_merge", mkpk_filepath)
+        raise MKPKInvalidParameter(
+            "mkpk_filepath", "parse_link_and_merge", mkpk_filepath
+        )
 
     unlinked_files: List[MKPKIR] = parse_with_linking(mkpk_filepath)
 
@@ -31,9 +34,10 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
     """
     Parses a makka pakka source file, recursively linking with files found in
     the !link metadata directive.
-    :mkpk_filepath: The makka pakka source file to parse using recursive
+
+    :param mkpk_filepath: The makka pakka source file to parse using recursive
         linking.
-    :returns: A list of MKPKIR objects which represent .mkpk files that have
+    :return: A list of MKPKIR objects which represent .mkpk files that have
         been parsed as dependencies of the main source file. The main source
         file will at index 0.
     :remark: Each IR object in the returned list is assigned a metadata
@@ -42,7 +46,7 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
         file will have value 1.
     """
     if not isinstance(mkpk_filepath, str):
-        raise InvalidParameter("mkpk_filepath", "parse_with_linking", mkpk_filepath)
+        raise MKPKInvalidParameter("mkpk_filepath", "parse_with_linking", mkpk_filepath)
 
     linker_path: LinkerPath = LinkerPath(mkpk_filepath)
 
@@ -111,16 +115,17 @@ def merge_MKPKIRs(mkpkirs: List[MKPKIR]) -> MKPKIR:
     is then ready to be processed. This function is intended to be called
     using the result of parse_with_linking.
     This function is responsible for several validation checks:
-      - Function names do not conflict
-      - Data labels do not conflit
-      - ROPGadget memory addresses do not conflict
-    :mkpkirs: The list of MKPKIR objects to be merged into one.
-    :returns: A MKPKIR object with all passed objects merged into it.
+    - Function names do not conflict
+    - Data labels do not conflit
+    - ROPGadget memory addresses do not conflict
+
+    :param mkpkirs: The list of MKPKIR objects to be merged into one.
+    :return: A MKPKIR object with all passed objects merged into it.
     """
     if not isinstance(mkpkirs, list) or not all(
         [isinstance(ir, MKPKIR) for ir in mkpkirs]
     ):
-        raise InvalidParameter("mkpkirs", "merge_MKPKIRs", mkpkirs)
+        raise MKPKInvalidParameter("mkpkirs", "merge_MKPKIRs", mkpkirs)
 
     """
     The merging process starts with the main source IR and individually
@@ -157,15 +162,15 @@ def merge_MKPKIRs(mkpkirs: List[MKPKIR]) -> MKPKIR:
 def _combine_MKPKIRs(lhs: MKPKIR, rhs: MKPKIR) -> MKPKIR:
     """
     Combines to MKPKIR objects into one.
-    :lhs: The first object to combine. The metadata of this object is kept.
-    :rhs: The second object to combine. The metadata of this object is lost.
+    :param lhs: The first object to combine. The metadata of this object is kept.
+    :param rhs: The second object to combine. The metadata of this object is lost.
     :return: The combined MKPKIR object.
     """
     if not isinstance(lhs, MKPKIR):
-        raise InvalidParameter("lhs", "_combine_MKPKIRs", lhs)
+        raise MKPKInvalidParameter("lhs", "_combine_MKPKIRs", lhs)
 
     if not isinstance(rhs, MKPKIR):
-        raise InvalidParameter("rhs", "_combine_MKPKIRs", rhs)
+        raise MKPKInvalidParameter("rhs", "_combine_MKPKIRs", rhs)
 
     for r_func in rhs.functions:
         lhs.functions.append(r_func)
@@ -184,10 +189,10 @@ def _assert_no_conflict_in_functions(lhs: MKPKIR, rhs: MKPKIR):
     Asserts if there are conflicts in the function names' of MKPKIR objects.
     """
     if not isinstance(lhs, MKPKIR):
-        raise InvalidParameter("lhs", "_assert_no_conflict_in_functions", lhs)
+        raise MKPKInvalidParameter("lhs", "_assert_no_conflict_in_functions", lhs)
 
     if not isinstance(rhs, MKPKIR):
-        raise InvalidParameter("rhs", "_assert_no_conflict_in_functions", rhs)
+        raise MKPKInvalidParameter("rhs", "_assert_no_conflict_in_functions", rhs)
 
     for l_func in lhs.functions:
         for r_func in rhs.functions:
@@ -209,10 +214,10 @@ def _assert_no_conflict_in_data_labels(lhs: MKPKIR, rhs: MKPKIR):
     Asserts if there are conflicts in the data labels of MKPKIR objects.
     """
     if not isinstance(lhs, MKPKIR):
-        raise InvalidParameter("lhs", "_assert_no_conflict_in_data_labels", lhs)
+        raise MKPKInvalidParameter("lhs", "_assert_no_conflict_in_data_labels", lhs)
 
     if not isinstance(rhs, MKPKIR):
-        raise InvalidParameter("rhs", "_assert_no_conflict_in_data_labels", rhs)
+        raise MKPKInvalidParameter("rhs", "_assert_no_conflict_in_data_labels", rhs)
 
     for l_data in lhs.data:
         for r_data in rhs.data:
@@ -235,10 +240,14 @@ def _assert_no_conflict_in_gadget_addresses(lhs: MKPKIR, rhs: MKPKIR):
     MKPKIR objects.
     """
     if not isinstance(lhs, MKPKIR):
-        raise InvalidParameter("lhs", "_assert_no_conflict_in_gadget_addresses", lhs)
+        raise MKPKInvalidParameter(
+            "lhs", "_assert_no_conflict_in_gadget_addresses", lhs
+        )
 
     if not isinstance(rhs, MKPKIR):
-        raise InvalidParameter("rhs", "_assert_no_conflict_in_gadget_addresses", rhs)
+        raise MKPKInvalidParameter(
+            "rhs", "_assert_no_conflict_in_gadget_addresses", rhs
+        )
 
     for l_gadget in lhs.gadgets:
         for r_gadget in rhs.gadgets:

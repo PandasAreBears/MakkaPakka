@@ -1,7 +1,7 @@
 from typing import Tuple
 
 from makka_pakka.exceptions.exceptions import ErrorType
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKNameError
 from makka_pakka.exceptions.exceptions import MKPKParsingError
 
@@ -27,13 +27,15 @@ class HeadingType:
 
 
 def detect_heading_in_line(line: str) -> Tuple[HeadingStyle, str]:
-    """Determines if a line contains a heading, i.e [{name}] or [[{name}]]
-    :line: The line of makka pakka code to detect a heading in.
-    :returns: A tuple of (HeadingStyle, {heading_name}), where heading_name is
+    """
+    Determines if a line contains a heading, i.e [{name}] or [[{name}]]
+
+    :param line: The line of makka pakka code to detect a heading in.
+    :return: A tuple of (HeadingStyle, {heading_name}), where heading_name is
         "" if the type is HeadingStyle.NO_HEADING.
     """
     if not isinstance(line, str):
-        raise InvalidParameter("line", "_detect_heading_in_line", line)
+        raise MKPKInvalidParameter("line", "_detect_heading_in_line", line)
 
     NO_HEADING_RETURN = (HeadingStyle.NO_HEADING, "")
     # Early breakout if the line can't be a heading.
@@ -118,17 +120,19 @@ def detect_heading_in_line(line: str) -> Tuple[HeadingStyle, str]:
 
 
 def _assert_valid_mkpk_name(name: str, line: str = "") -> None:
-    """Asserts that a name used in makka pakka is valid.
-    :name: The name to be validated.
-    :line: The line that the heading is defined in, for debugging.
+    """
+    Asserts that a name used in makka pakka is valid.
+
+    :param name: The name to be validated.
+    :param line: The line that the heading is defined in, for debugging.
     :raises:
         MKPKNameError - When the heading name is invalid.
     """
     if not isinstance(name, str):
-        raise InvalidParameter("name", "_assert_valid_mkpk_name", name)
+        raise MKPKInvalidParameter("name", "_assert_valid_mkpk_name", name)
 
     if not isinstance(line, str):
-        raise InvalidParameter("line", "_assert_valid_mkpk_name", line)
+        raise MKPKInvalidParameter("line", "_assert_valid_mkpk_name", line)
 
     # Check if the name is valid, i.e in the one of the ranges [a-z][A-Z][0-9]
     # [_].

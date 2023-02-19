@@ -3,7 +3,7 @@ from typing import List
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKParsingError
 from makka_pakka.parsing.parse import _split_into_headings
 from makka_pakka.parsing.parse_headings import parse_gadgets
@@ -56,9 +56,9 @@ class TestParseGadgets:
             parse_gadgets(None)
             pytest.fail(
                 "parse_gadgets should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_empty_headings(self, empty_headings: MKPKLines):

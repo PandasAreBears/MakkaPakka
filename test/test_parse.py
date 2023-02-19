@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from makka_pakka.exceptions.exceptions import InvalidParameter
+from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.parsing.detect_headings import HeadingType
 from makka_pakka.parsing.parse import _convert_heading_name_to_type
 from makka_pakka.parsing.parse import _split_into_headings
@@ -33,9 +33,9 @@ class TestParseMakkaPakka:
 
             pytest.fail(
                 "parse_makka_pakka should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_simple_mkpk_file(self):
@@ -84,9 +84,9 @@ class TestConvertHeadingNameToType:
             _convert_heading_name_to_type(None)
             pytest.fail(
                 "_convert_heading_name_to_type should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_returns_none_on_invalid_name(self):
@@ -114,9 +114,9 @@ class TestSplitIntoHeadings:
             _split_into_headings(None)
             pytest.fail(
                 "_split_into_headings should have failed with\
-                InvalidParameter but did not."
+                MKPKInvalidParameter but did not."
             )
-        except InvalidParameter:
+        except MKPKInvalidParameter:
             pass
 
     def test_comments(self):
