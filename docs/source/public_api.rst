@@ -1,15 +1,9 @@
 **Public API**
 ==============
-.. _Compilation process:
 .. _Parsing:
 .. _Processing:
 .. _Integrating:
 .. _ELF Caver:
-
-
-Compilation process
--------------------
-blah
 
 Parsing
 -------

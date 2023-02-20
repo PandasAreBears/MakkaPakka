@@ -35,11 +35,7 @@
   <section id="public-api">
 <h1><strong>Public API</strong><a class="headerlink" href="#public-api" title="Permalink to this heading">¶</a></h1>
 <section id="elf-caver">
-<span id="integrating"></span><span id="processing"></span><span id="parsing"></span><span id="compilation-process"></span><span id="id1"></span><h2>Compilation process<a class="headerlink" href="#elf-caver" title="Permalink to this heading">¶</a></h2>
-<p>blah</p>
-</section>
-<section id="id2">
-<h2>Parsing<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
+<span id="integrating"></span><span id="processing"></span><span id="parsing"></span><span id="id1"></span><h2>Parsing<a class="headerlink" href="#elf-caver" title="Permalink to this heading">¶</a></h2>
 <span class="target" id="module-makka_pakka.parsing.parse"></span><dl class="py function">
 <dt class="sig sig-object py" id="makka_pakka.parsing.parse.parse_makka_pakka">
 <span class="sig-prename descclassname"><span class="pre">makka_pakka.parsing.parse.</span></span><span class="sig-name descname"><span class="pre">parse_makka_pakka</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mkpk_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></span><a class="headerlink" href="#makka_pakka.parsing.parse.parse_makka_pakka" title="Permalink to this definition">¶</a></dt>
@@ -115,8 +111,8 @@ file will have value 1.</p>
 </dd></dl>
 
 </section>
-<section id="id3">
-<h2>Processing<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
+<section id="id2">
+<h2>Processing<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
 <span class="target" id="module-makka_pakka.processing.process"></span><dl class="py function">
 <dt class="sig sig-object py" id="makka_pakka.processing.process.process_makka_pakka">
 <span class="sig-prename descclassname"><span class="pre">makka_pakka.processing.process.</span></span><span class="sig-name descname"><span class="pre">process_makka_pakka</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.parsing.parsing_structures.MKPKIR" title="makka_pakka.parsing.parsing_structures.MKPKIR"><span class="pre">MKPKIR</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="data_structures.html#makka_pakka.processing.processing_structures.MKPKCode" title="makka_pakka.processing.processing_structures.MKPKCode"><span class="pre">MKPKCode</span></a></span></span><a class="headerlink" href="#makka_pakka.processing.process.process_makka_pakka" title="Permalink to this definition">¶</a></dt>
@@ -132,8 +128,8 @@ file will have value 1.</p>
 </dd></dl>
 
 </section>
-<section id="id4">
-<h2>Integrating<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
+<section id="id3">
+<h2>Integrating<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
 <span class="target" id="module-makka_pakka.integrating.integrate"></span><dl class="py function">
 <dt class="sig sig-object py" id="makka_pakka.integrating.integrate.integrate_makka_pakka">
 <span class="sig-prename descclassname"><span class="pre">makka_pakka.integrating.integrate.</span></span><span class="sig-name descname"><span class="pre">integrate_makka_pakka</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data_structures.html#makka_pakka.processing.processing_structures.MKPKCode" title="makka_pakka.processing.processing_structures.MKPKCode"><span class="pre">MKPKCode</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#makka_pakka.integrating.integrate.integrate_makka_pakka" title="Permalink to this definition">¶</a></dt>
@@ -153,8 +149,8 @@ be a random /tmp/{uuid} path if not specified.</p></li>
 </dd></dl>
 
 </section>
-<section id="id5">
-<h2>ELF Caver<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
+<section id="id4">
+<h2>ELF Caver<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
 <span class="target" id="module-makka_pakka.elf_caver.caver.code_caver"></span><dl class="py function">
 <dt class="sig sig-object py" id="makka_pakka.elf_caver.caver.code_caver.get_code_caves">
 <span class="sig-prename descclassname"><span class="pre">makka_pakka.elf_caver.caver.code_caver.</span></span><span class="sig-name descname"><span class="pre">get_code_caves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Binary</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#makka_pakka.elf_caver.caver.code_caver.get_code_caves" title="Permalink to this definition">¶</a></dt>
@@ -197,11 +193,10 @@ format: (code cave offset, code cave size).</p>
 <li class="toctree-l1"><a class="reference internal" href="compilation.html"><strong>Compilation Process</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_structures.html"><strong>Data Structures</strong></a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Public API</strong></a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#elf-caver">Compilation process</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Parsing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Integrating</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">ELF Caver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#elf-caver">Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Integrating</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">ELF Caver</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="private_api.html"><strong>Full API</strong></a></li>

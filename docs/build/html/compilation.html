@@ -34,7 +34,213 @@
 
   <section id="compilation-process">
 <h1><strong>Compilation Process</strong><a class="headerlink" href="#compilation-process" title="Permalink to this heading">¶</a></h1>
-<p>blah</p>
+<section id="phases">
+<h2>Phases<a class="headerlink" href="#phases" title="Permalink to this heading">¶</a></h2>
+<p>Compilation is split into three phases - Parsing, Processing, and Integrating.
+This section will guide the reader though the steps that taken in each phase.</p>
+</section>
+<section id="parsing">
+<h2>Parsing<a class="headerlink" href="#parsing" title="Permalink to this heading">¶</a></h2>
+<p><em>Objective: Translate text from a .mkpk file into an intermediate
+representation.</em></p>
+<section id="step-1-heading-detection">
+<h3>Step 1: Heading Detection<a class="headerlink" href="#step-1-heading-detection" title="Permalink to this heading">¶</a></h3>
+<p>In the first step, a simple iteration of the file is performed where headings,
+defined using [[heading]] are detected, and stored as a state which determines
+where to put the lines underneath the heading. As a result, there will be an
+optional set of lines for each - metadata, data, code, gadgets.</p>
+</section>
+<section id="step-2-parse-functions">
+<h3>Step 2: Parse Functions<a class="headerlink" href="#step-2-parse-functions" title="Permalink to this heading">¶</a></h3>
+<p>Code lines collected under the functions heading are parsed into
+MKPKFunction objects. This stores the name of the function, its arguments, and
+the code lines beneath it. The following is the class definition of
+MKPKFunction:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MKPKFunction</span><span class="p">:</span>
+<span class="sd">&quot;&quot;&quot;A data strcture to encapsulate code functions used in makka pakka.&quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">arguments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">content</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Code structure constructor.</span>
+
+<span class="sd">    :param name: A unique function name for the section of code.</span>
+<span class="sd">    :param arugments: A list of unique names for arguements that this function</span>
+<span class="sd">        expects.</span>
+<span class="sd">    :param content: A list of lines of makka pakka code.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">is_main</span> <span class="o">=</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;main&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">num_arguments</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">arguments</span> <span class="o">=</span> <span class="n">arguments</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-parse-data">
+<h3>Step 3: Parse Data<a class="headerlink" href="#step-3-parse-data" title="Permalink to this heading">¶</a></h3>
+<p>Data definitions collected under the data heading are parsed into MKPKData
+objects. This contains the name of the data label, its value, and its
+interpretted data type - the following is the class definition of MKPKDataType
+and MKPKData:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MKPKDataType</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Identifies the data type of a MKPKData object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">NONE</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">STR</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">INT</span> <span class="o">=</span> <span class="mi">2</span>
+
+
+<span class="k">class</span> <span class="nc">MKPKData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A data structure to encapsulate constant data used in makka pakka&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="nb">type</span><span class="p">:</span> <span class="n">MKPKDataType</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Data structure constructor.</span>
+
+<span class="sd">        :param name: A unique label assigned to the constant data.</span>
+<span class="sd">        :param value: The constant data itself.</span>
+<span class="sd">        :param type: The data type of the constant data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+</pre></div>
+</div>
+</section>
+<section id="step-4-parse-gadgets">
+<h3>Step 4: Parse Gadgets<a class="headerlink" href="#step-4-parse-gadgets" title="Permalink to this heading">¶</a></h3>
+<p>Gadget definitions collected under the gadget heading are parsed into
+MKPKGadget objects. This contains the virtual memory address of the gadget,
+and instructions before a ‘ret’ at that address. The following is the class
+definition of MKPKGadget:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MKPKGadget</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A data structure to encapsulate ROP gadgets used in makka pakka.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory_location</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gadget Constructor.</span>
+
+<span class="sd">        :param memory_location: The virtual memory address of the ROP gadget in the</span>
+<span class="sd">            target binary.</span>
+<span class="sd">        :param content: A list of assembly lines at that address, up until a ret is</span>
+<span class="sd">            reached.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">memory_location</span> <span class="o">=</span> <span class="n">memory_location</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-parse-metadata">
+<h3>Step 5: Parse Metadata<a class="headerlink" href="#step-5-parse-metadata" title="Permalink to this heading">¶</a></h3>
+<p>Metadata is considered all lines in the source file that are no defined under
+a heading - i.e. at the top of a file. Metadata is parsed into MKPKMetaData
+objects, which has the following definition.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MKPKMetaData</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A data structure to encapsulate metadata used in makka pakka&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Metadata Constructor.</span>
+
+<span class="sd">        :param label: The label to uniquely identify the meta data.</span>
+<span class="sd">        :param values: The values associated with the metadata label.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</section>
+<section id="step-6-collate-structures">
+<h3>Step 6: Collate Structures<a class="headerlink" href="#step-6-collate-structures" title="Permalink to this heading">¶</a></h3>
+<p>The objects from step 2-5 are then collected into a single object - MKPKIR.
+This is the complete intermediate representation of the makka pakka programming
+language. The following is the class definition:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MKPKIR</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An intermediate representation of the makka pakka programming language</span>
+<span class="sd">    to be populated during the parsing phase.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MKPKData</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MKPKFunction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gadgets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MKPKGadget</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">MKPKMetaData</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All data structures used to compile makka pakka can be found in
+<a class="reference internal" href="data_structures.html"><span class="doc">Data Structures</span></a>.</p>
+</div>
+</section>
+</section>
+<section id="linking">
+<h2>Linking<a class="headerlink" href="#linking" title="Permalink to this heading">¶</a></h2>
+<p><em>Objective: Resolve reference to external files, and parse their contents.</em></p>
+<section id="step-1-discover-dependencies">
+<h3>Step 1: Discover Dependencies<a class="headerlink" href="#step-1-discover-dependencies" title="Permalink to this heading">¶</a></h3>
+<p>Linking starts with metadata labels. Files that link with other files use the
+‘!link {mkpk_filename}’ directive. Therefore, the first step is to extract the
+filenames that the current file expects to link with.</p>
+</section>
+<section id="step-2-find-dependencies">
+<h3>Step 2: Find Dependencies<a class="headerlink" href="#step-2-find-dependencies" title="Permalink to this heading">¶</a></h3>
+<p>Makka pakka then attempts to find the files that are specified for linking.
+This is done by searching in the directories defined in
+makka_pakka.linking.linker_path (shown below). The directory of the main source
+file is added to the default linker paths at runtime with the highest priority.
+The linking priority logic is abstracted by the PriorityList implementation in
+makka_pakka.linking.priority_list. If a linked file is not found during this
+process, then a MKPKLinkingError will be raised.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The default directories to look for linkable .mkpk files in.</span>
+<span class="n">DEFAULT_LINKER_PATHS</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;/usr/local/lib/mkpk/&quot;</span><span class="p">,</span>
+    <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">home</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;/.local/lib/mkpk/&quot;</span><span class="p">,</span>
+    <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;lib/&quot;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-parse-dependency">
+<h3>Step 3: Parse Dependency<a class="headerlink" href="#step-3-parse-dependency" title="Permalink to this heading">¶</a></h3>
+<p>Once the dependency is found, the process starts again -
+i.e. the file is parsed into a MKPKIR, then, if this file also contains link
+directives, these will be resolved.</p>
+<p>To avoid cyclic dependencies causing an infinite linking loop, a custom
+DirectedGraph structure is used, implemented in
+makka_pakka.directed_graph.directed_graph. The diagram below illustrates an
+acceptable, and an unacceptable dependency graph. In the unacceptable case, a
+MKPKCyclicDependency error will be raised.</p>
+<img alt="Cyclic Dependency Graphs" src="_images/cyclic_deps.png" />
+</section>
+<section id="step-4-merge-ir-symbols">
+<h3>Step 4: Merge IR Symbols<a class="headerlink" href="#step-4-merge-ir-symbols" title="Permalink to this heading">¶</a></h3>
+<p>The overall goal of the parsing phase is to create a single MKPKIR object that
+can be used as an input into the processing phase. When linking is performed,
+makka pakka ends up with multiple MKPKIR objects which can contain conflicting
+symbols (function names etc.). To resolve this issue, all MKPKIR objects are
+merged into the main object (the one created as a result of parsing the main
+source file.). If there is a conflict in symbols, then a MKPKLinkingError will
+be raised.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the future, namespacing may be implemented to prevent common conflicts.
+For now, libraries implement their data labels and function name in full
+uppercase. This means user programs are safe to use the entire lowercase
+namespace.</p>
+</div>
+</section>
+</section>
+<section id="processing">
+<h2>Processing<a class="headerlink" href="#processing" title="Permalink to this heading">¶</a></h2>
+<p><em>Objective: Resolve references data labels and functions.</em></p>
+</section>
+<section id="integrating">
+<h2>Integrating<a class="headerlink" href="#integrating" title="Permalink to this heading">¶</a></h2>
+<p><em>Objective: Replace suitable instruction sequences with ROP calls, and write
+the program to file.</em></p>
+</section>
 </section>
 
 
@@ -58,7 +264,14 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html"><strong>Installation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="language_spec.html"><strong>Language Features</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html"><strong>Examples</strong></a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Compilation Process</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Compilation Process</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#phases">Phases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parsing">Parsing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linking">Linking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#processing">Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#integrating">Integrating</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="data_structures.html"><strong>Data Structures</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="public_api.html"><strong>Public API</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="private_api.html"><strong>Full API</strong></a></li>
