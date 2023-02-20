@@ -7,8 +7,8 @@ Welcome to MakkaPakka's documentation!
 ======================================
 **Overview**
 ------------
-**Makka pakka** is a programming language which translates into Netwide
-Assembly (NASM). It implements additional features on top of traditional
+**Makka pakka** is a programming language which transpiles into Intel
+Assembly. It implements additional features on top of traditional
 assembly, such as:
 
 - Functions

@@ -106,7 +106,7 @@ In a seperate terminal:
 
     nc -l localhost 5555
 
-Then run the inject echo binary:
+Then run the injected echo binary:
 
 .. code-block::
 
