@@ -3,8 +3,7 @@ pipeline {
   stages {
     stage('Configure') {
       steps {
-        sh "#!/bin/bash \n" +
-           "source configure.sh"
+        './configure.sh'
       }
     }
 
