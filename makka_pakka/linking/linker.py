@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import List
 
+from makka_pakka import settings
 from makka_pakka.directed_graph.directed_graph import DirectedGraph
 from makka_pakka.directed_graph.node import Node
 from makka_pakka.exceptions.exceptions import ErrorType
@@ -58,6 +59,9 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
 
     def parse_file(parent: Node, filename: str):
         nonlocal linker_path, linking_graph, file_IRs, link_depth
+
+        if settings.verbosity:
+            print(f"Parsing mkpk file: {filename}")
 
         full_file_path: str = linker_path.find_mkpk_file(filename)
         if not full_file_path:

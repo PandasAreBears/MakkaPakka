@@ -4,6 +4,7 @@ from typing import List
 from typing import Tuple
 from uuid import uuid4
 
+from makka_pakka import settings
 from makka_pakka.elf_caver.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.elf_caver.injector.byte_extraction import (
     to_little_endian_32bit,
@@ -25,6 +26,9 @@ def change_entrypoint(target_binary: str, entrypoint: int, output: str = ""):
         raise MKPKInvalidParameter("entrypoint", "change_entrypoint", entrypoint)
     if not isinstance(output, str):
         raise MKPKInvalidParameter("output", "change_entrypoint", output)
+
+    if settings.verbosity:
+        print(f"Patching entrypoint with new address: {hex(entrypoint)}")
 
     if output == "":
         output = f"/tmp/{uuid4()}"
@@ -109,7 +113,15 @@ def patch_pltsec_exit(target_binary: str, inject_offset: int, output: str = "") 
 
     # Patch the new addresses into the bytearray
     for p_shellcode, p_size, p_offset in patches:
-        print(f"Shell: {p_shellcode}\nSize: {p_size}\nOffset: {hex(p_offset)}")
+        if settings.verbosity:
+            print(
+                (
+                    "Patching process exit address:\n"
+                    f"\tShellcode: {p_shellcode}\n"
+                    f"\tSize: {p_size}\n"
+                    f"\tOffset: {hex(p_offset)}"
+                )
+            )
         byte_array[p_offset : p_offset + p_size] = p_shellcode
 
     with open(output, "wb") as output_file:

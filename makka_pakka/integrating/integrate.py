@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import List
 from uuid import uuid4
 
+from makka_pakka import settings
 from makka_pakka.exceptions.exceptions import ErrorType
 from makka_pakka.exceptions.exceptions import MKPKIntegratingError
 from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
@@ -25,6 +26,9 @@ def integrate_makka_pakka(code: MKPKCode, output_filepath: str = "") -> str:
         raise MKPKInvalidParameter(
             "output_filepath", "integrate_makka_pakka", output_filepath
         )
+
+    if settings.verbosity:
+        print("Integrating...")
 
     # TODO: Integrate the gadgets here.
 

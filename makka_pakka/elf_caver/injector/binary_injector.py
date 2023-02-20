@@ -7,10 +7,12 @@ from uuid import uuid4
 from lief import ELF
 from lief import parse
 
+from makka_pakka import settings
 from makka_pakka.elf_caver.caver.code_caver import get_code_caves
 from makka_pakka.elf_caver.exceptions.exceptions import ByteExtractionFailed
 from makka_pakka.elf_caver.exceptions.exceptions import InsufficientCodeCaves
 from makka_pakka.elf_caver.exceptions.exceptions import MKPKInvalidParameter
+from makka_pakka.elf_caver.formatting.print_elf import pprint_header
 from makka_pakka.elf_caver.injector.compile import compile
 from makka_pakka.elf_caver.injector.redirect_execution import change_entrypoint
 from makka_pakka.elf_caver.injector.redirect_execution import patch_pltsec_exit
@@ -78,7 +80,18 @@ def inject_nasm_into_binary(
     shellcode_size: int = len(shellcode)
 
     target_binary: ELF.Binary = parse(target_binary_filepath)
+    if settings.verbosity:
+        pprint_header(target_binary)
+
     code_caves: List[Tuple[int, int]] = get_code_caves(target_binary)
+    if settings.verbosity:
+        if code_caves:
+            print(
+                f"Found code cave with size {code_caves[0][1]} at offset \
+{hex(code_caves[0][0])}"
+            )
+        else:
+            print("Couldn't find any code caves.")
 
     # Select the first code cave that's large enough to inject into.
     inject_offset = -1
