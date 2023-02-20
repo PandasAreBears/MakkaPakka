@@ -1,17 +1,20 @@
 pipeline {
-  agent any
-  stages {
-    stage('Configure') {
-      steps {
-        sh 'source configure.sh'
-      }
+    agent any
+    stages {
+        stage('Configure') {
+            steps {
+                echo 'Configuring...'
+                sh 'source configure.sh'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                sh 'pytest'
+            }
+        }
     }
-
-    stage('Test') {
-      steps {
-        sh 'pytest'
-      }
-    }
+}
 
   }
 }
