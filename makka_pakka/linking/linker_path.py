@@ -16,6 +16,7 @@ class LinkerPath:
     DEFAULT_LINKER_PATHS: List[str] = [
         "/usr/local/lib/mkpk/",
         str(Path.home()) + "/.local/lib/mkpk/",
+        str(Path(__file__).parent.parent.parent / "lib/stdlib/"),
     ]
 
     def __init__(self, mkpk_main_filepath: str) -> None:

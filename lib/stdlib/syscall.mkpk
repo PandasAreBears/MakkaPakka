@@ -1,0 +1,24 @@
+
+[[code]]
+[syscall] rax rdi rsi rdx r10 r8 r9
+mov r9, ${r9}
+mov r8, ${r8}
+mov r10, ${r10}
+mov rdx, ${rdx}
+mov rsi, ${rsi}
+mov rdi, ${rdi}
+mov rax, ${rax}
+syscall
+
+[sys_write] msg len
+mov eax, 1
+mov rdi, 1
+lea rsi, ${msg}
+mov rdx, ${len}
+syscall
+
+
+[sys_exit]
+xor edi, edi
+mov eax, 60
+syscall

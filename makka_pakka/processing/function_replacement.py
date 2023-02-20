@@ -296,9 +296,13 @@ def _get_ref_value_from_arguments(
                     ErrorType.FATAL,
                 )
 
-            # Only the label name is important, as the data will be replaced
-            # as a relative jump to the label.
-            resolved_data = MKPKData(parsed_value, "", data_type)
+            # If the data at the label is a string type, then replace with a
+            # relative reference, else replace with the value directly.
+            match refd_data.type:
+                case MKPKDataType.STR:
+                    resolved_data = MKPKData(parsed_value, "", data_type)
+                case MKPKDataType.INT:
+                    resolved_data = refd_data
 
         case MKPKDataType.INT:
             # Empty name, as this is an int so will be directly replaced
