@@ -184,8 +184,8 @@ language. The following is the class definition:</p>
 ‘!link {mkpk_filename}’ directive. Therefore, the first step is to extract the
 filenames that the current file expects to link with.</p>
 </section>
-<section id="step-2-find-dependencies">
-<h3>Step 2: Find Dependencies<a class="headerlink" href="#step-2-find-dependencies" title="Permalink to this heading">¶</a></h3>
+<section id="step-2-resolve-dependencies">
+<h3>Step 2: Resolve Dependencies<a class="headerlink" href="#step-2-resolve-dependencies" title="Permalink to this heading">¶</a></h3>
 <p>Makka pakka then attempts to find the files that are specified for linking.
 This is done by searching in the directories defined in
 makka_pakka.linking.linker_path (shown below). The directory of the main source
@@ -202,8 +202,8 @@ process, then a MKPKLinkingError will be raised.</p>
 </pre></div>
 </div>
 </section>
-<section id="step-3-parse-dependency">
-<h3>Step 3: Parse Dependency<a class="headerlink" href="#step-3-parse-dependency" title="Permalink to this heading">¶</a></h3>
+<section id="step-3-parse-dependencies">
+<h3>Step 3: Parse Dependencies<a class="headerlink" href="#step-3-parse-dependencies" title="Permalink to this heading">¶</a></h3>
 <p>Once the dependency is found, the process starts again -
 i.e. the file is parsed into a MKPKIR, then, if this file also contains link
 directives, these will be resolved.</p>
@@ -234,12 +234,70 @@ namespace.</p>
 </section>
 <section id="processing">
 <h2>Processing<a class="headerlink" href="#processing" title="Permalink to this heading">¶</a></h2>
-<p><em>Objective: Resolve references data labels and functions.</em></p>
+<p><em>Objective: Resolve references to data labels and functions.</em></p>
+<section id="step-1-data-replacement">
+<h3>Step 1: Data Replacement<a class="headerlink" href="#step-1-data-replacement" title="Permalink to this heading">¶</a></h3>
+<p>Find all instances of ‘${&lt;name&gt;}’ references used in the code section of the
+MKPKIR object. Attempt to find these references in the data section of the
+MKPKIR object. If it exists as integer data, then the reference is directly
+replaced with the integer value. If it is string data, then the reference is
+replaced with a relative address of the data definition. If data is referenced
+that doesn’t exist in the MKPKIR data section, then this issue is ignored for
+now, as the data may be an arguement in the function. This is handled in
+step 2.</p>
+</section>
+<section id="step-2-function-replacement">
+<h3>Step 2: Function Replacement<a class="headerlink" href="#step-2-function-replacement" title="Permalink to this heading">¶</a></h3>
+<p>Function replacement is implemented as a single pass over the ‘main’ function.
+When a function call is found in the main function, the function call is
+replaced with the code found in the MKPKIR object for that function. This is a
+recursive process, the called function may itself call another function - Makka
+pakka will recursively resolve these function call unless a cyclic function
+call loop is detected, using the same DirectedGraph approach as with linking.
+If a function is called which doesn’t exist in the MKPKIR, then a
+MKPKProcessingError will be raised.</p>
+<p>When a function is called with arguments, these arguments are pushed into a
+MKPKArgumentSet structure which encapsulates them. As recursive function calls
+are made, the MKPKArgumentSet objects are pushed onto a stack, the top of the
+stack being the set of arguments to the current function. Any remaining data
+references within the function are assumed to be arguments - these are then
+replaced using the corresponding value in the MKPKArgumentSet. If the data
+reference is not an argument in the function, then it cannot be resolved, and
+makka pakka will raise a MKPKProcessingError.</p>
+</section>
 </section>
 <section id="integrating">
 <h2>Integrating<a class="headerlink" href="#integrating" title="Permalink to this heading">¶</a></h2>
 <p><em>Objective: Replace suitable instruction sequences with ROP calls, and write
 the program to file.</em></p>
+<section id="step-1-rop-gadget-replacement">
+<h3>Step 1: ROP Gadget Replacement<a class="headerlink" href="#step-1-rop-gadget-replacement" title="Permalink to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line"><em>(Currently unimplemented)</em></div>
+</div>
+<p>The resulting code from the processing phase is passed through a multi-line
+‘find-and-replace’ style operation where instruction sequences ,for which
+gadgets have been defined under a [[gadget]] heading, are replaced with a
+relative call to an offset which performs a semantically equivalent operation.</p>
+</section>
+<section id="step-2-assembly-formatting">
+<h3>Step 2: Assembly Formatting<a class="headerlink" href="#step-2-assembly-formatting" title="Permalink to this heading">¶</a></h3>
+<p>Lastly, some formatting needs to be done to make the assembly code compatible
+as a standalone program. Firstly the code must be defined under a _start
+function. The data is also translated in assembly data definitions and inserted
+at the bottom of the file.</p>
+</section>
+<section id="step-3-write-to-file">
+<h3>Step 3: Write To File<a class="headerlink" href="#step-3-write-to-file" title="Permalink to this heading">¶</a></h3>
+<p>The result is written to the specfied output file location.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="language_spec.html"><span class="doc">Language Features</span></a></p></li>
+<li><p><a class="reference internal" href="examples.html"><span class="doc">Examples</span></a></p></li>
+</ul>
+</div>
+</section>
 </section>
 </section>
 

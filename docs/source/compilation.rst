@@ -156,8 +156,8 @@ Linking starts with metadata labels. Files that link with other files use the
 '!link {mkpk_filename}' directive. Therefore, the first step is to extract the
 filenames that the current file expects to link with.
 
-Step 2: Find Dependencies
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Step 2: Resolve Dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Makka pakka then attempts to find the files that are specified for linking.
 This is done by searching in the directories defined in
 makka_pakka.linking.linker_path (shown below). The directory of the main source
@@ -175,8 +175,8 @@ process, then a MKPKLinkingError will be raised.
         str(Path(__file__).parent.parent.parent / "lib/"),
     ]
 
-Step 3: Parse Dependency
-^^^^^^^^^^^^^^^^^^^^^^^^
+Step 3: Parse Dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 Once the dependency is found, the process starts again -
 i.e. the file is parsed into a MKPKIR, then, if this file also contains link
 directives, these will be resolved.
@@ -209,9 +209,65 @@ be raised.
 
 Processing
 ----------
-*Objective: Resolve references data labels and functions.*
+*Objective: Resolve references to data labels and functions.*
+
+Step 1: Data Replacement
+^^^^^^^^^^^^^^^^^^^^^^^^
+Find all instances of '${<name>}' references used in the code section of the
+MKPKIR object. Attempt to find these references in the data section of the
+MKPKIR object. If it exists as integer data, then the reference is directly
+replaced with the integer value. If it is string data, then the reference is
+replaced with a relative address of the data definition. If data is referenced
+that doesn't exist in the MKPKIR data section, then this issue is ignored for
+now, as the data may be an arguement in the function. This is handled in
+step 2.
+
+Step 2: Function Replacement
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Function replacement is implemented as a single pass over the 'main' function.
+When a function call is found in the main function, the function call is
+replaced with the code found in the MKPKIR object for that function. This is a
+recursive process, the called function may itself call another function - Makka
+pakka will recursively resolve these function call unless a cyclic function
+call loop is detected, using the same DirectedGraph approach as with linking.
+If a function is called which doesn't exist in the MKPKIR, then a
+MKPKProcessingError will be raised.
+
+When a function is called with arguments, these arguments are pushed into a
+MKPKArgumentSet structure which encapsulates them. As recursive function calls
+are made, the MKPKArgumentSet objects are pushed onto a stack, the top of the
+stack being the set of arguments to the current function. Any remaining data
+references within the function are assumed to be arguments - these are then
+replaced using the corresponding value in the MKPKArgumentSet. If the data
+reference is not an argument in the function, then it cannot be resolved, and
+makka pakka will raise a MKPKProcessingError.
 
 Integrating
 -----------
 *Objective: Replace suitable instruction sequences with ROP calls, and write
 the program to file.*
+
+Step 1: ROP Gadget Replacement
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+| *(Currently unimplemented)*
+
+The resulting code from the processing phase is passed through a multi-line
+'find-and-replace' style operation where instruction sequences ,for which
+gadgets have been defined under a [[gadget]] heading, are replaced with a
+relative call to an offset which performs a semantically equivalent operation.
+
+Step 2: Assembly Formatting
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Lastly, some formatting needs to be done to make the assembly code compatible
+as a standalone program. Firstly the code must be defined under a _start
+function. The data is also translated in assembly data definitions and inserted
+at the bottom of the file.
+
+Step 3: Write To File
+^^^^^^^^^^^^^^^^^^^^^
+The result is written to the specfied output file location.
+
+
+.. seealso::
+    - :doc:`language_spec`
+    - :doc:`examples`
