@@ -12,7 +12,7 @@ from makka_pakka.processing.process import process_makka_pakka
     "--output",
     "output_filepath",
     default="",
-    help="(Optional) The filepath to output the translated makka pakka code.",
+    help="The filepath to output the translated makka pakka code.",
     required=False,
 )
 def main(mkpk_filepath, output_filepath):

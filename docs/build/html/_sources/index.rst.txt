@@ -10,9 +10,10 @@ Welcome to MakkaPakka's documentation!
 **Makka pakka** is a programming language which translates into Netwide
 Assembly (NASM). It implements additional features on top of traditional
 assembly, such as:
- - Functions
- - Automatic linking
- - ROP replacement
+
+- Functions
+- Automatic linking
+- ROP replacement
 
 The language was built to make it easier to write programs that sit in code
 caves. Code cave code must be position independant, therefore, when written
@@ -32,6 +33,7 @@ documentation.
    :maxdepth: 2
 
    installation
+   usage
    language_spec
    examples
    compilation

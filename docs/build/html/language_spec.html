@@ -15,7 +15,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Examples" href="examples.html" />
-    <link rel="prev" title="Installation" href="installation.html" />
+    <link rel="prev" title="Usage" href="usage.html" />
 
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
 
@@ -34,6 +34,309 @@
 
   <section id="language-features">
 <h1><strong>Language Features</strong><a class="headerlink" href="#language-features" title="Permalink to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>Makka Pakka is a programming language which is a superset* of Intel assembly -
+any program written in assembly can be transformed into a makka pakka program
+with a few minor changes. Makka pakka transpiles into Intel assembly, and
+is assembled using the Netwide Asssembler (NASM). Makka pakka’s relationship
+with Intel assembly is much like how Typescript relates to Javascript.</p>
+<p>Makka Pakka programs are specifically designed to be embedded within a linux
+executable (ELF) file. The language contains a sub-module which
+automatically implants the program bytes into a code cave of a target program.
+A code cave is a section of null bytes that are not used by an ELF file. These
+arise due to the necessity to page align program segments, therefore can be
+found in almost any ELF file to some capacity.</p>
+<p>Makka Pakka programs have no runtime. Therefore language features are best
+compared to macros in C-like languages. The transpiling process will simply
+replace any function and data references with the code itself. This may at
+first seem bloated, as calling the same function many time will lead to
+repeated code. However, this inefficiency will be removed by the optimisation
+of NASM.</p>
+</section>
+<section id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this heading">¶</a></h2>
+<p>Makka pakka files are created using the .mkpk file extension. The below code
+section shows an example makka pakka file. Don’t worry if this doesn’t make
+sense now, reading through this page will slowly build-up your knowledge of
+language features used here. Notice how no assembly is required here, all
+functionality is defered to the standard library to abstract the complexity
+of low-level lanuage.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!link stdlib/network.mkpk
+!link stdlib/syscall.mkpk
+!link stdlib/execve.mkpk
+
+[[data]]
+exit_msg: &quot;Connection Terminated&quot;
+port: 0xb315
+addr: 0x0100007f
+
+[[code]]
+[main]
+&gt; socket
+&gt; connect &quot;addr&quot; &quot;port&quot;
+&gt; dup2
+&gt; bin_sh
+&gt; sys_write &quot;exit_msg&quot; 22
+&gt; sys_exit
+</pre></div>
+</div>
+</section>
+<section id="headings">
+<h2>Headings<a class="headerlink" href="#headings" title="Permalink to this heading">¶</a></h2>
+<p>Headings are used to define the sections of a program. There are three standard
+headings - data, code, and gadgets. A fourth special heading can be used to
+define metadata. The metadata heading is implicitly defined at the top of a
+file. Once another heading has been used, metadata can no longer be defined.</p>
+<ul class="simple">
+<li><p>Data: Defines a location in the source file where data labels have defined.</p></li>
+<li><p>Code: Defines a location in the source file where code has been written.</p></li>
+<li><dl class="simple">
+<dt>Gadgets: Defines a location in the source file where ROP gadgets have been</dt><dd><p>defined.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Headings can be placed in any order, and may be defined multiple times.</p>
+<p>The below code illustrates how headings are used to organise a makka pakka
+source file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Metadata must be defined here.</span>
+
+<span class="p">[[</span><span class="n">data</span><span class="p">]]</span>
+<span class="c1"># Data labels go here.</span>
+
+<span class="p">[[</span><span class="n">code</span><span class="p">]]</span>
+<span class="c1"># Code is written here.</span>
+
+<span class="p">[[</span><span class="n">gadgets</span><span class="p">]]</span>
+<span class="c1"># Gadgets are defined here.</span>
+
+<span class="p">[[</span><span class="n">data</span><span class="p">]]</span>
+<span class="c1"># Another data section! Order is not important.</span>
+</pre></div>
+</div>
+</section>
+<section id="data-labels">
+<h2>Data Labels<a class="headerlink" href="#data-labels" title="Permalink to this heading">¶</a></h2>
+<p>Data labels are used to define constant data in a makka pakka program. It is
+best to think of these as #define macros in C. During transpilation, any
+references to these data will be replaced with the literal value, or a pointer
+to a data defintion.</p>
+<p>Data labels are defined using the syntax ‘label: value’ where label is an
+indentifier used to reference the value from the code section. The value may be
+either a string, or an integer (decimal or hex).</p>
+<section id="strings">
+<h3>Strings<a class="headerlink" href="#strings" title="Permalink to this heading">¶</a></h3>
+<p>String values are defined by enclosing text with double quotes - i.e “string”.
+The following is an example of a string definition.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">data</span><span class="p">]]</span>
+<span class="n">fruit</span><span class="p">:</span> <span class="s2">&quot;Apple&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="integer">
+<h3>Integer<a class="headerlink" href="#integer" title="Permalink to this heading">¶</a></h3>
+<p>Integer values are defined using the either a decimal (base 10) integer, or a
+hexadecimal value prefixed with 0x. The following is an example of decimal and
+hex integer definitions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">data</span><span class="p">]]</span>
+<span class="n">magic</span><span class="p">:</span> <span class="mi">42</span>
+<span class="n">cow</span><span class="p">:</span> <span class="mh">0xb33f</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="code-section">
+<h2>Code Section<a class="headerlink" href="#code-section" title="Permalink to this heading">¶</a></h2>
+<p>The code heading is the main part of a makka pakka program. Here, instructions
+are defined to implement custom program logic and features.</p>
+<section id="the-main-function">
+<h3>The Main Function<a class="headerlink" href="#the-main-function" title="Permalink to this heading">¶</a></h3>
+<p>The main function is the starting place for every makka pakka program. This
+is equivalent to C-like languages, where the main() function the starting point
+for the user program.</p>
+<p>Functions are defined using single square bracket, e.g [func_name]. In the main
+function’s case, this will be [main]. The following is an example of defining
+the main function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">code</span><span class="p">]]</span>
+<span class="p">[</span><span class="n">main</span><span class="p">]</span>
+<span class="c1"># First instruction here.</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Functions must be defined under the code heading - [[code]].</p>
+</div>
+</section>
+<section id="assembly">
+<h3>Assembly<a class="headerlink" href="#assembly" title="Permalink to this heading">¶</a></h3>
+<p>Makka pakka is a superset of Intel assembly. That means knowledge of writing
+programs in Intel assembly is important for writing programs in makka pakka.
+Assembly instructions can be written into a makka pakka function exactly like
+a regular .asm file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">code</span><span class="p">]]</span>
+<span class="p">[</span><span class="n">main</span><span class="p">]</span>
+<span class="n">xor</span> <span class="n">eax</span><span class="p">,</span> <span class="n">eax</span>
+<span class="n">mov</span> <span class="n">rax</span><span class="p">,</span> <span class="mi">1</span>
+<span class="c1"># Your useful instructions here.</span>
+</pre></div>
+</div>
+</section>
+<section id="data-references">
+<h3>Data References<a class="headerlink" href="#data-references" title="Permalink to this heading">¶</a></h3>
+<p>Time to make your data definitions useful! To reference data that has been
+defined under the [[data]] heading, wrap the data label in ${&lt;label name&gt;}.
+This syntax will be familiar to bash script users.</p>
+<p>When transpiled, references to integer values will be directly replaced with
+the integer value. References to strings will be replaced with a pointer to a
+data definition of that string.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[[data]]
+my_value: 0xfeed
+
+[[code]]
+[main]
+mov rax, ${my_value}
+</pre></div>
+</div>
+</section>
+<section id="comments">
+<h3>Comments<a class="headerlink" href="#comments" title="Permalink to this heading">¶</a></h3>
+<p>Comments are made using a ‘#’ at the start of a line. You may have already
+noticed them throughout this page! Inline comments are not currently supported.</p>
+</section>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h3>
+<p>Functions are the most important feature in makka pakka. They define a short
+section of reusable code, which can be called from anywhere in the program. You
+should already be familiar with the [main] function - all other functions are
+defined in the same way; using a single square bracket [func_name]. The
+following is an example of a function defintion.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">code</span><span class="p">]]</span>
+<span class="p">[</span><span class="n">my_func</span><span class="p">]</span>
+<span class="c1"># Do a thing here.</span>
+<span class="n">xor</span> <span class="n">rsi</span><span class="p">,</span> <span class="n">rs</span>
+</pre></div>
+</div>
+<p>Functions are called using a single ‘&gt;’ followed by the function name. For
+example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">code</span><span class="p">]]</span>
+<span class="p">[</span><span class="n">main</span><span class="p">]</span>
+<span class="c1"># My function call.</span>
+<span class="o">&gt;</span> <span class="n">my_func</span>
+
+<span class="c1"># Call it twice!</span>
+<span class="o">&gt;</span> <span class="n">my_func</span>
+
+<span class="p">[</span><span class="n">my_func</span><span class="p">]</span>
+<span class="c1"># Do a thing here.</span>
+<span class="n">xor</span> <span class="n">rsi</span><span class="p">,</span> <span class="n">rsi</span>
+</pre></div>
+</div>
+</section>
+<section id="function-arguments">
+<h3>Function Arguments<a class="headerlink" href="#function-arguments" title="Permalink to this heading">¶</a></h3>
+<p>Functions can also accept arguments. These are directly replaced in the code
+during the transpilation. To define a parameter for a function, simply write
+the name of the parameter after the closing square bracket in the function
+definition - e.g. [my_func] my_arg. The argument is then passed to the
+function by appending the value after the function call, seperated by a space,
+e.g ‘&gt; my_func 5’. The argument’s value can then be used with the same syntax
+as data references; makka pakka will automatically resolve whether data
+originates from a label or an argument. Multiple arguments are defined by
+seperating argument names by a space. The following code demonstrates this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[[data]]
+my_other_num: 0x50
+
+[[code]]
+[main]
+# Passing the values 33 and 0x10 to my_func.
+&gt; my_func 33 0x10
+
+[my_func] my_num second_num
+mov rax, ${my_num}
+mov rsi, ${second_num}
+mov ecx, ${my_other_num}
+</pre></div>
+</div>
+<p>On top of this, data labels can be used to pass values to functions. This is
+done using the syntax ‘&gt; my_func “&lt;label_name_here&gt;”’. For example, in the
+following code, rax will be replaced with a pointer to the string defined at
+label ‘greeting’ (“hi”).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[[data]]
+greeting: &quot;hi&quot;
+
+[[code]]
+[main]
+# Passing an argument by label.
+&gt; my_func &quot;greeting&quot;
+
+[my_func] message
+mov rax, ${message}
+</pre></div>
+</div>
+</section>
+</section>
+<section id="metadata">
+<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this heading">¶</a></h2>
+<p>Metadata is data about a makka pakka file that doesn’t directly contribute
+to the compiled makka pakka program. Nevertheless, metadata is necessary for
+writing maintainable programs. A piece of metadata is defined at the top of a
+file (before any heading) using a ‘!’ at the start of the line. Metadata labels
+use the following structure: ‘!&lt;label&gt; &lt;value goes here&gt;’. Mulitple piece of
+metadata can be defined under the same label, by repeating the definition.
+For example, a piece of metadata about Makka Pakka and friends would be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!name Makka Pakka
+!friend Iggle Piggle
+!friend Upsy Daisy
+!friend The Tombilboos
+
+[[code]]
+# Code goes here.
+</pre></div>
+</div>
+<section id="linking">
+<h3>Linking<a class="headerlink" href="#linking" title="Permalink to this heading">¶</a></h3>
+<p>Linking makka pakka files is performed using the ‘!link’ metadata label. User
+libraries must be stored in one of: the same directory as the main source file,
+/usr/local/lib/mkpk/, or ~/.local/lib/mkpk/.</p>
+<p>Makka pakka has a standard library of common functions. These can be linked
+using ‘!link stdlib/&lt;stdlib_filename.mkpk&gt;’.</p>
+<p>The following is a simple program that splits its functionality across multiple
+.mkpk files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>--- main.mkpk ---
+!link other.mkpk
+
+[[code]]
+[main]
+&gt; other_func
+
+--- other.mkpk ---
+[[code]]
+[other_func]
+mov rax, 1
+</pre></div>
+</div>
+<p>The following is an example of using a function from the standard library:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!link stdlib/syscall.mkpk
+
+[[data]]
+msg: &quot;Hello, world!&quot;
+
+[[code]]
+[main]
+&gt; sys_write &quot;msg&quot; 14
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="usage.html"><span class="doc">Usage</span></a></p></li>
+<li><p><a class="reference internal" href="examples.html"><span class="doc">Examples</span></a></p></li>
+<li><p><a class="reference internal" href="compilation.html"><span class="doc">Compilation Process</span></a></p></li>
+</ul>
+</div>
+</section>
+</section>
 </section>
 
 
@@ -55,7 +358,16 @@
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html"><strong>Installation</strong></a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Language Features</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>Usage</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Language Features</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basics">Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#headings">Headings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-labels">Data Labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-section">Code Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metadata">Metadata</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html"><strong>Examples</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="compilation.html"><strong>Compilation Process</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_structures.html"><strong>Data Structures</strong></a></li>
@@ -68,7 +380,7 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="installation.html" title="previous chapter"><strong>Installation</strong></a></li>
+      <li>Previous: <a href="usage.html" title="previous chapter"><strong>Usage</strong></a></li>
       <li>Next: <a href="examples.html" title="next chapter"><strong>Examples</strong></a></li>
   </ul></li>
 </ul>

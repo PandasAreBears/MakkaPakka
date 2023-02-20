@@ -32,7 +32,8 @@ root directory:
     echo "alias mkpk='python3 /usr/local/bin/mkpk.py'" >> ~/.bashrc
     source ~/.bashrc
 
-Makka pakka can then be run from anywhere using:
+Makka pakka can then be run from anywhere, test this by verifying the output
+of:
 
 .. code-block:: console
 
