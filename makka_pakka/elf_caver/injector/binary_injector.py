@@ -117,6 +117,15 @@ def inject_nasm_into_binary(
     if patch_exit:
         patch_pltsec_exit(output_file, inject_offset, output_file)
 
+    if not patch_entrypoint and not patch_exit:
+        print(
+            "Warning: Shellcode address has not been patch, therefore will not \
+run without manual redirection. Use --help for patching options."
+        )
+
+    # Make the file executable.
+    subprocess.run(f"chmod +x {output_file}", shell=True)
+
     return output_file
 
 

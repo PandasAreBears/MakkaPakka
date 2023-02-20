@@ -1,0 +1,9 @@
+[[data]]
+pick_me_str: "Hello"
+
+[[code]]
+[main]
+> func
+
+[func] arg
+mov rax, ${arg}

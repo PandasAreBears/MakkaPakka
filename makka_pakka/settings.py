@@ -1,6 +1,4 @@
-def init():
-    global verbosity
-    verbosity = False
+verbosity = False
 
 
 def set_verbosity(verbose: bool):

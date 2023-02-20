@@ -45,6 +45,7 @@ LABEL_ARG: str = str(RESOURCES_ROOT / "label_arg.mkpk")
 MULTIPLE_ARGS: str = str(RESOURCES_ROOT / "multiple_arguments.mkpk")
 DEEP_FUNC_REPL: str = str(RESOURCES_ROOT / "deep_function_replacement.mkpk")
 CYCLIC_FUNC_CALLS: str = str(RESOURCES_ROOT / "cyclic_func_calls.mkpk")
+STR_LABEL_ARG: str = str(RESOURCES_ROOT / "str_label_arg.mkpk")
 
 
 @pytest.fixture
@@ -70,6 +71,11 @@ def int_arg() -> MKPKIR:
 @pytest.fixture
 def label_arg() -> MKPKIR:
     return parse_link_and_merge(LABEL_ARG)
+
+
+@pytest.fixture
+def str_label_arg() -> MKPKIR:
+    return parse_link_and_merge(STR_LABEL_ARG)
 
 
 @pytest.fixture
@@ -229,7 +235,7 @@ class TestGetRefValueFromArguments:
         )
         _assert_data_state_eq(data, "", 1, MKPKDataType.INT)
 
-    def test_resolves_label_arg(self, label_arg: MKPKIR):
+    def test_resolves_int_label_arg(self, label_arg: MKPKIR):
         data: MKPKData = _get_ref_value_from_arguments(
             "${arg}",
             label_arg.functions[1],
@@ -237,7 +243,17 @@ class TestGetRefValueFromArguments:
             label_arg.data,
         )
 
-        _assert_data_state_eq(data, "pick_me", "", MKPKDataType.STR)
+        _assert_data_state_eq(data, "pick_me", 1, MKPKDataType.INT)
+
+    def test_resolves_str_label_arg(self, str_label_arg: MKPKIR):
+        data: MKPKData = _get_ref_value_from_arguments(
+            "${arg}",
+            str_label_arg.functions[1],
+            MKPKArgumentSet('"pick_me_str"'),
+            str_label_arg.data,
+        )
+
+        _assert_data_state_eq(data, "pick_me_str", "", MKPKDataType.STR)
 
 
 class TestAssertCorrectNumOfArgs:
@@ -406,8 +422,8 @@ class TestProcessFunctionReplacement:
 
         assert expected_code == code
 
-    def test_func_call_with_label_args(self, label_arg: MKPKIR):
-        expected_code: List[str] = ["mov rax, [rel pick_me]"]
+    def test_func_call_with_int_label_args(self, label_arg: MKPKIR):
+        expected_code: List[str] = ["mov rax, 1"]
 
         code: List[str] = process_function_replacement(label_arg)
 
