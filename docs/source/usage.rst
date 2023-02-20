@@ -67,3 +67,9 @@ re-compile the program for every file.
     -o, --output TEXT  The filepath to output the translated makka pakka code.
     --help             Show this message and exit.
             Show this message and exit.
+
+
+.. seealso::
+    - :doc:`installation`
+    - :doc:`examples`
+    - :doc:`language_spec`

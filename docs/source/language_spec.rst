@@ -23,6 +23,12 @@ first seem bloated, as calling the same function many time will lead to
 repeated code. However, this inefficiency will be removed by the optimisation
 of NASM.
 
+.. note::
+    Makka pakka code currently only runs when a target binary call sys::exit
+    (rather than sys::exit_group). Therefore you may need to try multiple
+    combinations of program arguments to get the injected shellcode to run.
+    This is a bug, and will be fixed in a future version.
+
 Basics
 ------
 Makka pakka files are created using the .mkpk file extension. The below code

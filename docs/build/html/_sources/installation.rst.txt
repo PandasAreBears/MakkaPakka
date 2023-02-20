@@ -1,11 +1,13 @@
 **Installation**
 ================
 
-.. _installation:
+.. note::
+    Makka Pakka only works on Ubuntu. Other linux distribution may have when
+    running 'source configure.sh'.
 
 Installation
 ------------
-Makka Pakka currently only supports Linux. To install, follow these steps:
+To install, follow these steps:
 
 .. code-block:: console
 
@@ -38,3 +40,9 @@ of:
 .. code-block:: console
 
     mkpk --help
+
+
+.. seealso::
+    - :doc:`usage`
+    - :doc:`examples`
+    - :doc:`language_spec`

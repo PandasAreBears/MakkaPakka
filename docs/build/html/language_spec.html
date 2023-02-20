@@ -53,6 +53,13 @@ replace any function and data references with the code itself. This may at
 first seem bloated, as calling the same function many time will lead to
 repeated code. However, this inefficiency will be removed by the optimisation
 of NASM.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Makka pakka code currently only runs when a target binary call sys::exit
+(rather than sys::exit_group). Therefore you may need to try multiple
+combinations of program arguments to get the injected shellcode to run.
+This is a bug, and will be fixed in a future version.</p>
+</div>
 </section>
 <section id="basics">
 <h2>Basics<a class="headerlink" href="#basics" title="Permalink to this heading">¶</a></h2>

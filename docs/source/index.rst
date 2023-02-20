@@ -23,11 +23,9 @@ For instructions on how to install makka pakka, check out the :doc:`installation
 documentation.
 
 .. note::
+
    This project was made for research purposes and should not be used for
    malicious code injection.
-
-
-
 
 .. toctree::
    :maxdepth: 2
