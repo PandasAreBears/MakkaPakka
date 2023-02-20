@@ -36,7 +36,30 @@
 <h1><strong>Installation</strong><a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
 <section id="id1">
 <span id="id2"></span><h2>Installation<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
-<p>blah</p>
+<p>Makka Pakka currently only supports Linux. To install, follow these steps:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd &lt;your directory&gt;</span>
+<span class="go">git clone https://github.com/PandasAreBears/MakkaPakka</span>
+</pre></div>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd MakkaPakka</span>
+<span class="go">source configure.sh</span>
+</pre></div>
+</div>
+<p>At this point you can use Makka Pakka from within this directory.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 mkpk.py --help</span>
+</pre></div>
+</div>
+<p>To install as a program from anywhere, run the following from the MakkaPakka
+root directory:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo ln -s ${PWD}/mkpk.py /usr/local/bin/mkpk.py</span>
+<span class="go">echo &quot;alias mkpk=&#39;python3 /usr/local/bin/mkpk.py&#39;&quot; &gt;&gt; ~/.bashrc</span>
+<span class="go">source ~/.bashrc</span>
+</pre></div>
+</div>
+<p>Makka pakka can then be run from anywhere using:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkpk --help</span>
+</pre></div>
+</div>
 </section>
 </section>
 
