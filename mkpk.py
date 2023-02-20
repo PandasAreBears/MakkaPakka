@@ -64,7 +64,6 @@ def main(
         click.echo(ctx.get_help())
         ctx.exit()
 
-    settings.init()
     settings.set_verbosity(True if verbose else False)
 
     output_asm_file = ""
