@@ -9,7 +9,7 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'pytest'
+        sh 'python3 -m pytest'
       }
     }
 
