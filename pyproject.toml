@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "MakkaPakka"
 description = "A programming language for injecting code into ELF files."
-version = "1.0.1-alpha"
+version = "1.0.2-alpha9"
 readme="README.md"
 dependencies = [
     "lief",
@@ -22,7 +22,12 @@ requires-python = ">=3.10"
 [project.scripts]
 mkpk = "makka_pakka.mkpk:mkpk"
 mkpk-transpile = "makka_pakka.mkpk_transpile:mkpk_transpile"
-elf-caver = "makka_pakka.elf_caver:elf_caver"
+elf-caver = "makka_pakka.elfcaver:elfcaver"
+
+[project.urls]
+"Homepage" = "https://github.com/PandasAreBears/MakkaPakka"
+"Documentation" = "https://lemon-bush-0f7dfc410.2.azurestaticapps.net/"
 
 [tool.setuptools.packages.find]
-where = ["makka_pakka"]
+where = ["."]
+include = ["makka_pakka*", "makka_pakka.elf_caver*"]
