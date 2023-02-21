@@ -70,6 +70,7 @@ Prerequisite installs:
 - Netwide Assembler (NASM)
 
 Clone the git repository and configure the environment.
+
 .. code-block:: console
 
     cd <your directory>
@@ -82,6 +83,7 @@ Clone the git repository and configure the environment.
 
 
 At this point you can use Makka Pakka from within this directory.
+
 .. code-block:: console
 
     python3 mkpk.py --help
