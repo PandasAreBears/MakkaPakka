@@ -15,7 +15,7 @@ permission to use this program for malicious code injection.
 ## Installation
 __Makka Pakka only works on Linux. Trying to run it on other operating systems will not work.__
 
-Makka pakka is distributed as a package on [PyPi](pypi.org/project/MakkaPakka).
+Makka pakka is distributed as a package on [PyPi](https://pypi.org/project/MakkaPakka).
 
 To install, use pip:
 ``` bash
