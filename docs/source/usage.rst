@@ -3,9 +3,8 @@
 =========
 
 .. note::
-    It is recommend to create an alias for each of these commands. Instructions
-    can be found in the :doc:`installation` section. If not, each command
-    should be prepended with 'python3', e.g 'python3 mkpk.py [Options]'.
+    To use these commands, you must first install makka pakka. Check out the
+    :doc:`installation` page for instructions.
 
 Compilation
 -----------
@@ -17,7 +16,7 @@ The compiler is run using the mkpk.py file. The following is the help output:
 
 .. code-block::
 
-    Usage: mkpk.py [OPTIONS] MKPK_FILEPATH TARGET_BINARY
+    Usage: mkpk [OPTIONS] MKPK_FILEPATH TARGET_BINARY
 
     Options:
     -o, --output-file TEXT  The filepath to output the injected binary to.
@@ -38,7 +37,7 @@ output:
 
 .. code-block::
 
-    Usage: elf_caver.py [OPTIONS]
+    Usage: elf-caver [OPTIONS]
 
     Options:
     -a, --asm-file TEXT     The filepath of the .asm file to inject.  [required]
@@ -61,7 +60,7 @@ re-compile the program for every file.
 
 .. code-block::
 
-    Usage: mkpk_transpile.py [OPTIONS] MKPK_FILEPATH
+    Usage: mkpk-transpile [OPTIONS] MKPK_FILEPATH
 
     Options:
     -o, --output TEXT  The filepath to output the translated makka pakka code.
