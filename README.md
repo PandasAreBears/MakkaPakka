@@ -43,8 +43,8 @@ mkpk-transpile --help
 Usage: mkpk-transpile [OPTIONS] MKPK_FILEPATH
 
 Options:
--o, --output TEXT  The filepath to output the translated makka pakka code.
---help             Show this message and exit
+-o, --output TEXT  The filepath to output the transpiled makka pakka code to.
+--help             Show this message and exit.
 ```
 
 ``` bash
