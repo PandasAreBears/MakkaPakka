@@ -45,7 +45,7 @@ from makka_pakka.elf_caver.injector.binary_injector import (
     help="(Optional) Patches the process exit to point to the injected code.",
 )
 # Add entrypoint editting
-def main(asm_file, target_file, output_file, patch_entrypoint, patch_exit):
+def elf_caver(asm_file, target_file, output_file, patch_entrypoint, patch_exit):
     if not asm_file or not target_file:
         ctx = click.get_current_context()
         click.echo(ctx.get_help())
@@ -63,4 +63,4 @@ def main(asm_file, target_file, output_file, patch_entrypoint, patch_exit):
 
 
 if __name__ == "__main__":
-    main()
+    elf_caver()

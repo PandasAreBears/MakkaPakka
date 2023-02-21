@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "MakkaPakka"
+description = "A programming language for injecting code into ELF files."
+version = "1.0.1-alpha"
+readme="README.md"
+dependencies = [
+    "lief",
+    "pytest",
+    "pytest-cov",
+    "black",
+    "pre-commit",
+    "click",
+    "sphinx",
+    "termcolor",
+]
+requires-python = ">=3.10"
+
+[project.scripts]
+mkpk = "makka_pakka.mkpk:mkpk"
+mkpk-transpile = "makka_pakka.mkpk_transpile:mkpk_transpile"
+elf-caver = "makka_pakka.elf_caver:elf_caver"
+
+[tool.setuptools.packages.find]
+where = ["makka_pakka"]

@@ -15,7 +15,7 @@ from makka_pakka.processing.process import process_makka_pakka
     help="The filepath to output the translated makka pakka code.",
     required=False,
 )
-def main(mkpk_filepath, output_filepath):
+def mkpk_transpile(mkpk_filepath, output_filepath):
     if not mkpk_filepath:
         ctx = click.get_current_context()
         click.echo(ctx.get_help())
@@ -29,4 +29,4 @@ def main(mkpk_filepath, output_filepath):
 
 
 if __name__ == "__main__":
-    main()
+    mkpk_transpile()

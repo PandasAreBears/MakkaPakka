@@ -51,7 +51,7 @@ Usage
     default=False,
     help="Logs a verbose output to stdout.",
 )
-def main(
+def mkpk(
     mkpk_filepath,
     target_binary,
     output_file,
@@ -86,4 +86,4 @@ def main(
 
 
 if __name__ == "__main__":
-    main()
+    mkpk()
