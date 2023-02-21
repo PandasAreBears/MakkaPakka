@@ -22,7 +22,7 @@ correctly, all makka pakka code will translate into position independant NASM.
 For instructions on how to install makka pakka, check out the :doc:`installation`
 documentation.
 
-Think something's missing? It probably is... check out the doc:`todo` page to
+Think something's missing? It probably is... check out the :doc:`todo` page to
 find out what's coming soon.
 
 .. note::
