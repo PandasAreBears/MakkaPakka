@@ -64,31 +64,10 @@ Options:
 --help
 ```
 
-#### Development Installation
-If you wish to contribute to Makka Pakka, then these are the instruction for downloading the source and setting up the dev environment
-
-Prerequisite installs:
-- Python 3.10+
-- Netwide Assembler (NASM)
-
-Clone the git repository and configure the environment.
-``` bash
-cd <your directory>
-git clone https://github.com/PandasAreBears/MakkaPakka
-```
-``` bash
-cd MakkaPakka
-source configure.sh
-```
-
-At this point you can use Makka Pakka from within this directory.
-``` bash
-python3 mkpk.py --help
-```
-
 ## Example
 Creating a Makka Pakka program file:
 ```
+----- reverse_tcp.mkpk -----
 !link stdlib/network.mkpk
 !link stdlib/syscall.mkpk
 !link stdlib/execve.mkpk
@@ -186,6 +165,28 @@ _apt:x:105:65534::/nonexistent:/usr/sbin/nologin
 uuidd:x:106:112::/run/uuidd:/usr/sbin/nologin
 tcpdump:x:107:113::/nonexistent:/usr/sbin/nologin
 alex:x:1000:1000:,,,:/home/alex:/bin/bash
+```
+## Development Installation
+If you wish to contribute to Makka Pakka, then these are the instruction for
+downloading the source and setting up the dev environment
+
+Prerequisite installs:
+- Python 3.10+
+- Netwide Assembler (NASM)
+
+Clone the git repository and configure the environment.
+``` bash
+cd <your directory>
+git clone https://github.com/PandasAreBears/MakkaPakka
+```
+``` bash
+cd MakkaPakka
+source configure.sh
+```
+
+At this point you can use Makka Pakka from within this directory.
+``` bash
+python3 mkpk.py --help
 ```
 
 For more examples, or a more detailed technical explaination, please check
