@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to MakkaPakka's documentation!
-======================================
+MakkaPakka Documentation
+========================
 **Overview**
 ------------
 **Makka pakka** is a programming language which transpiles into Intel
@@ -22,10 +22,16 @@ correctly, all makka pakka code will translate into position independant NASM.
 For instructions on how to install makka pakka, check out the :doc:`installation`
 documentation.
 
+Think something's missing? It probably is... check out the doc:`todo` page to
+find out what's coming soon.
+
 .. note::
 
    This project was made for research purposes and should not be used for
    malicious code injection.
+
+Documentation Contents
+^^^^^^^^^^^^^^^^^^^^^^
 
 .. toctree::
    :maxdepth: 2
@@ -38,7 +44,7 @@ documentation.
    data_structures
    public_api
    private_api
-   modules
+   todo
 
 
 

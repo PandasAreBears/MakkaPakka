@@ -7,6 +7,7 @@
             "label": "Open docs in Chrome",
             "type": "shell",
             "command": "powershell.exe /C start 'chrome.exe \\\\wsl.localhost\\Ubuntu-22.04\\home\\alex\\Projects\\MakkaPakka\\docs\\build\\html/index.html'",
+            "problemMatcher": []
         }
     ]
 }
