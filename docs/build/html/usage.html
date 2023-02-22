@@ -36,9 +36,8 @@
 <h1><strong>Usage</strong><a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>It is recommend to create an alias for each of these commands. Instructions
-can be found in the <a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> section. If not, each command
-should be prepended with ‘python3’, e.g ‘python3 mkpk.py [Options]’.</p>
+<p>To use these commands, you must first install makka pakka. Check out the
+<a class="reference internal" href="installation.html"><span class="doc">Installation</span></a> page for instructions.</p>
 </div>
 <section id="compilation">
 <h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this heading">¶</a></h2>
@@ -46,7 +45,7 @@ should be prepended with ‘python3’, e.g ‘python3 mkpk.py [Options]’.</p>
 and then automatically compiling, and packing the result into a target binary’s
 code cave.</p>
 <p>The compiler is run using the mkpk.py file. The following is the help output:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">mkpk</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="n">MKPK_FILEPATH</span> <span class="n">TARGET_BINARY</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">mkpk</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="n">MKPK_FILEPATH</span> <span class="n">TARGET_BINARY</span>
 
 <span class="n">Options</span><span class="p">:</span>
 <span class="o">-</span><span class="n">o</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">TEXT</span>  <span class="n">The</span> <span class="n">filepath</span> <span class="n">to</span> <span class="n">output</span> <span class="n">the</span> <span class="n">injected</span> <span class="n">binary</span> <span class="n">to</span><span class="o">.</span>
@@ -65,7 +64,7 @@ programming language. This can be used to implant any Intel assembly code into
 a target binary.</p>
 <p>The code caver is run using the elf_caver.py file. The following is the help
 output:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">elf_caver</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">elf</span><span class="o">-</span><span class="n">caver</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span>
 
 <span class="n">Options</span><span class="p">:</span>
 <span class="o">-</span><span class="n">a</span><span class="p">,</span> <span class="o">--</span><span class="n">asm</span><span class="o">-</span><span class="n">file</span> <span class="n">TEXT</span>     <span class="n">The</span> <span class="n">filepath</span> <span class="n">of</span> <span class="n">the</span> <span class="o">.</span><span class="n">asm</span> <span class="n">file</span> <span class="n">to</span> <span class="n">inject</span><span class="o">.</span>  <span class="p">[</span><span class="n">required</span><span class="p">]</span>
@@ -87,7 +86,7 @@ output:</p>
 standalone process. This is likely to be useful within a scripting tool,
 such as to pack bytes into multiple target binaries without having to
 re-compile the program for every file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">mkpk_transpile</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="n">MKPK_FILEPATH</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Usage</span><span class="p">:</span> <span class="n">mkpk</span><span class="o">-</span><span class="n">transpile</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="n">MKPK_FILEPATH</span>
 
 <span class="n">Options</span><span class="p">:</span>
 <span class="o">-</span><span class="n">o</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">TEXT</span>  <span class="n">The</span> <span class="n">filepath</span> <span class="n">to</span> <span class="n">output</span> <span class="n">the</span> <span class="n">translated</span> <span class="n">makka</span> <span class="n">pakka</span> <span class="n">code</span><span class="o">.</span>

@@ -1,5 +1,8 @@
 # Local directories
 .venv
+dist
+.tox
+*.egg-info
 
 # Do not include pycache files
 *.pyc

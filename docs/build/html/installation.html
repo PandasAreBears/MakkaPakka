@@ -36,36 +36,82 @@
 <h1><strong>Installation</strong><a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Makka Pakka only works on Ubuntu. Other linux distribution may have when
-running ‘source configure.sh’.</p>
+<p>Makka Pakka only works on Linux. Trying to run it on other operating
+systems will not work.</p>
 </div>
 <section id="id1">
 <h2>Installation<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
-<p>To install, follow these steps:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd &lt;your directory&gt;</span>
-<span class="go">git clone https://github.com/PandasAreBears/MakkaPakka</span>
+<p>Makka Pakka is distributed as a package on
+<a class="reference external" href="pypi.org/project/MakkaPakka">PyPi</a>.</p>
+<p>To install, use pip:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">MakkaPakka</span>
 </pre></div>
 </div>
+<p>You should then have access to three commands: mkpk, mkpk-transpile, and
+elf-caver.</p>
+<p>Test them out!
+.. code-block:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkpk</span> <span class="o">--</span><span class="n">help</span>
+<span class="n">Usage</span><span class="p">:</span> <span class="n">mkpk</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="n">MKPK_FILEPATH</span> <span class="n">TARGET_BINARY</span>
+
+<span class="n">Options</span><span class="p">:</span>
+<span class="o">-</span><span class="n">o</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">TEXT</span>  <span class="n">The</span> <span class="n">filepath</span> <span class="n">to</span> <span class="n">output</span> <span class="n">the</span> <span class="n">injected</span> <span class="n">binary</span> <span class="n">to</span><span class="o">.</span>
+<span class="o">-</span><span class="n">n</span><span class="p">,</span> <span class="o">--</span><span class="n">patch</span><span class="o">-</span><span class="n">entrypoint</span>  <span class="n">Patches</span> <span class="n">the</span> <span class="n">entrypoint</span> <span class="n">to</span> <span class="n">point</span> <span class="n">to</span> <span class="n">injected</span> <span class="n">code</span><span class="o">.</span>
+<span class="o">-</span><span class="n">e</span><span class="p">,</span> <span class="o">--</span><span class="n">patch</span><span class="o">-</span><span class="n">exit</span>        <span class="n">Patches</span> <span class="n">the</span> <span class="n">process</span> <span class="n">exit</span> <span class="n">to</span> <span class="n">point</span> <span class="n">to</span> <span class="n">the</span> <span class="n">injected</span>
+                        <span class="n">code</span><span class="o">.</span>
+<span class="o">-</span><span class="n">v</span><span class="p">,</span> <span class="o">--</span><span class="n">verbose</span>           <span class="n">Logs</span> <span class="n">a</span> <span class="n">verbose</span> <span class="n">output</span> <span class="n">to</span> <span class="n">stdout</span><span class="o">.</span>
+<span class="o">--</span><span class="n">help</span>                  <span class="n">Show</span> <span class="n">this</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkpk</span><span class="o">-</span><span class="n">transpile</span> <span class="o">--</span><span class="n">help</span>
+<span class="n">Usage</span><span class="p">:</span> <span class="n">mkpk</span><span class="o">-</span><span class="n">transpile</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span> <span class="n">MKPK_FILEPATH</span>
+
+<span class="n">Options</span><span class="p">:</span>
+<span class="o">-</span><span class="n">o</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span> <span class="n">TEXT</span>  <span class="n">The</span> <span class="n">filepath</span> <span class="n">to</span> <span class="n">output</span> <span class="n">the</span> <span class="n">translated</span> <span class="n">makka</span> <span class="n">pakka</span> <span class="n">code</span><span class="o">.</span>
+<span class="o">--</span><span class="n">help</span>             <span class="n">Show</span> <span class="n">this</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">elf</span><span class="o">-</span><span class="n">caver</span> <span class="o">--</span><span class="n">help</span>
+<span class="n">Usage</span><span class="p">:</span> <span class="n">elf</span><span class="o">-</span><span class="n">caver</span> <span class="p">[</span><span class="n">OPTIONS</span><span class="p">]</span>
+
+<span class="n">Options</span><span class="p">:</span>
+<span class="o">-</span><span class="n">a</span><span class="p">,</span> <span class="o">--</span><span class="n">asm</span><span class="o">-</span><span class="n">file</span> <span class="n">TEXT</span>     <span class="n">The</span> <span class="n">filepath</span> <span class="n">of</span> <span class="n">the</span> <span class="o">.</span><span class="n">asm</span> <span class="n">file</span> <span class="n">to</span> <span class="n">inject</span><span class="o">.</span>  <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+<span class="o">-</span><span class="n">t</span><span class="p">,</span> <span class="o">--</span><span class="n">target</span><span class="o">-</span><span class="n">file</span> <span class="n">TEXT</span>  <span class="n">The</span> <span class="n">filepath</span> <span class="n">of</span> <span class="n">the</span> <span class="n">binary</span> <span class="n">to</span> <span class="n">inject</span> <span class="n">into</span><span class="o">.</span>
+                        <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+<span class="o">-</span><span class="n">o</span><span class="p">,</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">file</span> <span class="n">TEXT</span>  <span class="n">The</span> <span class="n">filepath</span> <span class="n">to</span> <span class="n">output</span> <span class="n">the</span> <span class="n">injected</span> <span class="n">binary</span> <span class="n">to</span><span class="o">.</span>
+                        <span class="p">[</span><span class="n">required</span><span class="p">]</span>
+<span class="o">-</span><span class="n">n</span><span class="p">,</span> <span class="o">--</span><span class="n">patch</span><span class="o">-</span><span class="n">entrypoint</span>  <span class="p">(</span><span class="n">Optional</span><span class="p">)</span> <span class="n">Patches</span> <span class="n">the</span> <span class="n">entrypoint</span> <span class="n">to</span> <span class="n">point</span> <span class="n">to</span>
+                        <span class="n">injected</span> <span class="n">code</span><span class="o">.</span>
+<span class="o">-</span><span class="n">e</span><span class="p">,</span> <span class="o">--</span><span class="n">patch</span><span class="o">-</span><span class="n">exit</span>        <span class="p">(</span><span class="n">Optional</span><span class="p">)</span> <span class="n">Patches</span> <span class="n">the</span> <span class="n">process</span> <span class="n">exit</span> <span class="n">to</span> <span class="n">point</span> <span class="n">to</span> <span class="n">the</span>
+                        <span class="n">injected</span> <span class="n">code</span><span class="o">.</span>
+<span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</section>
+<section id="development-installation">
+<h2>Development Installation<a class="headerlink" href="#development-installation" title="Permalink to this heading">¶</a></h2>
+<p>If you wish to contribute to Makka Pakka, then these are the instruction for
+downloading the source and setting up the dev environment.</p>
+<p>Prerequisite installs:</p>
+<ul class="simple">
+<li><p>Python 3.10+</p></li>
+<li><p>Netwide Assembler (NASM)</p></li>
+</ul>
+<p>Clone the git repository and configure the environment.
+.. code-block:: console</p>
+<blockquote>
+<div><p>cd &lt;your directory&gt;
+git clone <a class="reference external" href="https://github.com/PandasAreBears/MakkaPakka">https://github.com/PandasAreBears/MakkaPakka</a></p>
+</div></blockquote>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd MakkaPakka</span>
 <span class="go">source configure.sh</span>
 </pre></div>
 </div>
-<p>At this point you can use Makka Pakka from within this directory.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 mkpk.py --help</span>
-</pre></div>
-</div>
-<p>To install as a program from anywhere, run the following from the MakkaPakka
-root directory:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo ln -s ${PWD}/mkpk.py /usr/local/bin/mkpk.py</span>
-<span class="go">echo &quot;alias mkpk=&#39;python3 /usr/local/bin/mkpk.py&#39;&quot; &gt;&gt; ~/.bashrc</span>
-<span class="go">source ~/.bashrc</span>
-</pre></div>
-</div>
-<p>Makka pakka can then be run from anywhere, test this by verifying the output
-of:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkpk --help</span>
-</pre></div>
-</div>
+<p>At this point you can use Makka Pakka from within this directory.
+.. code-block:: console</p>
+<blockquote>
+<div><p>python3 mkpk.py –help</p>
+</div></blockquote>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <ul class="simple">
@@ -97,6 +143,7 @@ of:</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Installation</strong></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#development-installation">Development Installation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>Usage</strong></a></li>
