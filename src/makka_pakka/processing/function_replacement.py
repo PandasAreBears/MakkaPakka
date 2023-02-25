@@ -90,7 +90,7 @@ def process_function_replacement(mkpkir: MKPKIR) -> List[str]:
             # stack.
             if refs:
                 for ref in refs:
-                    # Get the string to replace the reference with.
+                    # Get the value to replace the reference with.
                     replace_value: str = _get_ref_value_from_arguments(
                         ref, current_func, argument_stack[-1], mkpkir.data
                     )
@@ -307,6 +307,10 @@ def _get_ref_value_from_arguments(
         case MKPKDataType.INT:
             # Empty name, as this is an int so will be directly replaced
             resolved_data = MKPKData("", parsed_value, data_type)
+
+        case MKPKDataType.REGISTER:
+            # Replace the reference with the name of the register.
+            resolved_data = MKPKData(parsed_value, "", data_type)
 
     return resolved_data
 

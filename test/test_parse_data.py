@@ -162,6 +162,14 @@ class TestInterpretDataType:
         assert value == 0x123
         assert data_type == MKPKDataType.INT
 
+    def test_interprets_register(self):
+        test_register = "rax"
+
+        (value, data_type) = _interpret_data_type(test_register, "")
+
+        assert value == "rax"
+        assert data_type == MKPKDataType.REGISTER
+
     def test_raises_error_on_invalid_value(self):
         invalid_value1 = "unquoted_string"
         invalid_value2 = "0xhhh"

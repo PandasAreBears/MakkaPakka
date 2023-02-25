@@ -15,6 +15,7 @@ from makka_pakka.parsing.parsing_structures import MKPKDataType
 from makka_pakka.parsing.parsing_structures import MKPKFunction
 from makka_pakka.parsing.parsing_structures import MKPKGadget
 from makka_pakka.parsing.parsing_structures import MKPKMetaData
+from makka_pakka.parsing.registers import REGISTER_NAMES
 
 
 def parse_metadata(lines: List[str]) -> List[MKPKMetaData]:
@@ -216,10 +217,15 @@ def _interpret_data_type(value: str, line: str) -> Tuple[Union[str, int], MKPKDa
         raise MKPKInvalidParameter("line", "_interpret_data_type", line)
 
     # If the value is wrapped in "" then it is a string, otherwise it is an
-    # int in either decimal or hexadecimal format.
+    # int in either decimal or hexadecimal format. Alternatively, it may be
+    # a register name.
     value_type: MKPKDataType = MKPKDataType.NONE
     parsed_value: Any = 0
-    if len(value) >= 2 and value[0] == '"' and value[-1] == '"':
+    if value in REGISTER_NAMES:
+        value_type = MKPKDataType.REGISTER
+        parsed_value = value
+
+    elif len(value) >= 2 and value[0] == '"' and value[-1] == '"':
         value_type = MKPKDataType.STR
         # Strip the surrounding ""
         parsed_value = value[1:-1]

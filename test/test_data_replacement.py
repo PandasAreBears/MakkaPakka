@@ -276,6 +276,17 @@ class TestReplaceReferenceWithValue:
 
         assert replaced_code_line == "mov rax, string"
 
+    def test_replaces_valid_reference_with_register(self):
+        code_line = "mov rax, ${reg}"
+        data_reference = "${reg}"
+        value = MKPKData("ecx", "", MKPKDataType.REGISTER)
+
+        replaced_code_line = _replace_reference_with_value(
+            code_line, data_reference, value
+        )
+
+        assert replaced_code_line == "mov rax, ecx"
+
     def test_invalid_replacement_generates_warning(self):
         code_line = "mov rax, ${no_label}"
         data_reference = "${not_matching}"

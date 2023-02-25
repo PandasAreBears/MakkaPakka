@@ -165,13 +165,13 @@ def _replace_reference_with_value(
 
     # If the data type is string, then a reference to the value must
     # be made. If it is an int, then it can be plugged into the code line
-    # directly.
-    if data.type == MKPKDataType.STR:
-        print(f"replacing reference {data_reference} with {data.name}")
-        code_line = code_line.replace(data_reference, data.name)
+    # directly. If it is a register, then insert the register name.
+    match data.type:
+        case MKPKDataType.STR | MKPKDataType.REGISTER:
+            code_line = code_line.replace(data_reference, data.name)
 
-    else:
-        code_line = code_line.replace(data_reference, str(data.value))
+        case MKPKDataType.INT:
+            code_line = code_line.replace(data_reference, str(data.value))
 
     # If the line hasn't changed, then the parameters are invalid, but its not
     # critical so just warn.
