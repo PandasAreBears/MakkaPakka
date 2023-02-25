@@ -66,8 +66,9 @@ Options:
 
 ## Example
 Creating a Makka Pakka program file:
-```
+
 ----- reverse_tcp.mkpk -----
+```
 !link stdlib/network.mkpk
 !link stdlib/syscall.mkpk
 !link stdlib/execve.mkpk
