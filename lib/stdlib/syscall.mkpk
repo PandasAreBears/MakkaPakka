@@ -1,3 +1,9 @@
+[[data]]
+# open(2) flags. Defined in fnctl.h.
+O_RDONLY: 0x0
+O_WRONLY: 0x1
+O_RDWR: 0x2
+
 
 [[code]]
 [syscall] rax rdi rsi rdx r10 r8 r9
@@ -13,6 +19,8 @@ syscall
 [sys_read] read_size
 # Setup:
 #   - r8: File descriptor.
+# Parameters:
+#   - read_size: The number of bytes to read into the buffer.
 # Consequences:
 #   - A {read_size} size buffer on the stack, populated with data from the fd.
 
@@ -27,21 +35,28 @@ xor rax, rax
 syscall
 
 
-[sys_write] msg len
-mov eax, 1
-mov rdi, 1
-lea rsi, ${msg}
+[sys_write] msg len fd
+# Parameters:
+#   - msg: A pointer to a string of the message to write.
+#   - len: The length of the pointed to string.
+#   - fd: The file descriptor to write to.
+
 mov rdx, ${len}
+lea rsi, ${msg}
+mov rdi, ${fd}
+mov rax, 1
 syscall
 
 
-[sys_open] filename
+[sys_open] filename flags
+# Parameters:
+#   - filename: A pointer to a filepath string to open.
+#   - flags: Flags specifying the mode to open the file with.
 # Consequences:
 #   - r8 contains a file descriptor for the opened file.
 #   - rax contains the number of bytes read. 0 if EOF.
 
-# O_RDONLY
-xor rsi, rsi
+mov rsi, ${flags}
 mov rdi, ${filename}
 mov rax, 2
 syscall

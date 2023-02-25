@@ -5,8 +5,8 @@ filepath: "/etc/hosts"
 
 [[code]]
 [main]
-> sys_open "filepath"
-jne exit
+> sys_open "filepath" ${O_RDONLY}
+js exit
 
 read_buffer:
 > sys_read 16
