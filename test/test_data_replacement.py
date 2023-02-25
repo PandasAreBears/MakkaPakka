@@ -11,14 +11,18 @@ from makka_pakka.parsing.parsing_structures import MKPKData
 from makka_pakka.parsing.parsing_structures import MKPKDataType
 from makka_pakka.parsing.parsing_structures import MKPKFunction
 from makka_pakka.parsing.parsing_structures import MKPKIR
-from makka_pakka.processing.data_replacement import _extract_data_references
+from makka_pakka.processing.data_replacement import (
+    _extract_data_references,
+)
 from makka_pakka.processing.data_replacement import (
     _extract_label_from_reference,
 )
 from makka_pakka.processing.data_replacement import (
     _replace_reference_with_value,
 )
-from makka_pakka.processing.data_replacement import process_data_replacement
+from makka_pakka.processing.data_replacement import (
+    process_data_replacement,
+)
 
 RESOURCES_ROOT: str = Path("test/resources/mkpk_files/processing")
 EMPTY_HEADINGS: str = str(RESOURCES_ROOT / "empty_headings.mkpk")

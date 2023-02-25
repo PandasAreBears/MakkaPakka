@@ -9,10 +9,14 @@ from lief import parse
 from makka_pakka.elf_caver.caver.code_caver import _get_end_of_section
 from makka_pakka.elf_caver.caver.code_caver import _get_end_of_segment
 from makka_pakka.elf_caver.caver.code_caver import _get_executable_segments
-from makka_pakka.elf_caver.caver.code_caver import _get_last_section_in_segment
+from makka_pakka.elf_caver.caver.code_caver import (
+    _get_last_section_in_segment,
+)
 from makka_pakka.elf_caver.caver.code_caver import get_code_caves
 from makka_pakka.elf_caver.caver.file_permissions import is_executable
-from makka_pakka.elf_caver.exceptions.exceptions import MKPKInvalidParameter
+from makka_pakka.elf_caver.exceptions.exceptions import (
+    MKPKInvalidParameter,
+)
 
 RES_PATH: str = Path("test/resources/elf_caver")
 
