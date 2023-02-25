@@ -73,7 +73,7 @@ class TestProcessDataReplacement:
 
         assert rp_main_func.content == [
             "mov rax, 2",
-            "mov ecx, [rel data_1]",
+            "mov ecx, data_1",
             "xor eax, 2",
         ]
 
@@ -270,7 +270,7 @@ class TestReplaceReferenceWithValue:
             code_line, data_reference, value
         )
 
-        assert replaced_code_line == "mov rax, [rel string]"
+        assert replaced_code_line == "mov rax, string"
 
     def test_invalid_replacement_generates_warning(self):
         code_line = "mov rax, ${no_label}"

@@ -163,11 +163,12 @@ def _replace_reference_with_value(
 
     copy_code_line = code_line
 
-    # If the data type is string, then a relative reference to the value must
+    # If the data type is string, then a reference to the value must
     # be made. If it is an int, then it can be plugged into the code line
     # directly.
     if data.type == MKPKDataType.STR:
-        code_line = code_line.replace(data_reference, f"[rel {data.name}]")
+        print(f"replacing reference {data_reference} with {data.name}")
+        code_line = code_line.replace(data_reference, data.name)
 
     else:
         code_line = code_line.replace(data_reference, str(data.value))
