@@ -8,6 +8,7 @@ from makka_pakka.exceptions.exceptions import ErrorType
 from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKLinkingError
 from makka_pakka.linking.linker_path import LinkerPath
+from makka_pakka.linking.priority_list.priority_list import PriorityType
 from makka_pakka.parsing.parse import parse_makka_pakka
 from makka_pakka.parsing.parsing_structures import MKPKIR
 from makka_pakka.parsing.parsing_structures import MKPKMetaData
@@ -74,8 +75,10 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
 
         # Add to the graph, and check that this doesn't create a cyclic
         # dependency.
-        linking_graph.connect_to_node_with_label_create_if_not_exists(
-            parent, full_file_path
+        created_new: bool = (
+            linking_graph.connect_to_node_with_label_create_if_not_exists(
+                parent, full_file_path
+            )
         )
         if backtrace := linking_graph.has_cyclic_dependency():
             raise MKPKLinkingError(
@@ -86,6 +89,11 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
                          {DirectedGraph.get_cyclic_dependency_str(backtrace)}",
                 ErrorType.FATAL,
             )
+
+        # If the file already exists in the graph, then break as all symbols
+        # from this file (and its dependencies) will have already been parsed.
+        if not created_new:
+            return
 
         # Parse the file, add it to the list of IR's, then recurse on all
         # linking dependencies.
@@ -101,6 +109,12 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
             file_IR.metadata, "link"
         )
         new_node = linking_graph.get_node_with_label(full_file_path)
+
+        # Add the parsed file's parent directory to the linker path. This allows
+        # all mkpk files to link with files relative to their own path.
+        linker_path.add_path_to_linker(
+            str(Path(filename).parent.absolute()), PriorityType.LOW
+        )
 
         if link_md:
             link_depth += 1

@@ -279,8 +279,7 @@ def _get_ref_value_from_arguments(
     """
     Strings passed as function arguments are interpreted as as label that has
     already been defined in the program, they are therefore replaced by a
-    relative call to the label. Integers can be directly
-    replaced.
+    relative call to the label. Integers can be directly replaced.
     """
     resolved_data: MKPKData = None
     match data_type:
