@@ -2,25 +2,23 @@
 
 [[data]]
 filepath: "/etc/hosts"
+buffer_size: 16
 
 [[code]]
 [main]
 > sys_open "filepath" ${O_RDONLY}
+mov r9, rax
 js exit
 
 read_buffer:
-> sys_read 16
+> sys_read r9 ${buffer_size}
 
 # If rax == 0.
 test rax, rax
 jz exit
 
 # Write the stack buffer
-mov rdx, 16
-mov rsi, rsp
-mov rdi, 1
-mov rax, 1
-syscall
+> sys_write rsp ${buffer_size} ${STDOUT}
 
 jmp read_buffer
 
