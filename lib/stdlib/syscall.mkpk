@@ -1,36 +1,159 @@
+# Follows Linux syscall table detailed at
+# :https://chromium.googlesource.com/chromiumos/docs/+/master/constants/syscalls.md
+
 [[data]]
 # open(2) flags. Defined in fnctl.h.
 O_RDONLY: 0x0
 O_WRONLY: 0x1
 O_RDWR: 0x2
 
+# Standard file streams.
+STDIN: 0
+STDOUT: 1
+STDERR: 2
+
+# The size of struct stat. Defined in stat.h.
+STAT_STRUCT_SIZE: 144
+
+# The `whence` options for lseek(2). Defined in unistd.h.
+SEEK_SET: 0
+SEEK_CUR: 1
+SEEK_END: 2
+
+# The memory protect flags. Defined in mman-linux.h.
+PROT_NONE: 0x0
+PROT_READ: 0x1
+PROT_WRITE: 0x2
+PROT_EXEC: 0x4
+
+# The flags defining the visibility of updates to mmap's.
+MAP_SHARED: 0x1
+MAP_PRIVATE: 0x2
+
+# The size of struct sigaction. Defined in signal.h.
+SIGACTION_STRUCT_SIZE: 152
+
+# The results of a test for access permissions. Defined in unistd.h.
+R_OK: 0x4
+W_OK: 0x2
+X_OK: 0x1
+F_OK: 0x0
+
+# The flags for msync. Defined in mman-linux.h.
+MS_ASYNC: 0x1
+MS_INVALIDATE: 0x2
+MS_SYNC: 0x4
+
+# The size of a struct timespec. Defined in time.h.
+STRUCT_TIMESPEC_SIZE: 16
+
+# The size of a struct itimerval. Defined in sys
+STRUCT_ITIMERVAL_SIZE: 32
+
+# The types of timer. Defined in sys
+ITIMER_REAL: 0
+ITIMER_VIRTUAL: 1
+ITIMER_PROF: 2
+
+# The socket protocol families. Defined in sys/socket.h
+AF_UNSPEC:0
+AF_LOCAL: 1
+AF_UNIX: 1
+AF_FILE: 1
+AF_INET: 2
+AF_AX25: 3
+AF_IPX4: 4
+AF_APPLETALK: 5
+AF_NETROM: 6
+AF_BRIDGE: 7
+AF_ATMPVC: 8
+AF_X25: 9
+AF_INET6: 10
+AF_ROSE: 11
+AF_DECnet: 12
+AF_NETBEUI: 13
+AF_SECURITY: 14
+AF_KEY: 15
+AF_NETLINK: 16
+AF_ROUTE: 16
+AF_PACKET: 17
+AF_ASH: 18
+AF_ECONET: 19
+AF_ATMSVC: 20
+AF_RDS: 21
+AF_SNA: 22
+AF_IRDA: 23
+AF_PPPOX: 24
+AF_WANPIPE: 25
+AF_LLC: 26
+AF_IB: 27
+AF_MPLS: 28
+AF_CAN: 29
+AF_TIPC: 30
+AF_BLUETOOTH: 31
+AF_IUCV: 32
+AF_RXRPC: 33
+AF_ISDN: 34
+AF_PHONET: 35
+AF_IEEE802154: 36
+AF_CAIF: 37
+AF_ALG: 38
+AF_NFC: 39
+AF_VSOCK: 40
+AF_KCM: 41
+AF_QIPCRTR: 42
+AF_SMC: 43
+AF_XDP: 44
+AF_MCTP: 45
+
+# The socket type definitions. Defined in sys/socket.h.
+SOCK_STREAM: 1
+SOCK_DGRAM: 2
+SOCK_RAW: 3
+SOCK_RDM: 4
+SOCK_SEQPACKET: 5
+SOCK_DCCP: 6
+SOCK_PACKET: 10
+
+# The size of a struct sockaddr. Defined in sys/socket.h.
+STRUCT_SOCKADDR_SIZE: 16
+
+# The shutdown type definitions. Defined in sys/socket.h.
+SHUT_RD: 0
+SHUT_WR: 1
+SHUT_RDWR: 2
+
+# The signal type definitions. Defined in signal.h.
+SIGHUP: 1
+SIGINT: 2
+SIGQUIT: 3
+SIGILL: 4
+SIGTRAP: 5
+SIGABRT: 6
+SIGFPE: 8
+SIGKILL: 9
+SIGSEGV: 11
+SIGPIPE: 13
+SIGALRM: 14
+SIGTERM: 15
+
+
 
 [[code]]
-[syscall] rax rdi rsi rdx r10 r8 r9
-mov r9, ${r9}
-mov r8, ${r8}
-mov r10, ${r10}
-mov rdx, ${rdx}
-mov rsi, ${rsi}
-mov rdi, ${rdi}
-mov rax, ${rax}
-syscall
-
-[sys_read] read_size
-# Setup:
-#   - r8: File descriptor.
+[sys_read] fd count
 # Parameters:
-#   - read_size: The number of bytes to read into the buffer.
+#   - fd: The file descriptor to read from.
+#   - count: The number of bytes to read into the buffer.
 # Consequences:
-#   - A {read_size} size buffer on the stack, populated with data from the fd.
+#   - A {count} size buffer on the stack, populated with data read from the fd.
 
-mov rdx, ${read_size}
+mov rdx, ${count}
 
 # Allocate space on the stack for the buffer.
-sub rsp, ${read_size}
+sub rsp, ${count}
 mov rsi, rsp
 
-mov rdi, r8
+mov rdi, ${fd}
 xor rax, rax
 syscall
 
@@ -42,7 +165,7 @@ syscall
 #   - fd: The file descriptor to write to.
 
 mov rdx, ${len}
-lea rsi, ${msg}
+mov rsi, ${msg}
 mov rdi, ${fd}
 mov rax, 1
 syscall
@@ -53,17 +176,488 @@ syscall
 #   - filename: A pointer to a filepath string to open.
 #   - flags: Flags specifying the mode to open the file with.
 # Consequences:
-#   - r8 contains a file descriptor for the opened file.
-#   - rax contains the number of bytes read. 0 if EOF.
+#   - rax contains a file descriptor for the opened file.
 
 mov rsi, ${flags}
 mov rdi, ${filename}
 mov rax, 2
 syscall
-mov r8, rax
+
+
+[sys_close] fd
+# Parameters:
+#   - fd: The file descriptor to close.
+mov rdi, ${fd}
+mov rax, 3
+syscall
+
+
+[sys_stat] filepath
+# Parameters:
+#   - filepath: The path to the file to perform the stat operation on.
+# Consequences:
+#   - A ${STAT_STRUCT_SIZE} size buffer on the stack, populated with a
+#     stat struct.
+
+# Allocate space on the stack for struct stat.
+sub rsp, ${STAT_STRUCT_SIZE}
+mov rsi, rsp
+
+mov rdi, ${filepath}
+mov rax, 4
+syscall
+
+
+[sys_fstat] fd
+# Parameters:
+#   - fd: The file descriptor of the file to perform the stat operation on.
+# Consequences:
+#   - A ${STAT_STRUCT_SIZE} size buffer on the stack, populated with a
+#     stat struct.
+
+# Allocate space on the stack for struct stat.
+sub rsp, ${STAT_STRUCT_SIZE}
+mov rsi, rsp
+
+mov rdi, ${fd}
+mov rax, 5
+syscall
+
+
+[sys_lstat] filepath
+# Parameters:
+#   - filepath: The path to the file to perform the stat operation on.
+# Consequences:
+#   - A ${STAT_STRUCT_SIZE} size buffer on the stack, populated with a
+#     stat struct.
+
+# Allocate space on the stack for struct stat.
+sub rsp, ${STAT_STRUCT_SIZE}
+mov rsi, rsp
+
+mov rdi, ${filepath}
+mov rax, 6
+syscall
+
+
+[sys_poll] ufds timeout
+# Parameters:
+#   - ufds: A struct pollfd pointer to poll with.
+#   - timeout: The amount of time in milliseconds that poll() should block
+#       waiting for a fd to become ready.
+
+mov rdx, ${timeout}
+mov rsi, 1
+mov rdi, ${ufds}
+mov rax, 7
+syscall
+
+
+[sys_lseek] fd offset whence
+# Parameters:
+#   - fd: The file descriptor to offset into.
+#   - offset: The offset to seek into the file.
+#   - whence: A directive for how to move to the offset.
+
+mov rdx, ${whence}
+mov rsi, ${offset}
+mov rdi, ${fd}
+mov rax, 8
+syscall
+
+[sys_mmap] addr length prot flags fd offset
+# Parameters:
+#   - addr: The starting address of the new mapping.
+#   - length: The length of the new mapping.
+#   - prot: The memory protection of the mapping.
+#   - flags: Determines whether updates to the mapping are visible to other
+#        processes.
+#   - fd: The file descriptor to load into memory.
+#   - offset: The offset of the fd to start at.
+
+mov r9, ${offset}
+mov r8, ${fd}
+mov r10, ${flags}
+mov rdx, ${port}
+mov rsi, ${length}
+mov rdi, ${addr}
+mov rax, 9
+syscall
+
+[sys_mprotect] addr len prot
+# Parameters:
+#   - addr: The start address of the memory region to protect.
+#   - len: The length of the memory region to protect.
+#   - prot: The new protection flags.
+
+mov rdx, ${prot}
+mov rsi, ${len}
+mov rdi, ${addr}
+mov rax, 10
+syscall
+
+[sys_munmap] addr len
+# Parameters:
+#   - addr: The start address of the region to unmap.
+#   - len: The length of the region to unmap.
+
+mov rsi, ${len}
+mov rdi, ${addr}
+mov rax, 11
+syscall
+
+
+[sys_brk] addr
+# Parameters:
+#   - addr: The address to set the end of the data segment to.
+
+mov rdi, ${addr}
+mov rax, 12
+syscall
+
+
+[sys_rt_sigaction] signum act
+# Parameters:
+#   - signum: The signal to change the action for.
+#   - act: A struct sigaction pointer to use as the new action.
+# Consequences:
+#   - A struct sigaction for the old action is pushed onto the stack. The size
+#       is ${SIGACTION_STRUCT_SIZE}.
+
+mov r10, 0
+
+sub rsp, ${SIGACTION_STRUCT_SIZE}
+mov rdx, rsp
+
+mov rsi, ${act}
+mov rdi, ${signum}
+mov rax, 13
+syscall
+
+
+[sys_ioctl] fd request
+# Parameters:
+#   - fd: The file descriptor to make a request to.
+#   - request: The request code to make to the file.
+
+mov rsi, fd
+mov rdi, request
+mov rax, 16
+syscall
+
+
+[sys_pread64] fd size offset
+# Parameters:
+#   - fd: The file descriptor to read from.
+#   - size: The number of bytes to read from the file.
+#   - offset: The offset in the file to start reading from.
+# Consequences:
+#   - A buffer of ${size} is allocated to the stack, containing the read bytes.
+
+mov r10, ${offset}
+mov rdx, ${size}
+
+sub rsp, ${size}
+mov rsi, rsp
+
+mov rdi, ${fd}
+mov rax, 17
+syscall
+
+
+[sys_pwrite64] fd buf size offset
+# Parameters:
+#   - fd: The file descriptor to write to.
+#   - buf: The buffer of characters to write to the file.
+#   - size: The size of the buffer.
+#   - offset: The offset to start writing at.
+
+mov r10, ${offset}
+mov rdx, ${size}
+mov rsi, ${buf}
+mov rdi, ${offset}
+mov rax, 18
+syscall
+
+
+[sys_access] filepath mode
+# Parameters:
+#   - filepath: The path to the file to check the access for.
+#   - mode: The mode to check the access for.
+# Consequnces:
+#   - The result of the access check is stored in rax.
+
+mov rsi, ${mode}
+mov rdi, ${filepath}
+mov rax, 21
+syscall
+
+
+[sys_sched_yield]
+mov rax, 24
+syscall
+
+
+[sys_mremap] old_addr old_len new_len flags new_addr
+# Parameters:
+#   - old_addr: The start address of the existing memory map.
+#   - old_len: The length of the existing memory map.
+#   - new_len: The length of the new memory map.
+#   - flags: The flag to pass to the mremap operation.
+#   - new_addr: The start address of the new memory map.
+
+mov r8, ${new_addr}
+mov r10, ${flags}
+mov rdx, ${new_len}
+mov rsi, ${old_len}
+mov rdi, ${old_addr}
+mov rax, 25
+syscall
+
+
+[sys_msync] addr length flags
+# Parameters:
+#   - addr: The start address of the memory region to sync.
+#   - length: The length of the memory region to sync.
+#   - flags: Flags specifying how to sync the region.
+
+mov rdx, ${flags}
+mov rsi, ${length}
+mov rdi, ${addr}
+mov rax, 26
+syscall
+
+
+[sys_dup] oldfd
+# Parameters:
+#   - oldfd: The old file descriptor.
+# Consequences:
+#   - The new fd is stored in rax.
+
+mov rdi, ${oldfd}
+mov rax, 32
+syscall
+
+[sys_dup2] oldfd newfd
+# Parameters:
+#   - oldfd: The old file descriptor.
+#   - newfd: The new file descriptor to make refer to the old fd.
+
+mov rsi, ${newfd}
+mov rdi, ${oldfd}
+mov rax, 33
+syscall
+
+
+[sys_pause]
+mov rax, 34
+syscall
+
+
+[sys_nanosleep] req
+# Parameters:
+#   - req: A struct timespec pointer indicating the amount of time to sleep.
+# Consequences:
+#   - Allocates a ${STRUCT_TIMESPEC_SIZE} buffer on the stack containing a
+#       struct timespec indicating the amount of time left to sleep, only if
+#       the sleep is interrupted.
+
+sub rsp, ${STRUCT_TIMESPEC_SIZE}
+mov rsi, rsp
+mov rdi, ${req}
+mov rax, 35
+syscall
+
+
+[sys_getitimer] which
+# Parameters:
+#   - which: The type of timer.
+# Consequenes:
+#   - Allocates a ${STRUCT_ITIMERVAL_SIZE} buffer on the stack containing a
+#       struct itimerval indicating the time remaining until the timer signals.
+
+sub rsp, ${STRUCT_ITIMERVAL_SIZE}
+mov rsi, rsp
+mov rdi, ${which}
+mov rax, 36
+syscall
+
+
+[sys_alarm] seconds
+# Parameters:
+#   - seconds: The number of seconds before the SIGALRM is delivered.
+
+mov rdi, ${seconds}
+mov rax, 37
+syscall
+
+
+[sys_setitimer] which new_value
+# Parameters:
+#   - which: The type of timer.
+#   - new_value: A struct itimerval pointer to set the timer to.
+# Consequences:
+#   - Allocates a ${STRUCT_ITIMERVAL_SIZE} buffer to the stack containing a
+#       struct itimerval with the old itimerval struct that has been replaced.
+
+sub rsp, ${STRUCT_ITIMERVAL_SIZE}
+mov rdx, rsp
+mov rsi, ${new_value}
+mov rdi, ${which}
+mov rax, 38
+syscall
+
+[sys_getpid]
+# Consequences:
+#   - Stores the pid of the calling process into rax
+
+mov rax, 39
+syscall
+
+
+[sys_sendfile] out_fd in_fd offset count
+# Parameters:
+#   - out_fd: The fd to move data from.
+#   - in_fd: The fd to move data to.
+#   - offset: A pointer to an offset value to start copying data from in
+#        out_fd.
+#   - count: The number of bytes to copy from out_fd to in_fd.
+
+mov r10, ${count}
+mov rdx, ${offset}
+mov rsi, ${in_fd}
+mov rdi, ${out_fd}
+mov rax, 40
+syscall
+
+
+[sys_socket] domain type protocol
+# Parameters:
+#   - domain: Specifies the communication domain, this selects the protocol
+#       family whilch will be used for communication.
+#   - type: Specifies the communication semantics.
+#   - protocol: The particular protocol to be used with the socket.
+# Consequences:
+#   - rax holds a file descriptor for the newly opened socket.
+
+mov rdx, ${protocol}
+mov rsi, ${type}
+mov rdi, ${domain}
+mov rax, 41
+syscall
+
+
+[sys_connect] sockfd addr addrlen
+# Parameters:
+#   - sockfd: The socket to connect with.
+#   - addr: A struct sockaddr pointer specifying the addr to connect to.
+#   - addrlen: The size of addr.
+
+mov rdx, ${addrlen}
+mov rsi, ${addr}
+mov rdi, ${sockfd}
+mov rax, 42
+syscall
+
+
+[sys_accept] sockfd
+# Parameters:
+#   - sockfd: The socket listening for incoming connections.
+# Consequences:
+#   - Allocates a ${STRUCT_SOCKADDR_SIZE} buffer to the stack containing a
+#       struct sockaddr of the connected client.
+
+mov rdx, 0x0
+
+sub rsp, ${STRUCT_SOCKADDR_SIZE}
+mov rsi, rsp
+
+mov rdi, ${sockfd}
+mov rax, 43
+syscall
+
+
+[sys_sendto] sockfd buf len flags dest_addr dest_len
+# Parameters:
+#   - sockfd: The socket to send the message from.
+#   - buf: The buffer containing the message to send.
+#   - len: The size of the buffer containing the message.
+#   - flags: Flags controlling the send process.
+#   - dest_addr: A sockaddr pointer with the destination address to send the
+#       message to.
+#   - addr_len: The length of the dest_addr struct.
+
+mov r9, ${dest_len}
+mov r10, ${dest_addr}
+mov r8, ${flags}
+mov rdx, ${len}
+mov rsi, ${buf}
+mov rdi, ${sockfd}
+mov rax, 44
+syscall
+
+
+[sys_shutdown] sockfd how
+# Parameters:
+#   - sockfd: The socket fd to be shutdown.
+#   - how: A flag indicating how to shut the socket down.
+
+mov rsi, ${how}
+mov rdi, ${sockfd}
+mov rax, 48
+syscall
+
+[sys_bind] sockfd addr addrlen
+# Parameters:
+#   - sockfd: The socket fd to bind on.
+#   - addr: A sockaddr pointer to specifying the address to bind to.
+#   - addrlen: The size of addr.
+mov rdx, ${addrlen}
+mov rsi, ${addr}
+mov rdi, ${sockfd}
+mov rax, 49
+syscall
+
+
+[sys_listen] sockfd backlog
+# Parameters:
+#   - sockfd: The socket fd to mark as listening.
+#   - backlog: The maximum length to which the queue of pending connections
+#       may grow.
+mov rsi, ${sockfd}
+mov rdi, ${backlog}
+mov rax, 50
+syscall
+
+
+[sys_fork]
+mov rax, 57
+syscall
+
+
+[sys_execve] filename argv envp
+# Parameters:
+#   - filename: The filename of the program to execute.
+#   - argv: A pointer to a list of string arguments for the program.
+#   - envp: A pointer to a list of string environment variables.
+mov rdx, ${envp}
+mov rsi, ${argv}
+mov rdi, ${filename}
+mov rax, 59
+syscall
 
 
 [sys_exit]
 xor edi, edi
 mov eax, 60
+syscall
+
+
+[sys_kill] pid sig
+# Parameters:
+#   - pid: The id of the process to send the signal to.
+#   - sig: The signal to send to the process.
+mov rsi, ${pid}
+mov rdi, ${sig}
+mov rax, 62
 syscall

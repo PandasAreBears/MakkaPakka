@@ -1,0 +1,13 @@
+!link syscall.mkpk
+
+[[data]]
+PROGRAM_BIN_SH: "/bin/sh"
+PROGRAM_BIN_BASH: "/bin/bash"
+
+
+[[code]]
+[bin_sh]
+> sys_execve "PROGRAM_BIN_SH" 0x0 0x0
+
+[bin_bash]
+> sys_execve "PROGRAM_BIN_BASH" 0x0 0x0
