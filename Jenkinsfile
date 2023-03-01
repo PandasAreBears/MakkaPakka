@@ -7,6 +7,16 @@ pipeline {
       }
     }
 
+    stage('Pre-commit') {
+      steps {
+        sh '''
+        export PATH=$PWD/.venv/bin:$PATH
+        pre-commit run --all-files
+        '''
+      }
+    }
+
+
     stage('Test') {
       steps {
         sh '''
