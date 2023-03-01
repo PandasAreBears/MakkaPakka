@@ -3,7 +3,9 @@ pipeline {
   stages {
     stage('Configure') {
       steps {
-        sh './configure.sh'
+        sh '''
+        ./configure.sh
+        '''
       }
     }
 
@@ -16,12 +18,20 @@ pipeline {
       }
     }
 
-
     stage('Test') {
       steps {
         sh '''
         export PATH=$PWD/.venv/bin:$PATH
         python3 -m pytest
+        '''
+      }
+    }
+
+    stage('Package') {
+      steps {
+        sh '''
+        export PATH=$PWD/.venv/bin:$PATH
+        make clean build
         '''
       }
     }
