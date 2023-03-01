@@ -58,6 +58,7 @@ class MKPKDataType:
     NONE = 0
     STR = 1
     INT = 2
+    REGISTER = 3
 
 
 class MKPKData:

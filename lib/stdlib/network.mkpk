@@ -1,45 +1,20 @@
-[[data]]
-AF_INET: 0x2
-SOCK_STREAM: 0x1
+!link syscall.mkpk
 
 [[code]]
-[socket]
-mov rdx, 0x0
-mov rsi, ${SOCK_STREAM}
-mov rdi, ${AF_INET}
-mov rax, 0x29
-syscall
-mov r9, rax
+[sockaddr_init] addr port protocol
+# Populates a struct sockaddr on the stack.
+# Parameters:
+#   - addr: The address of the socket.
+#   - port: The port of the socket.
+#   - protocol: The protocol of the socket.
+push ${addr}
+push word ${port}
+push word ${protocol}
 
-[connect] connect_addr connect_port
-# Push sock_addr structure to top of stack.
-push ${connect_addr}
-push word ${connect_port}
-push word ${AF_INET}
-
-# Size of sock_addr
-mov rdx, 0x10
-
-# Sock_addr is at the top of the stack, so use stack pointer.
-mov rsi, rsp
-
-# R9 is used as the file descriptor for this function.
-mov rdi, r9
-mov rax, 0x2a
-syscall
-
-[dup2]
-mov rsi, 2
-mov rdi, r9
-mov rax, 0x21
-syscall
-
-mov rsi, 1
-mov rdi, r9
-mov rax, 0x21
-syscall
-
-mov rsi, 0
-mov rdi, r9
-mov rax, 0x21
-syscall
+[dup_stdstreams] fd
+# Duplicates stdin, stdout, stderr into a single fd.
+# Parameters:
+#   - fd: The fd to duplicate the stdstreams into.
+> sys_dup2 ${fd} ${STDERR}
+> sys_dup2 ${fd} ${STDOUT}
+> sys_dup2 ${fd} ${STDIN}

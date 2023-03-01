@@ -5,7 +5,9 @@ import pytest
 
 from makka_pakka.exceptions.exceptions import MKPKIntegratingError
 from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
-from makka_pakka.integrating.integrate import _format_code_into_asm_function
+from makka_pakka.integrating.integrate import (
+    _format_code_into_asm_function,
+)
 from makka_pakka.integrating.integrate import _translate_mkpkdata_to_asm
 from makka_pakka.integrating.integrate import _write_code_to_file
 from makka_pakka.integrating.integrate import integrate_makka_pakka

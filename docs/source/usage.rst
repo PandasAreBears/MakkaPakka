@@ -63,10 +63,9 @@ re-compile the program for every file.
     Usage: mkpk-transpile [OPTIONS] MKPK_FILEPATH
 
     Options:
-    -o, --output TEXT  The filepath to output the translated makka pakka code.
+    -o, --output TEXT  The filepath to output the transpiled makka pakka code
+                        to.
     --help             Show this message and exit.
-            Show this message and exit.
-
 
 .. seealso::
     - :doc:`installation`

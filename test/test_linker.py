@@ -7,7 +7,9 @@ from makka_pakka.exceptions.exceptions import MKPKInvalidParameter
 from makka_pakka.exceptions.exceptions import MKPKLinkingError
 from makka_pakka.linking.linker import _assert_no_conflict_in_data_labels
 from makka_pakka.linking.linker import _assert_no_conflict_in_functions
-from makka_pakka.linking.linker import _assert_no_conflict_in_gadget_addresses
+from makka_pakka.linking.linker import (
+    _assert_no_conflict_in_gadget_addresses,
+)
 from makka_pakka.linking.linker import _combine_MKPKIRs
 from makka_pakka.linking.linker import merge_MKPKIRs
 from makka_pakka.linking.linker import parse_link_and_merge

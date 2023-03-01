@@ -4,18 +4,24 @@ from typing import List
 
 import pytest
 
-from makka_pakka.elf_caver.exceptions.exceptions import MKPKInvalidParameter
+from makka_pakka.elf_caver.exceptions.exceptions import (
+    MKPKInvalidParameter,
+)
 from makka_pakka.elf_caver.injector.binary_injector import (
     _get_shellcode_from_nasm,
 )
 from makka_pakka.elf_caver.injector.binary_injector import (
     _inject_shellcode_at_offset,
 )
-from makka_pakka.elf_caver.injector.binary_injector import change_entrypoint
+from makka_pakka.elf_caver.injector.binary_injector import (
+    change_entrypoint,
+)
 from makka_pakka.elf_caver.injector.binary_injector import (
     inject_nasm_into_binary,
 )
-from makka_pakka.elf_caver.injector.binary_injector import patch_pltsec_exit
+from makka_pakka.elf_caver.injector.binary_injector import (
+    patch_pltsec_exit,
+)
 from makka_pakka.elf_caver.injector.byte_extraction import (
     to_little_endian_32bit,
 )

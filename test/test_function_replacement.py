@@ -42,6 +42,7 @@ SIMPLE_FUNC_WITH_ARGS: str = str(RESOURCES_ROOT / "simple_func_with_args.mkpk")
 INVALID_ARG_REF: str = str(RESOURCES_ROOT / "invalid_arg_ref.mkpk")
 INT_ARG: str = str(RESOURCES_ROOT / "int_arg.mkpk")
 LABEL_ARG: str = str(RESOURCES_ROOT / "label_arg.mkpk")
+REGISTER_ARG: str = str(RESOURCES_ROOT / "register_arg_ref.mkpk")
 MULTIPLE_ARGS: str = str(RESOURCES_ROOT / "multiple_arguments.mkpk")
 DEEP_FUNC_REPL: str = str(RESOURCES_ROOT / "deep_function_replacement.mkpk")
 CYCLIC_FUNC_CALLS: str = str(RESOURCES_ROOT / "cyclic_func_calls.mkpk")
@@ -71,6 +72,11 @@ def int_arg() -> MKPKIR:
 @pytest.fixture
 def label_arg() -> MKPKIR:
     return parse_link_and_merge(LABEL_ARG)
+
+
+@pytest.fixture
+def register_arg() -> MKPKIR:
+    return parse_link_and_merge(REGISTER_ARG)
 
 
 @pytest.fixture
@@ -244,6 +250,16 @@ class TestGetRefValueFromArguments:
         )
 
         _assert_data_state_eq(data, "pick_me", 1, MKPKDataType.INT)
+
+    def test_resolves_register_arg(self, register_arg: MKPKIR):
+        data: MKPKData = _get_ref_value_from_arguments(
+            "${arg}",
+            register_arg.functions[1],
+            MKPKArgumentSet("rax"),
+            register_arg.data,
+        )
+
+        _assert_data_state_eq(data, "rax", "", MKPKDataType.REGISTER)
 
     def test_resolves_str_label_arg(self, str_label_arg: MKPKIR):
         data: MKPKData = _get_ref_value_from_arguments(

