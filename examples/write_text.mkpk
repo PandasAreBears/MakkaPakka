@@ -1,0 +1,9 @@
+!link ../lib/stdlib/syscall.mkpk
+
+[[data]]
+message: "Hello, world!"
+
+[[code]]
+[main]
+> sys_write "message" 14 ${STDOUT}
+> sys_exit
