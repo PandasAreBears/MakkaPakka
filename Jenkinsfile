@@ -3,13 +3,13 @@ pipeline {
   stages {
     stage('Configure') {
       steps {
-        sh 'source configure.sh'
+        sh 'sudo ./configure.sh'
       }
     }
 
     stage('Test') {
       steps {
-        sh 'source configure.sh'
+        sh 'sudo ./configure.sh'
         sh 'python3 -m pytest'
       }
     }
