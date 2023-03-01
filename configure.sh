@@ -93,6 +93,7 @@ else
     echo -e "${YELLOW}Couldn't find virtual environment, creating it now...${NC}"
     mkdir .venv
     python3 -m venv .venv
+    export PATH=$PWD/.venv/bin/:$PATH
 
     if [ ! -f $VENV_ACT ]; then
         # We failed to create the venv, so all hope is lost
