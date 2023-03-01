@@ -1,7 +1,7 @@
 
 package_test: clean build deploy_test
 
-package: clean bulid deploy
+package: clean build deploy
 
 deploy_test:
 	twine upload -r testpypi dist/*
