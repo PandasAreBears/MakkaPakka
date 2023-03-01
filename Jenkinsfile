@@ -3,13 +3,36 @@ pipeline {
   stages {
     stage('Configure') {
       steps {
-        sh './configure.sh'
+        sh '''
+        ./configure.sh
+        '''
+      }
+    }
+
+    stage('Pre-commit') {
+      steps {
+        sh '''
+        export PATH=$PWD/.venv/bin:$PATH
+        pre-commit run --all-files
+        '''
       }
     }
 
     stage('Test') {
       steps {
-        sh 'python3 -m pytest'
+        sh '''
+        export PATH=$PWD/.venv/bin:$PATH
+        python3 -m pytest
+        '''
+      }
+    }
+
+    stage('Package') {
+      steps {
+        sh '''
+        export PATH=$PWD/.venv/bin:$PATH
+        make clean build
+        '''
       }
     }
 

@@ -62,7 +62,7 @@ echo -e "${BLUE}Checking for python dependencies...${NC}"
 dpkg -s $PYTHON_DEPS > /dev/null
 if [ ! $? -eq 0 ]; then
     echo -e "${YELLOW}Not found, trying to install one (or more) of $PYTHON_DEPS.${NC}"
-    sudo apt-get install $PYTHON_DEPS
+    apt-get install $PYTHON_DEPS -y
 else
     echo -e "${GREEN}Found!${NC}"
 fi
@@ -72,7 +72,7 @@ echo -e "${BLUE}Checking for external dependencies...${NC}"
 dpkg -s $EXT_DEPS > /dev/null
 if [ ! $? -eq 0 ]; then
     echo -e "${YELLOW}Not found, trying to install one (or more) of $EXT_DEPS.${NC}"
-    sudo apt-get install $EXT_DEPS
+    apt-get install $EXT_DEPS -y
 else
     echo -e "${GREEN}Found!${NC}"
 fi
@@ -93,6 +93,7 @@ else
     echo -e "${YELLOW}Couldn't find virtual environment, creating it now...${NC}"
     mkdir .venv
     python3 -m venv .venv
+    export PATH=$PWD/.venv/bin/:$PATH
 
     if [ ! -f $VENV_ACT ]; then
         # We failed to create the venv, so all hope is lost
@@ -108,6 +109,8 @@ else
     # Install the pip dependencies, using the requirements.txt file
     install_pip_reqs
 
+    # Install the pre-commit hooks
+    git config --unset-all core.hooksPath
     pre-commit install
 fi
 
