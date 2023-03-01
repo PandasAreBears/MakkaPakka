@@ -109,6 +109,8 @@ else
     # Install the pip dependencies, using the requirements.txt file
     install_pip_reqs
 
+    # Install the pre-commit hooks
+    git config --unset-all core.hooksPath
     pre-commit install
 fi
 
