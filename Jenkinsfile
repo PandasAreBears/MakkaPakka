@@ -9,7 +9,10 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh 'python3 -m pytest'
+        sh '''
+        export PATH=$PWD/.venv/bin:$PATH
+        python3 -m pytest
+        '''
       }
     }
 
