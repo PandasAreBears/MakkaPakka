@@ -9,7 +9,6 @@ pipeline {
 
     stage('Test') {
       steps {
-        sh './configure.sh'
         sh 'python3 -m pytest'
       }
     }
