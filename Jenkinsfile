@@ -3,12 +3,13 @@ pipeline {
   stages {
     stage('Configure') {
       steps {
-        sh './configure.sh'
+        sh 'source configure.sh'
       }
     }
 
     stage('Test') {
       steps {
+        sh 'source configure.sh'
         sh 'python3 -m pytest'
       }
     }
