@@ -62,7 +62,7 @@ echo -e "${BLUE}Checking for python dependencies...${NC}"
 dpkg -s $PYTHON_DEPS > /dev/null
 if [ ! $? -eq 0 ]; then
     echo -e "${YELLOW}Not found, trying to install one (or more) of $PYTHON_DEPS.${NC}"
-    sudo apt-get install $PYTHON_DEPS
+    sudo apt-get install $PYTHON_DEPS -y
 else
     echo -e "${GREEN}Found!${NC}"
 fi
@@ -72,7 +72,7 @@ echo -e "${BLUE}Checking for external dependencies...${NC}"
 dpkg -s $EXT_DEPS > /dev/null
 if [ ! $? -eq 0 ]; then
     echo -e "${YELLOW}Not found, trying to install one (or more) of $EXT_DEPS.${NC}"
-    sudo apt-get install $EXT_DEPS
+    sudo apt-get install $EXT_DEPS -y
 else
     echo -e "${GREEN}Found!${NC}"
 fi
