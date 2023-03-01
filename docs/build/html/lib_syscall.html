@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>syscall.mkpk &#8212; MakkaPakka 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <section id="syscall-mkpk">
+<h1><strong>syscall.mkpk</strong><a class="headerlink" href="#syscall-mkpk" title="Permalink to this heading">¶</a></h1>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#syscall-linking"><span class="std std-ref">Linking</span></a></div>
+<div class="line"><a class="reference internal" href="#syscall-data"><span class="std std-ref">Data</span></a></div>
+<div class="line"><a class="reference internal" href="#syscall-functions"><span class="std std-ref">Functions</span></a></div>
+</div>
+</section>
+<section id="linking">
+<span id="syscall-linking"></span><h2>Linking<a class="headerlink" href="#linking" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!link stdlib/syscall.mkpk
+</pre></div>
+</div>
+</section>
+<section id="links-with">
+<h2>Links with<a class="headerlink" href="#links-with" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line"><em>None</em></div>
+</div>
+</section>
+<section id="data">
+<span id="syscall-data"></span><h2>Data<a class="headerlink" href="#data" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">_RDONLY: 0x0</div>
+<div class="line">O_WRONLY: 0x1</div>
+<div class="line">O_RDWR: 0x2</div>
+<div class="line"><br /></div>
+<div class="line"><em>Standard file streams.</em></div>
+<div class="line">STDIN: 0</div>
+<div class="line">STDOUT: 1</div>
+<div class="line">STDERR: 2</div>
+<div class="line"><br /></div>
+<div class="line"><em>The size of struct stat. Defined in stat.h.</em></div>
+<div class="line">STAT_STRUCT_SIZE: 144</div>
+<div class="line"><br /></div>
+<div class="line"><em>The ‘whence’ options for lseek(2). Defined in unistd.h.</em></div>
+<div class="line">SEEK_SET: 0</div>
+<div class="line">SEEK_CUR: 1</div>
+<div class="line">SEEK_END: 2</div>
+<div class="line"><br /></div>
+<div class="line"><em>The memory protect flags. Defined in mman-linux.h.</em></div>
+<div class="line">PROT_NONE: 0x0</div>
+<div class="line">PROT_READ: 0x1</div>
+<div class="line">PROT_WRITE: 0x2</div>
+<div class="line">PROT_EXEC: 0x4</div>
+<div class="line"><br /></div>
+<div class="line"><em>The flags defining the visibility of updates to mmap’s.</em></div>
+<div class="line">MAP_SHARED: 0x1</div>
+<div class="line">MAP_PRIVATE: 0x2</div>
+<div class="line"><br /></div>
+<div class="line"><em>The size of struct sigaction. Defined in signal.h.</em></div>
+<div class="line">SIGACTION_STRUCT_SIZE: 152</div>
+<div class="line"><br /></div>
+<div class="line"><em>The results of a test for access permissions. Defined in unistd.h.</em></div>
+<div class="line">R_OK: 0x4</div>
+<div class="line">W_OK: 0x2</div>
+<div class="line">X_OK: 0x1</div>
+<div class="line">F_OK: 0x0</div>
+<div class="line"><br /></div>
+<div class="line"><em>The flags for msync. Defined in mman-linux.h.</em></div>
+<div class="line">MS_ASYNC: 0x1</div>
+<div class="line">MS_INVALIDATE: 0x2</div>
+<div class="line">MS_SYNC: 0x4</div>
+<div class="line"><br /></div>
+<div class="line"><em>The size of a struct timespec. Defined in time.h.</em></div>
+<div class="line">STRUCT_TIMESPEC_SIZE: 16</div>
+<div class="line"><br /></div>
+<div class="line"><em>The size of a struct itimerval. Defined in sys</em></div>
+<div class="line">STRUCT_ITIMERVAL_SIZE: 32</div>
+<div class="line"><br /></div>
+<div class="line"><em>The types of timer. Defined in sys</em></div>
+<div class="line">ITIMER_REAL: 0</div>
+<div class="line">ITIMER_VIRTUAL: 1</div>
+<div class="line">ITIMER_PROF: 2</div>
+<div class="line"><br /></div>
+<div class="line"><em>The socket protocol families. Defined in sys/socket.h</em></div>
+<div class="line">AF_UNSPEC:0</div>
+<div class="line">AF_LOCAL: 1</div>
+<div class="line">AF_UNIX: 1</div>
+<div class="line">AF_FILE: 1</div>
+<div class="line">AF_INET: 2</div>
+<div class="line">AF_AX25: 3</div>
+<div class="line">AF_IPX4: 4</div>
+<div class="line">AF_APPLETALK: 5</div>
+<div class="line">AF_NETROM: 6</div>
+<div class="line">AF_BRIDGE: 7</div>
+<div class="line">AF_ATMPVC: 8</div>
+<div class="line">AF_X25: 9</div>
+<div class="line">AF_INET6: 10</div>
+<div class="line">AF_ROSE: 11</div>
+<div class="line">AF_DECnet: 12</div>
+<div class="line">AF_NETBEUI: 13</div>
+<div class="line">AF_SECURITY: 14</div>
+<div class="line">AF_KEY: 15</div>
+<div class="line">AF_NETLINK: 16</div>
+<div class="line">AF_ROUTE: 16</div>
+<div class="line">AF_PACKET: 17</div>
+<div class="line">AF_ASH: 18</div>
+<div class="line">AF_ECONET: 19</div>
+<div class="line">AF_ATMSVC: 20</div>
+<div class="line">AF_RDS: 21</div>
+<div class="line">AF_SNA: 22</div>
+<div class="line">AF_IRDA: 23</div>
+<div class="line">AF_PPPOX: 24</div>
+<div class="line">AF_WANPIPE: 25</div>
+<div class="line">AF_LLC: 26</div>
+<div class="line">AF_IB: 27</div>
+<div class="line">AF_MPLS: 28</div>
+<div class="line">AF_CAN: 29</div>
+<div class="line">AF_TIPC: 30</div>
+<div class="line">AF_BLUETOOTH: 31</div>
+<div class="line">AF_IUCV: 32</div>
+<div class="line">AF_RXRPC: 33</div>
+<div class="line">AF_ISDN: 34</div>
+<div class="line">AF_PHONET: 35</div>
+<div class="line">AF_IEEE802154: 36</div>
+<div class="line">AF_CAIF: 37</div>
+<div class="line">AF_ALG: 38</div>
+<div class="line">AF_NFC: 39</div>
+<div class="line">AF_VSOCK: 40</div>
+<div class="line">AF_KCM: 41</div>
+<div class="line">AF_QIPCRTR: 42</div>
+<div class="line">AF_SMC: 43</div>
+<div class="line">AF_XDP: 44</div>
+<div class="line">AF_MCTP: 45</div>
+<div class="line"><br /></div>
+<div class="line"><em>The socket type definitions. Defined in sys/socket.h.</em></div>
+<div class="line">SOCK_STREAM: 1</div>
+<div class="line">SOCK_DGRAM: 2</div>
+<div class="line">SOCK_RAW: 3</div>
+<div class="line">SOCK_RDM: 4</div>
+<div class="line">SOCK_SEQPACKET: 5</div>
+<div class="line">SOCK_DCCP: 6</div>
+<div class="line">SOCK_PACKET: 10</div>
+<div class="line"><br /></div>
+<div class="line"><em>The size of a struct sockaddr. Defined in sys/socket.h.</em></div>
+<div class="line">STRUCT_SOCKADDR_SIZE: 16</div>
+<div class="line"><br /></div>
+<div class="line"><em>The shutdown type definitions. Defined in sys/socket.h.</em></div>
+<div class="line">SHUT_RD: 0</div>
+<div class="line">SHUT_WR: 1</div>
+<div class="line">SHUT_RDWR: 2</div>
+<div class="line"><br /></div>
+<div class="line"><em>The signal type definitions. Defined in signal.h.</em></div>
+<div class="line">SIGHUP: 1</div>
+<div class="line">SIGINT: 2</div>
+<div class="line">SIGQUIT: 3</div>
+<div class="line">SIGILL: 4</div>
+<div class="line">SIGTRAP: 5</div>
+<div class="line">SIGABRT: 6</div>
+<div class="line">SIGFPE: 8</div>
+<div class="line">SIGKILL: 9</div>
+<div class="line">SIGSEGV: 11</div>
+<div class="line">SIGPIPE: 13</div>
+<div class="line">SIGALRM: 14</div>
+<div class="line">SIGTERM: 15</div>
+</div>
+</section>
+<section id="functions">
+<span id="syscall-functions"></span><h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">[sys_read] fd count</div>
+<div class="line"><em>Reads data from a file descriptor.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- fd: The file descriptor to read from.</div>
+<div class="line">- count: The number of bytes to read into the buffer.</div>
+<div class="line">Consequences:</div>
+<div class="line">- A {count} size buffer on the stack, populated with data read from the fd.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_write] msg len fd</div>
+<div class="line"><em>Writes data to a file descriptor.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- msg: A pointer to a string of the message to write.</div>
+<div class="line">- len: The length of the pointed to string.</div>
+<div class="line">- fd: The file descriptor to write to.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_open] filename flags</div>
+<div class="line"><em>Opens a file.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- filename: A pointer to a filepath string to open.</div>
+<div class="line">- flags: Flags specifying the mode to open the file with.</div>
+<div class="line">Consequences:</div>
+<div class="line">- rax contains a file descriptor for the opened file.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_close] fd</div>
+<div class="line"><em>Closes a file.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- fd: The file descriptor to close.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_stat] filepath</div>
+<div class="line"><em>Gets a file’s status.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- filepath: The path to the file to perform the stat operation on.</div>
+<div class="line">Consequences:</div>
+<div class="line">- A ${STAT_STRUCT_SIZE} size buffer on the stack, populated with a</div>
+<div class="line">stat struct.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_fstat] fd</div>
+<div class="line"><em>Gets a file descriptor’s status.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- fd: The file descriptor of the file to perform the stat operation on.</div>
+<div class="line">Consequences:</div>
+<div class="line">- A ${STAT_STRUCT_SIZE} size buffer on the stack, populated with a</div>
+<div class="line">stat struct.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_lstat] filepath</div>
+<div class="line"><em>Get a file’s status, even if it’s a symlink.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- filepath: The path to the file to perform the stat operation on.</div>
+<div class="line">Consequences:</div>
+<div class="line">- A ${STAT_STRUCT_SIZE} size buffer on the stack, populated with a</div>
+<div class="line">stat struct.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_poll] ufds timeout</div>
+<div class="line"><em>Waits for an event on a file descriptor.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- ufds: A struct pollfd pointer to poll with.</div>
+<div class="line">- timeout: The amount of time in milliseconds that poll() should block</div>
+<div class="line">waiting for a fd to become ready.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_lseek] fd offset whence</div>
+<div class="line"><em>Reposition read/write file offset.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- fd: The file descriptor to offset into.</div>
+<div class="line">- offset: The offset to seek into the file.</div>
+<div class="line">- whence: A directive for how to move to the offset.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_mmap] addr length prot flags fd offset</div>
+<div class="line"><em>Map files or devices into memory.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- addr: The starting address of the new mapping.</div>
+<div class="line">- length: The length of the new mapping.</div>
+<div class="line">- prot: The memory protection of the mapping.</div>
+<div class="line">- flags: Determines whether updates to the mapping are visible to other</div>
+<div class="line">processes.</div>
+<div class="line">- fd: The file descriptor to load into memory.</div>
+<div class="line">- offset: The offset of the fd to start at.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_mprotect] addr len prot</div>
+<div class="line"><em>Set protection on a region of memory.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- addr: The start address of the memory region to protect.</div>
+<div class="line">- len: The length of the memory region to protect.</div>
+<div class="line">- prot: The new protection flags.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_munmap] addr len</div>
+<div class="line"><em>Unmap files or devices into memory.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- addr: The start address of the region to unmap.</div>
+<div class="line">- len: The length of the region to unmap.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_brk] addr</div>
+<div class="line"><em>Change the data segment size.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- addr: The address to set the end of the data segment to.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_rt_sigaction] signum act</div>
+<div class="line"><em>Examine and change a signal action.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- signum: The signal to change the action for.</div>
+<div class="line">- act: A struct sigaction pointer to use as the new action.</div>
+<div class="line">Consequences:</div>
+<div class="line">- A struct sigaction for the old action is pushed onto the stack. The size</div>
+<div class="line">is ${SIGACTION_STRUCT_SIZE}.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_ioctl] fd request</div>
+<div class="line"><em>Make a request to a control device.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- fd: The file descriptor to make a request to.</div>
+<div class="line">- request: The request code to make to the file.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_pread64] fd size offset</div>
+<div class="line"><em>Read from a file descriptor at a given offset.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- fd: The file descriptor to read from.</div>
+<div class="line">- size: The number of bytes to read from the file.</div>
+<div class="line">- offset: The offset in the file to start reading from.</div>
+<div class="line">Consequences:</div>
+<div class="line">- A buffer of ${size} is allocated to the stack, containing the read bytes.</div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line">[sys_pwrite64] fd buf size offset</div>
+<div class="line"><em>Write to a file descriptor at a given offset.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- fd: The file descriptor to write to.</div>
+<div class="line">- buf: The buffer of characters to write to the file.</div>
+<div class="line">- size: The size of the buffer.</div>
+<div class="line">- offset: The offset to start writing at.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_access] filepath mode</div>
+<div class="line"><em>Check a user’s permissions for a file.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- filepath: The path to the file to check the access for.</div>
+<div class="line">- mode: The mode to check the access for.</div>
+<div class="line">Consequnces:</div>
+<div class="line">- The result of the access check is stored in rax.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_sched_yield]</div>
+<div class="line"><em>Yield the processor.</em></div>
+<div class="line"><br /></div>
+<div class="line">[sys_mremap] old_addr old_len new_len flags new_addr</div>
+<div class="line"><em>Remap a virtual memory address.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- old_addr: The start address of the existing memory map.</div>
+<div class="line">- old_len: The length of the existing memory map.</div>
+<div class="line">- new_len: The length of the new memory map.</div>
+<div class="line">- flags: The flag to pass to the mremap operation.</div>
+<div class="line">- new_addr: The start address of the new memory map.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_msync] addr length flags</div>
+<div class="line"><em>Syncronise a file with a memory map.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- addr: The start address of the memory region to sync.</div>
+<div class="line">- length: The length of the memory region to sync.</div>
+<div class="line">- flags: Flags specifying how to sync the region.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_dup] oldfd</div>
+<div class="line"><em>Duplicate a file descriptor</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- oldfd: The old file descriptor.</div>
+<div class="line">Consequences:</div>
+<div class="line">- The new fd is stored in rax.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_dup2] oldfd newfd</div>
+<div class="line"><em>Duplicate a file descriptor</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- oldfd: The old file descriptor.</div>
+<div class="line">- newfd: The new file descriptor to make refer to the old fd.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_pause]</div>
+<div class="line"><em>Wait for a signal.</em></div>
+<div class="line"><br /></div>
+<div class="line">[sys_nanosleep] req</div>
+<div class="line"><em>High-resolution sleep.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- req: A struct timespec pointer indicating the amount of time to sleep.</div>
+<div class="line">Consequences:</div>
+<div class="line">- Allocates a ${STRUCT_TIMESPEC_SIZE} buffer on the stack containing a</div>
+<div class="line">struct timespec indicating the amount of time left to sleep, only if</div>
+<div class="line">the sleep is interrupted.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_getitimer] which</div>
+<div class="line"><em>Get of set the value of an interval timer.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- which: The type of timer.</div>
+<div class="line">Consequenes:</div>
+<div class="line">- Allocates a ${STRUCT_ITIMERVAL_SIZE} buffer on the stack containing a</div>
+<div class="line">struct itimerval indicating the time remaining until the timer signals.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_alarm] seconds</div>
+<div class="line"><em>Set an alarm clock for delivery of a signal.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- seconds: The number of seconds before the SIGALRM is delivered.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_setitimer] which new_value</div>
+<div class="line"><em>Get or set value of an interval timer.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- which: The type of timer.</div>
+<div class="line">- new_value: A struct itimerval pointer to set the timer to.</div>
+<div class="line">Consequences:</div>
+<div class="line">- Allocates a ${STRUCT_ITIMERVAL_SIZE} buffer to the stack containing a</div>
+<div class="line">struct itimerval with the old itimerval struct that has been replaced.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_getpid]</div>
+<div class="line"><em>Get the pid of the current process.</em></div>
+<div class="line">Consequences:</div>
+<div class="line">- Stores the pid of the calling process into rax</div>
+<div class="line"><br /></div>
+<div class="line">[sys_sendfile] out_fd in_fd offset count</div>
+<div class="line"><em>Transfer data between file descriptors.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- out_fd: The fd to move data from.</div>
+<div class="line">- in_fd: The fd to move data to.</div>
+<div class="line">- offset: A pointer to an offset value to start copying data from in</div>
+<div class="line">out_fd.</div>
+<div class="line">- count: The number of bytes to copy from out_fd to in_fd.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_socket] domain type protocol</div>
+<div class="line"><em>Create an endpoint for commuincation.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- domain: Specifies the communication domain, this selects the protocol</div>
+<div class="line">family whilch will be used for communication.</div>
+<div class="line">- type: Specifies the communication semantics.</div>
+<div class="line">- protocol: The particular protocol to be used with the socket.</div>
+<div class="line">Consequences:</div>
+<div class="line">- rax holds a file descriptor for the newly opened socket.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_connect] sockfd addr addrlen</div>
+<div class="line"><em>Initiate a connection to a socket.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- sockfd: The socket to connect with.</div>
+<div class="line">- addr: A struct sockaddr pointer specifying the addr to connect to.</div>
+<div class="line">- addrlen: The size of addr.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_accept] sockfd</div>
+<div class="line"><em>Accept a connection on a socket.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- sockfd: The socket listening for incoming connections.</div>
+<div class="line">Consequences:</div>
+<div class="line">- Allocates a ${STRUCT_SOCKADDR_SIZE} buffer to the stack containing a</div>
+<div class="line">struct sockaddr of the connected client.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_sendto] sockfd buf len flags dest_addr dest_len</div>
+<div class="line"><em>Send a message on a socket.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- sockfd: The socket to send the message from.</div>
+<div class="line">- buf: The buffer containing the message to send.</div>
+<div class="line">- len: The size of the buffer containing the message.</div>
+<div class="line">- flags: Flags controlling the send process.</div>
+<div class="line">- dest_addr: A sockaddr pointer with the destination address to send the</div>
+<div class="line">message to.</div>
+<div class="line">- addr_len: The length of the dest_addr struct.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_shutdown] sockfd how</div>
+<div class="line"><em>Shut down part of a full-duplex connection.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- sockfd: The socket fd to be shutdown.</div>
+<div class="line">- how: A flag indicating how to shut the socket down.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_bind] sockfd addr addrlen</div>
+<div class="line"><em>Bind a name to a socket.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- sockfd: The socket fd to bind on.</div>
+<div class="line">- addr: A sockaddr pointer to specifying the address to bind to.</div>
+<div class="line">- addrlen: The size of addr.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_listen] sockfd backlog</div>
+<div class="line"><em>Listen for connections on a socket.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- sockfd: The socket fd to mark as listening.</div>
+<div class="line">- backlog: The maximum length to which the queue of pending connections</div>
+<div class="line">may grow.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_fork]</div>
+<div class="line"><em>Create a child process.</em></div>
+<div class="line"><br /></div>
+<div class="line">[sys_execve] filename argv envp</div>
+<div class="line"><em>Execute a program.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- filename: The filename of the program to execute.</div>
+<div class="line">- argv: A pointer to a list of string arguments for the program.</div>
+<div class="line">- envp: A pointer to a list of string environment variables.</div>
+<div class="line"><br /></div>
+<div class="line">[sys_exit]</div>
+<div class="line"><em>Terminate the calling process.</em></div>
+<div class="line"><br /></div>
+<div class="line">[sys_kill] pid sig</div>
+<div class="line"><em>Send signal to a process.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- pid: The id of the process to send the signal to.</div>
+<div class="line">- sig: The signal to send to the process.</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MakkaPakka</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html"><strong>Overview</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html"><strong>Installation</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>Usage</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="language_spec.html"><strong>Language Features</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="stdlib.html"><strong>Standard Library</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html"><strong>Examples</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="compilation.html"><strong>Compilation Process</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_structures.html"><strong>Data Structures</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="public_api.html"><strong>Public API</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="private_api.html"><strong>Full API</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html"><strong>TODOs</strong></a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Alex J.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+
+      |
+      <a href="_sources/lib_syscall.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+
+
+
+  </body>
+</html>

