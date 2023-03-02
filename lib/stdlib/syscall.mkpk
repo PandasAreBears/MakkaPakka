@@ -6,6 +6,7 @@
 O_RDONLY: 0x0
 O_WRONLY: 0x1
 O_RDWR: 0x2
+O_CREAT_WR: 101
 
 # Standard file streams.
 STDIN: 0
@@ -660,4 +661,11 @@ syscall
 mov rsi, ${pid}
 mov rdi, ${sig}
 mov rax, 62
+syscall
+
+[sys_unlink] pathname
+# Parameters:
+#   - pathname: A pointer to the pathname to unlink.
+mov rdi, ${pathname}
+mov rax, 87
 syscall

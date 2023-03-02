@@ -453,3 +453,8 @@ Functions
 | Parameters:
 | - pid: The id of the process to send the signal to.
 | - sig: The signal to send to the process.
+|
+| [sys_unlink] pathname
+| *Unlinks a file from the filesystem.*
+| Parameters:
+| - pathname: A pointer to the pathname to unlink.
