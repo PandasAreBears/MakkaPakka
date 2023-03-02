@@ -64,7 +64,7 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
         if settings.verbosity:
             print(f"Parsing mkpk file: {filename}")
 
-        full_file_path: str = linker_path.find_mkpk_file(filename)
+        full_file_path: str = str(Path(linker_path.find_mkpk_file(filename)).resolve())
         if not full_file_path:
             raise MKPKLinkingError(
                 f"Couldn't find file with name {filename}",
