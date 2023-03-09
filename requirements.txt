@@ -8,6 +8,5 @@ pytest-cov
 click
 sphinx
 termcolor
-tox
 build
 twine
