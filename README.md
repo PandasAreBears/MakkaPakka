@@ -72,9 +72,9 @@ Creating a Makka Pakka program file:
 
 ----- reverse_tcp.mkpk -----
 ```
-!link ../lib/stdlib/network.mkpk
-!link ../lib/stdlib/syscall.mkpk
-!link ../lib/stdlib/shell.mkpk
+!link stdlib/network.mkpk
+!link stdlib/syscall.mkpk
+!link stdlib/shell.mkpk
 
 [[data]]
 PORT: 0xb315

@@ -1,4 +1,4 @@
-!link ../lib/stdlib/syscall.mkpk
+!link stdlib/syscall.mkpk
 
 [[data]]
 message: "Hello, world!"
