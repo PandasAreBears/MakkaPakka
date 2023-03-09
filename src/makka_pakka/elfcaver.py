@@ -50,7 +50,6 @@ def elfcaver(asm_file, target_file, output_file, patch_entrypoint, patch_exit):
         click.echo(ctx.get_help())
         ctx.exit()
 
-    click.echo(f"Injecting assembly from {asm_file} into {target_file}.")
     output_file: str = inject_nasm_into_binary(
         asm_file,
         target_file,
@@ -58,7 +57,7 @@ def elfcaver(asm_file, target_file, output_file, patch_entrypoint, patch_exit):
         patch_entrypoint=patch_entrypoint,
         patch_exit=patch_exit,
     )
-    click.echo(f"Injected file output to {output_file}.")
+    click.echo(f"Injected {asm_file} into {output_file}")
 
 
 if __name__ == "__main__":

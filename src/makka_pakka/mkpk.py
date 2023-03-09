@@ -66,7 +66,7 @@ def mkpk(
     processed = process_makka_pakka(linked)
     asm_file = integrate_makka_pakka(processed, output_asm_file)
 
-    click.echo(f"Injecting assembly from {asm_file} into {output_file}.")
+    click.echo(f"Generated .asm file - {asm_file}")
     output_file: str = inject_nasm_into_binary(
         asm_file,
         target_binary,
@@ -74,7 +74,7 @@ def mkpk(
         patch_entrypoint=patch_entrypoint,
         patch_exit=patch_exit,
     )
-    click.echo(f"Injected file output to {output_file}.")
+    click.echo(f"Injected {asm_file} into {output_file}")
 
 
 if __name__ == "__main__":
