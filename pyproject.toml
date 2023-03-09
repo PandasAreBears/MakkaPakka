@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "MakkaPakka"
 description = "A programming language for injecting code into ELF files."
-version = "1.0.3"
+version = "1.0.4"
 readme="README.md"
 dependencies = [
     "lief",
@@ -31,3 +31,6 @@ elf-caver = "makka_pakka.elfcaver:elfcaver"
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["makka_pakka*", "makka_pakka.elf_caver*"]
+
+[tool.setuptools.package-data]
+"makka_pakka.lib.stdlib" = ["*.mkpk"]
