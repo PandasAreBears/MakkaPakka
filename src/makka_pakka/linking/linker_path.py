@@ -84,7 +84,7 @@ class LinkerPath:
                 return ""
 
             possible_filepath = Path(dir_path) / mkpk_filename
-            if possible_filepath.exists():
+            if possible_filepath.is_file():
                 return str(possible_filepath)
 
     def __len__(self) -> int:

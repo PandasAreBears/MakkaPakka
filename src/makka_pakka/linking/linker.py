@@ -61,17 +61,18 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
     def parse_file(parent: Node, filename: str):
         nonlocal linker_path, linking_graph, file_IRs, link_depth
 
-        if settings.verbosity:
-            print(f"Parsing mkpk file: {filename}")
-
         full_file_path: str = str(Path(linker_path.find_mkpk_file(filename)).resolve())
-        if not full_file_path:
+
+        if not full_file_path or str(full_file_path) == str(Path("").resolve()):
             raise MKPKLinkingError(
                 f"Couldn't find file with name {filename}",
                 f"Couldn't link with file. Searched in directories\
                  {linker_path.linker_paths.items}",
                 ErrorType.FATAL,
             )
+
+        if settings.verbosity:
+            print(f"Parsing mkpk file: {filename}")
 
         # Add to the graph, and check that this doesn't create a cyclic
         # dependency.
@@ -113,7 +114,7 @@ def parse_with_linking(mkpk_filepath: str) -> List[MKPKIR]:
         # Add the parsed file's parent directory to the linker path. This allows
         # all mkpk files to link with files relative to their own path.
         linker_path.add_path_to_linker(
-            str(Path(filename).parent.absolute()), PriorityType.LOW
+            str(Path(full_file_path).parent.resolve()), PriorityType.LOW
         )
 
         if link_md:
