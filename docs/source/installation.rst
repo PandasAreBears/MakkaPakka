@@ -86,7 +86,7 @@ At this point you can use Makka Pakka from within this directory.
 
 .. code-block:: console
 
-    python3 mkpk.py --help
+    python3 src/makka_pakka/mkpk.py --help
 
 
 .. seealso::

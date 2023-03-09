@@ -188,7 +188,7 @@ source configure.sh
 
 At this point you can use Makka Pakka from within this directory.
 ``` bash
-python3 src/mkpk.py --help
+python3 src/makka_pakka/mkpk.py --help
 ```
 
 For more examples, or a more detailed technical explaination, please check
