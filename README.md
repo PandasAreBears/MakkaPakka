@@ -5,9 +5,6 @@ linux binary (ELF file). The language contains a submodule which autmatically
 injects the compiled code into a
 [code cave](https://en.wikipedia.org/wiki/Code_cave) of the target program.
 
-To learn more, please visit the
-[documentation page](https://lemon-bush-0f7dfc410.2.azurestaticapps.net/).
-
 ## Disclaimer
 This project was created purely for research purposes. You do not have
 permission to use this program for malicious code injection.
